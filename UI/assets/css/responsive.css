@@ -1,0 +1,519 @@
+
+
+@media (min-width:1050px){/*reinitialization on big screen*/
+  
+  .motiv-text{
+    font-size: 30px;
+    line-height: 2em;
+   }
+   .motivation-container{
+    width: 55%;
+    margin-top:20px;
+   
+   }
+  .motiv-text{
+    font-size: 20px;
+    line-height: 2em;
+   }
+
+   
+}
+
+
+
+@media (min-width:1024px){
+  .all-form{
+      width: 30%;
+      
+  }
+  .motivation-container{
+    width: 55%;
+    padding:10px;
+    margin-top:20px;
+   
+   }
+  .motiv-text{
+    font-size: 20px;
+    line-height: 2em;
+   }
+
+   .signup-form{
+     width: 50%;
+  }
+  .signup-separator{
+    margin-bottom: 140px;
+  }
+   
+
+  .input-divider{
+    width:47%;
+    display:inline-block;
+    margin:0 10px 0px 0;
+ }
+ .section-card .card{
+  width:48%;
+  display: inline-block;
+ }
+}
+
+@media (max-width:1024px){/*reinitialization on big screen*/
+  
+  .motiv-text{
+    font-size: 30px;
+    line-height: 2em;
+   }
+   .motivation-container{
+    width: 55%;
+    margin-top: 80px;
+   
+   }
+  .motiv-text{
+    font-size: 20px;
+    line-height: 2em;
+   }
+
+   .signup-form{
+     width: 50%;
+  }
+  .signup-separator{
+    margin-bottom: 140px;
+  }
+
+  .input-divider{
+    width:47%;
+    display:inline-block;
+    margin:0 10px 0px 0;
+ }
+ .section-card .card{
+  width:48%;
+  display: inline-block;
+ }
+
+   
+}
+
+ 
+  
+@media (max-width:1000px){
+      .all-form{
+          width: 30%;
+          
+      }
+
+      .signup-form{
+        width: 80%;
+      }
+      .signup-separator{
+        margin-bottom: 140px;
+      }
+
+      .input-divider{
+        width:47%;
+        display:inline-block;
+        margin:0 10px 0px 0;
+     }
+
+     .session-details{
+       width:70%;
+     }
+      
+}
+
+@media (max-width:903px){
+  .section-card{
+    width:95%;
+  }
+
+  .section-card .card{
+    width:48%;
+    display: inline-block;
+  }
+}
+
+@media (max-width:800px){
+  
+   .list-services .item{
+    width:95%;
+   }
+
+   .signup-form{
+        width: 50%;
+    }
+    .signup-separator{
+      margin-bottom: 250px;
+    }
+
+
+   .input-divider{
+      width:48%;
+      display:inline-block;
+      margin:0 10px 0px 0;
+   }
+
+   .signup-form{
+      width: 80%;
+    }
+   
+
+    .input-divider{
+      width:47%;
+      display:inline-block;
+      margin:0 10px 0px 0;
+   }
+}
+@media (min-width:769px){
+  .nav-admin{
+    width:250px;
+    left:0;
+  }
+  .admin-body #content{
+    margin-left:250px;
+  }
+  #close-slide-menu,#open-slide-menu{
+   display:none;
+  }
+}
+
+@media (max-width:768px){/*ipad*/
+  .all-form{
+    width: 60%;
+  }
+  div.super-cover{
+    height: 65%;
+    
+  }
+  .motivation-container{
+    width: 90%;
+    padding:10px;
+    margin-top: 80px;
+   }
+  .motiv-text{
+    font-size: 23px;
+    line-height: 2em;
+   }
+
+   .signup-form{
+      width: 80%;
+    }
+    .signup-separator{
+      margin-bottom: 140px;
+    }
+
+    .input-divider{
+      width:47%;
+      display:inline-block;
+      margin:0 10px 0px 0;
+   }
+   .section-card{
+    width:100%;
+   }
+   .session-details{
+     width:88%;
+   } 
+
+  .section-card .card{
+    width:45%;
+    display: inline-block;
+  }
+
+  .nav-admin{
+    width:0;
+    left:-120px;
+  }
+  .admin-body #content{
+    margin-left:0;
+  }
+
+  #close-slide-menu,#open-slide-menu{
+    display:auto;
+   }
+   
+
+ 
+
+}
+
+@media (max-width:700px){
+  .section-card{
+    width:98%;
+   }
+
+  .section-card .card{
+    width:100%;
+    display: block;
+  }
+
+  .session-details{
+    margin-top:-250px !important;
+    
+  }
+ 
+}
+
+@media (max-width:640px){
+  .all-form{
+    width: 60%;
+  }
+
+  div.super-cover{
+    height: 65%;
+    
+  }
+  .motivation-container{
+    width: 95%;
+    padding:10px;
+   }
+  .motiv-text{
+    font-size: 26px;
+    line-height: 1.5em;
+   }
+
+   .list-services .item{
+    width:95%;
+   }
+
+ 
+   .signup-form{
+      width: 80%;
+    }
+    .signup-separator{
+      margin-bottom: 100px;
+    }
+
+
+   .input-divider{
+      width:47%;
+      display:inline-block;
+      margin:0 10px 0px 0;
+   }
+
+   .section-card{
+    width:95%;
+    box-shadow: none;
+  }
+
+ 
+
+  .section-card .card{
+    width:100%;
+    display: block;
+  }
+  
+  .card-header.image .header-img{
+    width:10%;
+  }
+  .card-header.image .header-title{
+    width:85%;
+  }
+
+  .manage-user-session .card.manage-info-i{
+    width:100% ;
+    
+  }
+ 
+  .manage-user-session .user-manage-otherInfo{
+   width:100% ;
+  }
+
+  .manage-user-session .user-manage-otherInfo .card-body{
+     border-bottom: 1px solid #ccc;
+  }
+
+  .manage-user-session .user-manage-otherInfo .card-body .btn{
+    font-size: 10px !important;
+    
+  }
+
+  .manage-user-session .user-manage-otherInfo .change-btns{
+    text-align:center;
+  }
+
+  
+ 
+
+}
+
+@media (max-width:600px){
+  .menu-toggle{
+    display: block;
+  }
+  
+
+
+  .nav .menu{
+    position: absolute;
+    left:0px;
+    text-align: center;
+    width: 100%;
+    background: rgba(0, 0, 0, .5);
+    z-index: 50;
+    display: none;
+    border-top: 1px solid #ccc;
+   
+  }
+
+  .nav .menu a{
+   display: block;
+   border-bottom: 1px solid #ccc;
+   margin: 0;
+   line-height: 40px;
+   text-transform: uppercase;
+   font-weight: bold;
+  }
+
+  .nav #toggle:checked + .menu{
+    display: block;
+    
+  }
+}
+
+
+@media (max-width:501px){
+      .all-form{
+          width: 60%;
+      }
+      .motivation-container{
+        width: 90%;
+        padding:10px;
+       }
+      .motiv-text{
+        font-size: 30px;
+        line-height: 2em;
+       }
+
+      .list-services .item{
+       width:95%;
+      }
+
+      .signup-form{
+        width: 80%;
+      }
+      .signup-separator{
+        margin-bottom: 10px;
+      }
+
+
+     .input-divider{
+        width:48%;
+        display:inline-block;
+        margin:0 10px 0px 0;
+     }
+
+}
+  
+
+@media (min-width:600px){
+  .admin-dash-section .analitic-panel{
+    width:30%;
+    
+  }
+}
+
+@media (max-width:599px){
+    
+  
+    
+
+    .list-services .item{
+      width:95%;
+    }
+
+    .motivation-container{
+      width: 95%;
+      padding:10px;
+    }
+    .motiv-text{
+      font-size: 20px;
+      line-height: 1.5em;
+     }
+
+    .all-form{
+        width: 80%;
+    }
+
+    .signup-form{
+      width: 90%;
+    }
+    .signup-separator{
+      margin-bottom: 320px;
+    }
+
+
+   .input-divider{
+      width:100%;
+      display:block;
+      margin:0;
+   }
+
+   .section-card{
+    width:95%;
+  }
+
+  .section-card .card{
+    width:100%;
+    display: block;
+  }
+
+  .admin-dash-section .analitic-panel{
+    width:45%;
+    
+  }
+    
+   
+  }
+  
+  @media (max-width:400px){
+  .card-header.image .header-img{
+    width:15%;
+  }
+  .card-header.image .header-title{
+    width:82%;
+  }
+  
+}
+
+@media (max-width:360px){
+  div.super-cover{
+    height: 70%;
+    
+  }
+
+  .motivation-container{
+    
+    margin-top:10px;
+   }
+
+   
+
+
+ 
+
+}
+
+
+
+@media (max-width:320px){
+  div.super-cover{
+    height: 90%;
+    
+  }
+  .motivation-container{
+    width: 95%;
+    padding:10px;
+    margin-top:10px;
+   }
+  .motiv-text{
+    font-size: 20px;
+    line-height: 2em;
+   }
+
+  
+
+  
+ 
+
+}
+
+
+  
+  
