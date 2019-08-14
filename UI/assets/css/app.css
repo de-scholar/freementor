@@ -472,6 +472,221 @@
 
 
 
+.account-exist,.account-btn-auth{
+  display: inline-block;
+}
+
+.section-card{
+  
+  margin:0px auto 0px auto; 
+  width:80%;
+  border-radius: 5px;
+  background: white;
+  padding:10px;
+  box-shadow: 0 2px 15px transparent;
+  
+}
+
+.section-card.dashbord-section,.section-card.mentor-section{
+  margin:-20px auto 40px auto; 
+}
+
+.section-card.sessions-list{
+  margin:10px auto 40px auto; 
+}
+
+.section-card .section-header{
+ padding: 0px 0px 10px 0px;
+ border-bottom:1px solid rgb(226, 223, 223);
+ margin-bottom: 10px;
+}
+
+
+.section-card .section-header .section-header-t{
+  margin:2px;
+}
+
+.section-card .card{
+  display: inline-block;
+  width:48.5%;
+  margin:0 10px 15px 0;
+ 
+}
+
+.card{
+  box-shadow: 0 2px 5px rgba(0, 0, 0, .05);
+  border-radius: 5px;
+  text-align: justify;
+  border:1px solid rgb(226, 223, 223);
+ 
+}
+
+.card .card-header{
+  padding:5px;
+  margin-bottom: 5px;
+  
+}
+
+
+.card-header.image .header-img{
+  width:18%;
+  text-align: center;
+  display: inline-block;
+  padding-right: 2px;
+  
+}
+
+
+
+.card-header .header-title{
+  word-wrap: break-word;
+  
+}
+.card-header.image .header-title{
+  float: right;
+  width:80%;
+  word-wrap: break-word;
+  
+}
+
+.header-title .title,.card-header .title{
+  margin-top:5px;
+  margin-bottom: 1px;
+  font-weight: bold;
+  font-family: var(--app-family);
+  font-size: 17px;
+ 
+}
+
+
+.header-title .sub-title{
+  font-family: var(--app-family);
+  font-size:12px;
+}
+
+.card .header-img img{
+  height: 45px;
+  width:45px;
+  border-radius: 100%;
+  border:1px solid #ccc;
+}
+
+.card .card-body{
+  padding:10px;
+}
+
+.card .card-body .title{
+  font-size: 17px;
+  margin-bottom: 5px;
+  font-weight:bold;
+}
+
+.card .card-footer{
+  padding:10px 5px 10px 5px;
+  border-top: 1px solid rgb(226, 223, 223);
+}
+
+.section-card .card .card-footer .like{
+  display: inline-block;
+  width:40%;
+  
+}
+
+.sessions-list .card-footer{
+  padding:10px 5px 10px 5px;
+  text-align:right;
+}
+
+
+.btn-mentor-more{
+  display: inline-block;
+  width:55%;
+  text-align:right;
+  
+}
+
+
+.section-card .card .card-footer .btn{
+  margin-bottom:5px;
+}
+
+.load-more-container{
+ padding:10px;
+ margin-top:5px;
+ border-top: 1px solid rgb(226, 223, 223);
+ text-align: center;
+}
+
+.section-card .load-more-container{
+  text-align: center;
+}
+
+.auth-user{
+  height: 250px;
+  background: rgb(54,54,57);
+  background: linear-gradient(90deg, rgba(54,54,57,1) 0%, rgba(91,91,158,1) 35%, rgba(3,49,144,1) 100%);
+  z-index: 1;
+}
+
+.auth-user-container{
+  width: 100%;
+  height: 250px;
+  background: rgba(0, 0, 0, .5);
+  color:white;
+  font-style:var(--app-family);
+}
+
+.auth-avatar {
+  padding:10px;
+}
+
+.auth-avatar .img{
+  height: 80px;
+  width:80px;
+  border:2px solid white;
+}
+.auth-avatar p{
+  margin:5px;
+}
+
+.auth-avatar .action-user-btn{
+   margin-top:10px;
+   
+}
+
+.session-details{
+  width:40%;
+  margin-top: -150px;
+
+}
+
+.session-details .card{
+  width:100% !important;
+  display: block !important;
+  border:none !important;
+ 
+}
+
+
+
+.session-details .card .card-body{
+  border-bottom:1px solid #ccc;
+  margin-bottom: 0px !important;
+}
+
+.session-details .card .card-body .user-img{
+  height: 120px;
+  width:120px;
+  border:2px solid var(--app_color);
+}
+
+.session-details .delete-review,.section-card .back-btn{
+  float: right;
+  margin-top:-8px;
+}
+
+
+
 
 
  
