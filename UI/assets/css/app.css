@@ -686,6 +686,151 @@
 }
 
 
+.admin-body{
+  overflow-block: auto !important;
+  overflow-x: scroll;
+  background: rgb(236, 235, 235);
+}
+
+.admin-body #content{
+  margin-left:250px;
+  
+}
+
+
+.nav-admin{
+  height: 100%;
+  width:250px;
+  position:fixed;
+  top:0;
+  left:0px;
+  z-index:1;
+  background-color: black;
+  transition:0.7s;
+  background: url(../img/sidebar.jpg) no-repeat;
+  background-size: cover;
+  
+}
+
+.nav-admin .menu-opacity{
+  background: rgba(112, 3, 236, 0.5);
+  height: 100%;
+  width:100%;
+}
+
+.nav-admin a{
+  color:white;
+  font-size: 14px;
+  padding:10px;
+  line-height: 2.2em;
+  text-transform: uppercase;
+  display:block;
+  font-weight: bold;
+  transition: background 0.5s linear,font-size 0.5s linear;
+}
+
+.nav-admin a:hover{
+  background: var(--app_color);
+  font-size: 15px;
+  font-style: oblique;
+}
+
+.nav-admin .close{
+  text-align:right;
+  font-size:20px;
+  padding:5px 10px;
+  font-weight: bold;
+  line-height: 1.3em;
+}
+
+.nav-admin .close:hover{
+  background:none;
+  font-size: 20px;
+  font-style: normal;
+}
+#open-slide-menu{
+  cursor: pointer;
+}
+
+.admin-body .content-noSide .nav{
+  background:white;
+  box-shadow: 0 2px 20px #ccc;
+ 
+}
+
+.admin-body .content-noSide .nav .menu a{
+  color:black;
+}
+
+.admin-body .content-noSide .nav .menu a:hover{
+  color:white;
+  background: var(--brand-color);
+}
+
+.section-card.admin-dash-section{
+  margin-top:10px;
+  box-shadow: none !important;
+  width:95%;
+}
+
+.analitic-panel{
+  box-shadow: 0 2px 20px #ccc;
+  
+
+}
+.analitic-panel .body-panel{
+ padding:10px;
+ transition:0.7s;
+}
+
+.analitic-panel .body-panel .description{
+  font-size:15px;
+  margin:2px;
+  cursor: pointer;
+}
+
+.analitic-panel .body-panel .number{
+  margin:2px;
+  cursor: pointer;
+
+}
+
+.admin-dash-section .analitic-panel{
+ width:30%;
+ display:inline-block;
+ margin:0px 5px 10px 0px;
+}
+
+.admin-dash-section .body-panel{
+ text-align: center;
+ 
+}
+
+.admin-dash-section .body-panel:hover{
+ background: rgba(187, 150, 150, 0.5);
+}
+
+.manage-user-session .card{
+ border:none;
+ box-shadow:none !important;
+}
+
+.manage-user-session .card .user-img-p{
+ height: 120px;
+ width:120px;
+ 
+}
+
+.manage-user-session .card.manage-info-i{
+ width:30% ;
+ 
+}
+
+.manage-user-session .user-manage-otherInfo{
+width:70% ;
+}
+
+
 
 
 
