@@ -12,4 +12,11 @@ router.get('/mentors',
   tokenVerify,
   UserController.mentors);
 
+
+/* specific mentor*/
+router.get('/mentors/:mentorId',
+  authorization,
+  tokenVerify,
+  UserController.mentor);
+
 export default router;

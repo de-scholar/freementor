@@ -8,7 +8,7 @@ const {authorization,tokenVerify}=AuthMw;
 const {isAdmin}=AdminMw;
 
 /* User to mentor*/
-router.patch('/user/:id',
+router.patch('/user/:userId',
   authorization,
   tokenVerify,
   isAdmin,
