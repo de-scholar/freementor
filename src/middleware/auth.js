@@ -7,8 +7,8 @@ class Auth{
          
     if(token===undefined){
       return res.status(403).json({
-        error:'Access forbiden',
-        status:403
+        error:'Anauthorized,please login first',
+        status:401
       });
             
 
