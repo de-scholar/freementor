@@ -7,8 +7,8 @@ class Auth{
          
     if(token===undefined){
       return res.status(403).json({
-        error:'Access forbiden',
-        status:403
+        error:'Anauthorized,please login first',
+        status:401
       });
             
 
@@ -20,8 +20,8 @@ class Auth{
   }
 
   static tokenVerify(req,res,next){
-    GeneralHelper.verifyToken(req.token); 
-        
+    const auth_user=GeneralHelper.verifyToken(req.token); 
+    req.auth_user= auth_user; 
     return next();
   }
 }
