@@ -8,19 +8,19 @@ import { validationResult } from 'express-validator';
    * @returns {object} validation error object
    */
 const validate = (req, res, next) => {
-    const validationError = validationResult(req);
+  const validationError = validationResult(req);
 
-    if (!validationError.isEmpty()) {
-        const errorMsg = validationError.mapped();
+  if (!validationError.isEmpty()) {
+    const errorMsg = validationError.mapped();
 
-        return res.status(400).json({
-            status: 400,
-            error: errorMsg,
-            message:'Unexpected input value'
+    return res.status(400).json({
+      status: 400,
+      error: errorMsg,
+      message:'Unexpected input value'
 
-        });
-    }
-    return next();
+    });
+  }
+  return next();
 };
 
 export default validate;
