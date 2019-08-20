@@ -25,6 +25,13 @@ class Users{
     return first_user;
   }
 
+  static findMentor(mentorId){
+    const [first_user]=table.filter(({id,type})=>
+      id===parseInt(mentorId) && type==='mentor');
+      
+    return first_user;
+  }
+
   static delete(user_id){
     table=table.filter(({id})=>id!==parseInt(user_id));
     return true;
