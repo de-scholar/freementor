@@ -1,6 +1,6 @@
 import GeneralHelper from '../helpers/general';
 import Users from '../model/User';
-
+import bcrypt from 'bcrypt';
 const {
   hashPassword,
   generateToken
@@ -52,6 +52,55 @@ class AuthController{
 
   }
 
+  static signIn(req,res){
+    let user_data={};
+    user_data.email=req.body.email;
+    user_data.password=req.body.password;
+    const user=new Users();
+    const user_found=user.findWhere('email',user_data.email).first();
+
+    if(user_found!==false){
+      const user=user_found;
+            
+          
+           
+      bcrypt.compare(user_data.password,user.password, function(err, success) {
+        if(success){
+          const token=generateToken(user);
+          return res.status(200).json({
+            message:'User is successfully logged in',
+            status:200,
+            data:{
+              token:token,
+              ...user
+            }
+          });
+        }
+        else{
+          return res.status(404).json({
+            status:404,
+            error:'Password Incorrect',
+            field:'password'
+          });
+        }
+               
+      });
+            
+            
+            
+    }else{
+      return res.status(404).json({
+        status:404,
+        error:'Email Incorrect',
+        field:'email'
+      });
+    }
+
+        
+       
+  }
+
+    
 
 
 }

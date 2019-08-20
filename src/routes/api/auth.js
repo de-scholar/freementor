@@ -10,5 +10,8 @@ router.post('/auth/signup',
   urlEncodedParser,
   AuthController.signUp);
 
+router.post('/auth/signin',
+  urlEncodedParser,
+  AuthController.signIn);
 
 export default router;
