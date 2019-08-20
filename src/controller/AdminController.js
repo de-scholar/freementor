@@ -4,8 +4,8 @@ class AdminController{
 
   static userToMentor(req,res){
 
-    const {id}=req.params;
-    const user=Users.find(id);
+    const {userId}=req.params;
+    const user=Users.find(userId);
    
     if(user!==undefined){
       let msg='​User account changed to mentor';
