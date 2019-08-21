@@ -22,6 +22,7 @@ class Auth{
   static tokenVerify(req,res,next){
     const auth_user=GeneralHelper.verifyToken(req.token); 
     req.auth_user= auth_user; 
+    
     return next();
   }
 }
