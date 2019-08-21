@@ -27,6 +27,13 @@ router.patch('/sessions/:sessionId/accept',
   isMentor,
   SessionController.acceptSession);
 
+/* reject session request*/
+router.patch('/sessions/:sessionId/reject',
+  authorization,
+  tokenVerify,
+  isMentor,
+  SessionController.rejectSession);
+
 
 
 export default router;
