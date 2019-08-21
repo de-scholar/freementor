@@ -1,7 +1,25 @@
 
+/**
+ * Table :users
+ * -----------
+ * Property of the table
+ * ---------------------
+ * 1. id
+ * 2. firstName
+ * 3. lastName
+ * 4. email
+ * 5. password
+ * 6. bio
+ * 7. occupation
+ * 8. expertise
+ * 9. type :normal/mentor/admin;
+ * 10. address
+ * 11. created_at
+ */
+
 let table=[];
 
-class Users{
+class User{
   
   constructor(){
     this._data=[];
@@ -9,7 +27,6 @@ class Users{
   }
 
   static create(user){
-    user.id=table.length+1;
     user.created_at=Date.now();
     table.push(user);
     return user;
@@ -22,6 +39,13 @@ class Users{
   static find(userId){
     
     const [first_user]=table.filter(({id})=>id===parseInt(userId));
+    return first_user;
+  }
+
+  static findMentor(mentorId){
+    const [first_user]=table.filter(({id,type})=>
+      id===parseInt(mentorId) && type==='mentor');
+      
     return first_user;
   }
 
@@ -45,23 +69,19 @@ class Users{
   }
 
   static update(user_id,data=[]){
-    const [first_user]=table.filter(({id},index)=>{
-
-      if(id===parseInt(user_id))this._tab_index=index;
-      return id===user_id;
-
+    let update_item={};
+    table.map((item)=>{
+      if(item.id===parseInt(user_id)){
+        update_item=Object.assign(item,data);
+        return update_item;
+      }
+      return item;
     });
-
-    //update user
-    const update_user=Object.assign(first_user,data);
-    //update the index of the user in table
-    table[this._tab_index]=update_user;
-
-    return update_user;
+    return update_item;
 
   }
 
 
 }
 
-export default Users;
+export default User;

@@ -18,7 +18,7 @@ class UserController{
 
   static mentor(req,res){
     const {mentorId}=req.params;
-    const mentor=User.find(mentorId);
+    const mentor=User.findMentor(mentorId);
 
     if(mentor!==undefined){
       

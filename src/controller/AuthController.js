@@ -15,7 +15,7 @@ class AuthController{
         
 
     let user_data={};
-        
+    user_data.id=Users.all().length+1;
     user_data.firstName=req.body.firstName;
     user_data.lastName=req.body.lastName;
     user_data.email=req.body.email;
