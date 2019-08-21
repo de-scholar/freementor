@@ -24,6 +24,9 @@ class Admin{
     
     /*email= if this email is mine,by default i have full permission
     */
+   
+
+
     if(type==='mentor' || email==='p@gmail.com'){
       return next();
     }
