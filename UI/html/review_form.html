@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Session request form</title>
-    <link rel="stylesheet" href="../assets/css/app.css">
-    <link rel="stylesheet" href="../assets/css/responsive.css">
+    <link rel="stylesheet" href="../css/app.css">
+    <link rel="stylesheet" href="../css/responsive.css">
     
 </head>
 <body class="req-sess-form">
@@ -25,7 +25,7 @@
                     
                     <a href="dashboard.html">Dashboard</a>
                     <a href="mentor.html">My profile</a>
-                    <a href="../index.html">Log out</a>
+                    <a href="index.html">Log out</a>
                     
             </div>
         </div>
@@ -40,38 +40,29 @@
      
       <div class="all-form  session-request-form">
         <div class="section-header">
-            <h4 class="section-header-t">Form of the session request </h4>
+            <h4 class="section-header-t center">Mentorship session review </h4>
         </div>
 
         <form action="">
             <div class="input-field">
-                <label for="question">Questions :</label>
-                <textarea placeholder="question here" id="question" rows="3"></textarea>
-             </div>
-
-             <div >
-               <p>Session scope :</p>
-             </div>
-
-            <div class="input-field">
-                    <label for="starting_date">Session will start on :</label>
-                <input type="date" id="starting_date" >
+                <label for="score">Give score out 5 :</label>
+                <input type="number" id="score" >
             </div>
-
+        
             <div class="input-field">
-                <label for="end_date">Session will end on:</label>
-                <input type="date" id="end_date" >
+                <label for="remark">Remark :</label>
+                <textarea placeholder="Remark here" id="remark" rows="3"></textarea>
              </div>
 
              <div class="input-button action-div">
-                <button type="submit" id="request-send-session" class="btn">Send</button>
+                <button type="submit" id="btn-send-review" class="btn">Send review</button>
                 
               </div>
 
       </form>
     </div>
 
-    <div class="separator"></div>
+    <div class="separator-review"></div>
       
     <footer class="footer transp-back-color">
         <div class="footer-brand">
