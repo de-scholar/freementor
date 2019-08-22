@@ -20,6 +20,12 @@ router.post('/sessions',
   validate,
   SessionController.create);
 
+/* Get all mentorship session requests*/
+router.get('/sessions',
+  authorization,
+  tokenVerify,
+  SessionController.view_sessions);
+
 /* accept session request*/
 router.patch('/sessions/:sessionId/accept',
   authorization,

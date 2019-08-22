@@ -56,9 +56,6 @@ class Session{
       };
     }
 
-
-    
-
     
   }
 
@@ -70,6 +67,18 @@ class Session{
     
     const [first_item]=table.filter(({id})=>id===parseInt(itemId));
     return first_item;
+  }
+
+  //list of all sessions received by a mentor
+  static findForMentor(mentor_id){
+    const all_sessions=table.filter((session)=>session.mentorId===parseInt(mentor_id));
+    return all_sessions;
+  }
+
+  //list of all sessions sent by a normal user(mentee)
+  static findForMentee(mentee_id){
+    const all_sessions=table.filter((session)=>session.menteeId===parseInt(mentee_id));
+    return all_sessions;
   }
 
   
