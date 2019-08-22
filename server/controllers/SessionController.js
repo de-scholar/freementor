@@ -3,6 +3,57 @@ import Session from '../models/Session';
 
 class SessionController{
 
+  static view_sessions(req,res){
+    const {auth_user}=req;
+    const {type:user_type,id:auth_userId,email:auth_email}=auth_user;
+    let all_sessions=[];
+    //check if the auth user is mentor or mentee
+
+    
+    if(user_type==='mentor'){//mentor
+      
+      const fetch_sessions=Session.findForMentor(auth_userId);
+
+      fetch_sessions.forEach(session => {
+        const mentee=User.find(session.menteeId);
+        const menteeEmail=mentee.email;
+        const sessionWithMenteeEmail={...session,menteeEmail};
+
+        //loading session with mentee
+        all_sessions.push({
+          ...sessionWithMenteeEmail,mentee
+        });
+        delete session.menteeEmail;
+
+      });
+     
+     
+    }else if(user_type==='normal'){//mentee
+      
+      const fetch_sessions=Session.findForMentee(auth_userId);
+
+      fetch_sessions.forEach(session => {
+        const mentor=User.find(session.mentorId);
+        const menteeEmail=auth_email;
+        const sessionWithMenteeEmail={...session,menteeEmail};
+
+        //loading session with mentor
+        all_sessions.push({
+          ...sessionWithMenteeEmail,mentor
+        });
+        delete session.menteeEmail;
+      });
+    }
+
+    return res.status(200).json({
+      status:200,
+      data:all_sessions,
+      all:Session.all()
+    });
+
+
+  }
+ 
   static create(req,res){
     let {body}=req;
     const {id,email}=req.auth_user;

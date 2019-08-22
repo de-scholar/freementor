@@ -4,7 +4,7 @@ import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 dotenv.config();
 // eslint-disable-next-line no-undef
-const secret=process.env.AUTH_SECRET;
+const {AUTH_SECRET:secret,JWT_LIFE}=process.env;
 
 class General{
   /**
@@ -13,7 +13,7 @@ class General{
      * @return {string} access token
      */
   static generateToken(payload) {
-    return jwt.sign(payload, secret, { expiresIn: '24h' });
+    return jwt.sign(payload, secret, { expiresIn:JWT_LIFE});
   }
 
   /**
