@@ -2,9 +2,9 @@
   "name": "freementor_server",
   "version": "1.0.0",
   "description": "A Social platform for free mentors",
-  "main": "src/bin/www.js",
+  "main": "server/bin/www.js",
   "scripts": {
-    "start": "nodemon --exec babel-node  src/bin/www.js"
+    "start": "nodemon --exec babel-node  server/bin/www.js"
   },
   "repository": {
     "type": "git",

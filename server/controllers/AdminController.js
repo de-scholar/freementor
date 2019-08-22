@@ -1,5 +1,5 @@
 
-import Users from '../model/User';
+import Users from '../models/User';
 class AdminController{
 
   static userToMentor(req,res){

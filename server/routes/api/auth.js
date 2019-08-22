@@ -1,7 +1,7 @@
 import express from 'express';
 import userValidation from '../../middleware/userValidation';
 import validate from '../../middleware/validate';
-import AuthController from '../../controller/AuthController';
+import AuthController from '../../controllers/AuthController';
 import bodyParser from 'body-parser';
 
 const router = express.Router();

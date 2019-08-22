@@ -1,5 +1,5 @@
 import GeneralHelper from '../helpers/general';
-import Users from '../model/User';
+import Users from '../models/User';
 import bcrypt from 'bcrypt';
 const {
   hashPassword,

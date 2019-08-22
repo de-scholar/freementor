@@ -1,5 +1,5 @@
-import User from '../model/User';
-import Session from '../model/Session';
+import User from '../models/User';
+import Session from '../models/Session';
 
 class SessionController{
 
