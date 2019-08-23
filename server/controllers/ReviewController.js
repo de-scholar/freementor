@@ -24,6 +24,26 @@ class ReviewController{
     });
 
   }
+
+  static delete(req,res){
+    const {sessionId}=req.params;
+    const review=new Review().findWhere('sessionId',sessionId).first();
+    if(review){
+      Review.delete(review.id);
+      return res.status(200).json({
+        status:200,
+        data:{
+          message:'Review successfully deleted',
+        }
+      });
+    }
+    res.status(401).json({
+      status:401,
+      error:'Review of the session not found',
+    });
+
+
+  }
 }
 
 export default ReviewController;
