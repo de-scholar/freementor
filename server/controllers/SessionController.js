@@ -48,7 +48,7 @@ class SessionController{
     return res.status(200).json({
       status:200,
       data:all_sessions,
-      all:Session.all()
+     
     });
 
 
@@ -159,6 +159,8 @@ class SessionController{
     });
     
   }
+
+
 }
 
 export default SessionController;
