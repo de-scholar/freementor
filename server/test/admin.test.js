@@ -1,12 +1,12 @@
 /* eslint-disable no-undef */
-import chai from 'chai';
+import {should, use,request} from 'chai';
 import chaiHttp from 'chai-http';
 import server from '../bin/www';
 import UserModel from '../models/User';
 
 
-chai.should();
-chai.use(chaiHttp);
+should();
+use(chaiHttp);
 
 let user_admin;
 let user_normal;
@@ -61,7 +61,7 @@ describe('AdminController /PATCH user to admin',()=>{
 
     
      
-    chai.request(server).post('/api/v1/auth/signup')
+    request(server).post('/api/v1/auth/signup')
       .set('Content-type', 'application/json')
       .set('Content-type', 'application/x-www-form-urlencoded')
       .send(defaultUser1)
@@ -71,7 +71,7 @@ describe('AdminController /PATCH user to admin',()=>{
        
       });
 
-    chai.request(server).post('/api/v1/auth/signup')
+    request(server).post('/api/v1/auth/signup')
       .set('Content-type', 'application/json')
       .set('Content-type', 'application/x-www-form-urlencoded')
       .send(defaultUser2)
@@ -80,7 +80,7 @@ describe('AdminController /PATCH user to admin',()=>{
        
       });
 
-    chai.request(server).post('/api/v1/auth/signup')
+    request(server).post('/api/v1/auth/signup')
       .set('Content-type', 'application/json')
       .set('Content-type', 'application/x-www-form-urlencoded')
       .send(defaultUser3)
@@ -97,7 +97,7 @@ describe('AdminController /PATCH user to admin',()=>{
   it('Should change a normal user to admin',(done)=>{
     
     const {id:normal_user_id,token:user_admin_token}=user_admin;
-    chai.request(server).patch(`/api/v1/admin/${normal_user_id}`)
+    request(server).patch(`/api/v1/admin/${normal_user_id}`)
       .set('Content-type', 'application/json')
       .set('Content-type', 'application/x-www-form-urlencoded')
       .set('token', user_admin_token)
@@ -120,7 +120,7 @@ describe('AdminController /PATCH user to admin',()=>{
       password: '12345678'
     };
           
-    chai.request(server).post('/api/v1/auth/signin')
+    request(server).post('/api/v1/auth/signin')
       .set('Content-type', 'application/json')
       .set('Content-type', 'application/x-www-form-urlencoded')
       .send(user_admin_credential)
@@ -138,7 +138,7 @@ describe('AdminController /PATCH user to admin',()=>{
     
     const {token:user_admin_token}=user_admin;
     const wrong_user_id=1001;
-    chai.request(server).patch(`/api/v1/admin/${wrong_user_id}`)
+    request(server).patch(`/api/v1/admin/${wrong_user_id}`)
       .set('Content-type', 'application/json')
       .set('Content-type', 'application/x-www-form-urlencoded')
       .set('token', user_admin_token)
@@ -153,7 +153,7 @@ describe('AdminController /PATCH user to admin',()=>{
   //eslint-disable-next-line no-undef
   it('Should return status 401 if the token has been not sent',(done)=>{
     const {id:admin_user_id}=user_admin;
-    chai.request(server).patch(`/api/v1/admin/${admin_user_id}`)
+    request(server).patch(`/api/v1/admin/${admin_user_id}`)
       .set('Content-type', 'application/json')
       .set('Content-type', 'application/x-www-form-urlencoded')
       .end((err,res)=>{
@@ -169,7 +169,7 @@ describe('AdminController /PATCH user to admin',()=>{
     const wrongToken='ciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZmlyc3ROYW1lIjoicHJvZG8iLCJsYXN0TmFtZSI6Imtha2EiLCJlbWFpbCI6InBAZ21haWwuY29tIiwicGFzc3dvcmQiOiIkMmIkMTAkVFcyYmxUWnYzZ1FiNldNRXJZSmtULi5YSUhrendnZW5GWm1NTVlXVjZwaFRFd1dGUjhqbk8iLCJhZGRyZXNzIjoiYWRkcmVzcyIsImJpbyI6ImJpbyIsIm9jY3VwYXRpb24iOiJvY2N1cCIsImV4cGVydGlzZSI6ImV4cHJ0IiwidHlwZSI6Im5vcm1hbCIsImlhdCI6MTU2NjQ2NjQyNiwiZXhwIjoxNTY2ODEyMDI2fQ.hBkHlelgfCp1qnRVhgvCPFcm16camwv0mZNxFGhHkmw';
     const {id:admin_user_id}=user_admin;
 
-    chai.request(server).patch(`/api/v1/admin/${admin_user_id}`)
+    request(server).patch(`/api/v1/admin/${admin_user_id}`)
       .set('Content-type', 'application/json')
       .set('Content-type', 'application/x-www-form-urlencoded')
       .set('token',wrongToken)
@@ -186,7 +186,7 @@ describe('AdminController /PATCH user to admin',()=>{
     
     const malformed_token='badToken';
     const {id:admin_user_id}=user_admin;
-    chai.request(server).patch(`/api/v1/admin/${admin_user_id}`)
+    request(server).patch(`/api/v1/admin/${admin_user_id}`)
       .set('Content-type', 'application/json')
       .set('Content-type', 'application/x-www-form-urlencoded')
       .set('token',malformed_token)
@@ -210,7 +210,7 @@ describe('AdminController /PATCH user to mentor',()=>{
   it('Should change a normal user to mentor',(done)=>{
     const {id:normal_user_id}=user_normal;
     const {token:user_admin_token}=user_admin;
-    chai.request(server).patch(`/api/v1/user/${normal_user_id}`)
+    request(server).patch(`/api/v1/user/${normal_user_id}`)
       .set('Content-type', 'application/json')
       .set('Content-type', 'application/x-www-form-urlencoded')
       .set('token', user_admin_token)
@@ -227,7 +227,7 @@ describe('AdminController /PATCH user to mentor',()=>{
   it('Should return status 401 if the token has been not sent',(done)=>{
     const {id:normal_user_id}=user_normal;
     
-    chai.request(server).patch(`/api/v1/user/${normal_user_id}`)
+    request(server).patch(`/api/v1/user/${normal_user_id}`)
       .set('Content-type', 'application/json')
       .set('Content-type', 'application/x-www-form-urlencoded')
       .end((err,res)=>{
@@ -244,7 +244,7 @@ describe('AdminController /PATCH user to mentor',()=>{
     const wrongToken='ciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZmlyc3ROYW1lIjoicHJvZG8iLCJsYXN0TmFtZSI6Imtha2EiLCJlbWFpbCI6InBAZ21haWwuY29tIiwicGFzc3dvcmQiOiIkMmIkMTAkVFcyYmxUWnYzZ1FiNldNRXJZSmtULi5YSUhrendnZW5GWm1NTVlXVjZwaFRFd1dGUjhqbk8iLCJhZGRyZXNzIjoiYWRkcmVzcyIsImJpbyI6ImJpbyIsIm9jY3VwYXRpb24iOiJvY2N1cCIsImV4cGVydGlzZSI6ImV4cHJ0IiwidHlwZSI6Im5vcm1hbCIsImlhdCI6MTU2NjQ2NjQyNiwiZXhwIjoxNTY2ODEyMDI2fQ.hBkHlelgfCp1qnRVhgvCPFcm16camwv0mZNxFGhHkmw';
 
 
-    chai.request(server).patch(`/api/v1/user/${normal_user_id}`)
+    request(server).patch(`/api/v1/user/${normal_user_id}`)
       .set('Content-type', 'application/json')
       .set('Content-type', 'application/x-www-form-urlencoded')
       .set('token',wrongToken)
@@ -260,7 +260,7 @@ describe('AdminController /PATCH user to mentor',()=>{
   it('Should verify malformed token',(done)=>{
     const {id:normal_user_id}=user_normal;
     const malformed_token='badToken';
-    chai.request(server).patch(`/api/v1/user/${normal_user_id}`)
+    request(server).patch(`/api/v1/user/${normal_user_id}`)
       .set('Content-type', 'application/json')
       .set('Content-type', 'application/x-www-form-urlencoded')
       .set('token',malformed_token)
@@ -277,7 +277,7 @@ describe('AdminController /PATCH user to mentor',()=>{
   it('Should return status:400 if the user is already a mentor',(done)=>{
     const {id:normal_user_id}=user_normal;
     const {token:user_admin_token}=user_admin;
-    chai.request(server).patch(`/api/v1/user/${normal_user_id}`)
+    request(server).patch(`/api/v1/user/${normal_user_id}`)
       .set('Content-type', 'application/json')
       .set('Content-type', 'application/x-www-form-urlencoded')
       .set('token', user_admin_token)
@@ -294,7 +294,7 @@ describe('AdminController /PATCH user to mentor',()=>{
   it('Should return an access forbiden if the user who changes is not an admin or does not have email:p@gmail.com',(done)=>{
     const {id:normal_user_id}=user_normal;
     const {token:user_noAdmin_token}=notAdmin_user;
-    chai.request(server).patch(`/api/v1/user/${normal_user_id}`)
+    request(server).patch(`/api/v1/user/${normal_user_id}`)
       .set('Content-type', 'application/json')
       .set('Content-type', 'application/x-www-form-urlencoded')
       .set('token', user_noAdmin_token)
@@ -310,7 +310,7 @@ describe('AdminController /PATCH user to mentor',()=>{
   it('Should return status:400 if the id of the user to be changed was not found',(done)=>{
     const wrongId=450;
     const {token:user_admin_token}=user_admin;
-    chai.request(server).patch(`/api/v1/user/${wrongId}`)
+    request(server).patch(`/api/v1/user/${wrongId}`)
       .set('Content-type', 'application/json')
       .set('Content-type', 'application/x-www-form-urlencoded')
       .set('token', user_admin_token)

@@ -1,12 +1,12 @@
 /* eslint-disable no-undef */
-import chai from 'chai';
+import {should, use,request} from 'chai';
 import chaiHttp from 'chai-http';
 import server from '../bin/www';
 import UserModel from '../models/User';
 
 
-chai.should();
-chai.use(chaiHttp);
+should();
+use(chaiHttp);
 
 let user_admin;
 let user_mentor;
@@ -46,7 +46,7 @@ describe('UserController /GET all mentors',()=>{
 
   
 
-    chai.request(server).post('/api/v1/auth/signup')
+    request(server).post('/api/v1/auth/signup')
       .set('Content-type', 'application/json')
       .set('Content-type', 'application/x-www-form-urlencoded')
       .send(defaultUser1)
@@ -56,7 +56,7 @@ describe('UserController /GET all mentors',()=>{
        
       });
 
-    chai.request(server).post('/api/v1/auth/signup')
+    request(server).post('/api/v1/auth/signup')
       .set('Content-type', 'application/json')
       .set('Content-type', 'application/x-www-form-urlencoded')
       .send(defaultUser2)
@@ -78,7 +78,7 @@ describe('UserController /GET all mentors',()=>{
   it('Should change a normal user to admin',(done)=>{
     
     const {id:normal_user_id,token:user_admin_token}=user_admin;
-    chai.request(server).patch(`/api/v1/admin/${normal_user_id}`)
+    request(server).patch(`/api/v1/admin/${normal_user_id}`)
       .set('Content-type', 'application/json')
       .set('Content-type', 'application/x-www-form-urlencoded')
       .set('token', user_admin_token)
@@ -101,7 +101,7 @@ describe('UserController /GET all mentors',()=>{
       password: '12345678'
     };
           
-    chai.request(server).post('/api/v1/auth/signin')
+    request(server).post('/api/v1/auth/signin')
       .set('Content-type', 'application/json')
       .set('Content-type', 'application/x-www-form-urlencoded')
       .send(user_admin_credential)
@@ -118,7 +118,7 @@ describe('UserController /GET all mentors',()=>{
   it('Should change normal user to mentor first',(done)=>{
     const {id:normal_user_id}=user_mentor;
     const {token:user_admin_token}=user_admin;
-    chai.request(server).patch(`/api/v1/user/${normal_user_id}`)
+    request(server).patch(`/api/v1/user/${normal_user_id}`)
       .set('Content-type', 'application/json')
       .set('Content-type', 'application/x-www-form-urlencoded')
       .set('token', user_admin_token)
@@ -129,7 +129,7 @@ describe('UserController /GET all mentors',()=>{
   
   it('Should return an array containing object of all mentors',(done)=>{
     const {token}=user_mentor;
-    chai.request(server).get('/api/v1/mentors')
+    request(server).get('/api/v1/mentors')
       .set('Content-type', 'application/json')
       .set('Content-type', 'application/x-www-form-urlencoded')
       .set('token', token)
@@ -144,7 +144,7 @@ describe('UserController /GET all mentors',()=>{
 
   
   it('Should return status 401 if the token has been not sent',(done)=>{
-    chai.request(server).get('/api/v1/mentors')
+    request(server).get('/api/v1/mentors')
       .set('Content-type', 'application/json')
       .set('Content-type', 'application/x-www-form-urlencoded')
       .end((err,res)=>{
@@ -157,7 +157,7 @@ describe('UserController /GET all mentors',()=>{
   
   it('Should verify invalid token',(done)=>{
     const wrongToken='ciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZmlyc3ROYW1lIjoicHJvZG8iLCJsYXN0TmFtZSI6Imtha2EiLCJlbWFpbCI6InBAZ21haWwuY29tIiwicGFzc3dvcmQiOiIkMmIkMTAkVFcyYmxUWnYzZ1FiNldNRXJZSmtULi5YSUhrendnZW5GWm1NTVlXVjZwaFRFd1dGUjhqbk8iLCJhZGRyZXNzIjoiYWRkcmVzcyIsImJpbyI6ImJpbyIsIm9jY3VwYXRpb24iOiJvY2N1cCIsImV4cGVydGlzZSI6ImV4cHJ0IiwidHlwZSI6Im5vcm1hbCIsImlhdCI6MTU2NjQ2NjQyNiwiZXhwIjoxNTY2ODEyMDI2fQ.hBkHlelgfCp1qnRVhgvCPFcm16camwv0mZNxFGhHkmw';
-    chai.request(server).get('/api/v1/mentors')
+    request(server).get('/api/v1/mentors')
       .set('Content-type', 'application/json')
       .set('Content-type', 'application/x-www-form-urlencoded')
       .set('token',wrongToken)
@@ -174,7 +174,7 @@ describe('UserController /GET all mentors',()=>{
   it('Should verify malformed token',(done)=>{
     
     const malformed_token='badToken';
-    chai.request(server).get('/api/v1/mentors')
+    request(server).get('/api/v1/mentors')
       .set('Content-type', 'application/json')
       .set('Content-type', 'application/x-www-form-urlencoded')
       .set('token',malformed_token)
@@ -196,7 +196,7 @@ describe('UserController /GET specific mentor',()=>{
   
   it('Should return an object of a specific mentor',(done)=>{
     const {token,id:mentorId}=user_mentor;
-    chai.request(server).get(`/api/v1/mentors/${mentorId}`)
+    request(server).get(`/api/v1/mentors/${mentorId}`)
       .set('Content-type', 'application/json')
       .set('Content-type', 'application/x-www-form-urlencoded')
       .set('token', token)
@@ -210,7 +210,7 @@ describe('UserController /GET specific mentor',()=>{
   
   
   it('Should return status 401 if the token has been not sent',(done)=>{
-    chai.request(server).get('/api/v1/mentors')
+    request(server).get('/api/v1/mentors')
       .set('Content-type', 'application/json')
       .set('Content-type', 'application/x-www-form-urlencoded')
       .end((err,res)=>{
@@ -223,7 +223,7 @@ describe('UserController /GET specific mentor',()=>{
   
   it('Should verify invalid token',(done)=>{
     const wrongToken='ciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZmlyc3ROYW1lIjoicHJvZG8iLCJsYXN0TmFtZSI6Imtha2EiLCJlbWFpbCI6InBAZ21haWwuY29tIiwicGFzc3dvcmQiOiIkMmIkMTAkVFcyYmxUWnYzZ1FiNldNRXJZSmtULi5YSUhrendnZW5GWm1NTVlXVjZwaFRFd1dGUjhqbk8iLCJhZGRyZXNzIjoiYWRkcmVzcyIsImJpbyI6ImJpbyIsIm9jY3VwYXRpb24iOiJvY2N1cCIsImV4cGVydGlzZSI6ImV4cHJ0IiwidHlwZSI6Im5vcm1hbCIsImlhdCI6MTU2NjQ2NjQyNiwiZXhwIjoxNTY2ODEyMDI2fQ.hBkHlelgfCp1qnRVhgvCPFcm16camwv0mZNxFGhHkmw';
-    chai.request(server).get('/api/v1/mentors')
+    request(server).get('/api/v1/mentors')
       .set('Content-type', 'application/json')
       .set('Content-type', 'application/x-www-form-urlencoded')
       .set('token',wrongToken)
@@ -240,7 +240,7 @@ describe('UserController /GET specific mentor',()=>{
   it('Should verify malformed token',(done)=>{
       
     const malformed_token='badToken';
-    chai.request(server).get('/api/v1/mentors')
+    request(server).get('/api/v1/mentors')
       .set('Content-type', 'application/json')
       .set('Content-type', 'application/x-www-form-urlencoded')
       .set('token',malformed_token)

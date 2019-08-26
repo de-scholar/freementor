@@ -1,12 +1,12 @@
 /* eslint-disable no-undef */
-
-import chai from 'chai';
+import {should, use,request} from 'chai';
 import chaiHttp from 'chai-http';
 import server from '../bin/www';
 import UserModel from '../models/User';
 
-chai.should();
-chai.use(chaiHttp);
+
+should();
+use(chaiHttp);
 
 
 describe('AuthController',()=>{
@@ -33,7 +33,7 @@ describe('AuthController',()=>{
   it(('Should signup a user'), (done) => {
 
 
-    chai.request(server).post('/api/v1/auth/signup')
+    request(server).post('/api/v1/auth/signup')
       .set('Content-type', 'application/json')
       .set('Content-type', 'application/x-www-form-urlencoded')
       .send(defaultUser)
@@ -51,7 +51,7 @@ describe('AuthController',()=>{
   it(('Should not duplicate a user email'), (done) => {
 
     
-    chai.request(server).post('/api/v1/auth/signup')
+    request(server).post('/api/v1/auth/signup')
       .set('Content-type', 'application/json')
       .set('Content-type', 'application/x-www-form-urlencoded')
       .send(defaultUser)
@@ -74,7 +74,7 @@ describe('AuthController',()=>{
       address:'kigali',
     };
     
-    chai.request(server).post('/api/v1/auth/signup')
+    request(server).post('/api/v1/auth/signup')
       .set('Content-type', 'application/json')
       .set('Content-type', 'application/x-www-form-urlencoded')
       .send(defaultUser)
@@ -95,7 +95,7 @@ describe('AuthController',()=>{
       password: '12345678'
     };
     
-    chai.request(server).post('/api/v1/auth/signin')
+    request(server).post('/api/v1/auth/signin')
       .set('Content-type', 'application/json')
       .set('Content-type', 'application/x-www-form-urlencoded')
       .send(existingUser)
@@ -116,7 +116,7 @@ describe('AuthController',()=>{
       password: '12345678'
     };
     
-    chai.request(server).post('/api/v1/auth/signin')
+    request(server).post('/api/v1/auth/signin')
       .set('Content-type', 'application/json')
       .set('Content-type', 'application/x-www-form-urlencoded')
       .send(user_with_WrongEmail)
@@ -134,7 +134,7 @@ describe('AuthController',()=>{
       password: '45678'
     };
     
-    chai.request(server).post('/api/v1/auth/signin')
+    request(server).post('/api/v1/auth/signin')
       .set('Content-type', 'application/json')
       .set('Content-type', 'application/x-www-form-urlencoded')
       .send(user_with_WrongEmail)
