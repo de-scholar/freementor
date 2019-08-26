@@ -2,33 +2,56 @@
 import Users from '../models/User';
 class AdminController{
 
+  static userToAdmin(req,res){
+    const {userId}=req.params;
+    const user=Users.find(userId);
+    if(user!==undefined){
+      const user_admin=Users.update(user.id,{type:'admin'});
+      return res.status(200).json({
+        status:200,
+        data:{
+          message:'​User account changed to admin',
+          ...user_admin,
+        }
+      });
+    }
+    
+    return res.status(400).json({
+      status:400,
+      error:'User with the sent id not found',
+      
+    });
+  }
+
   static userToMentor(req,res){
 
     const {userId}=req.params;
     const user=Users.find(userId);
-   
+    let error_msg='User not found,check his id';
+
     if(user!==undefined){
-      let msg='​User account changed to mentor';
       let user_mentor=user;
-      if(user.type!=='mentor'){
-        user_mentor=Users.update(user.id,{type:'mentor'});
-      }
-      else{
-        msg='​User is already a mentor';
-      }
       
-      return res.status(200).json({
-        status:200,
-        data:{
-          message:msg,
-          user_mentor,
-        }
-      });
+      if(user.type!=='mentor'){
+
+        user_mentor=Users.update(user.id,{type:'mentor'});
+
+        return res.status(200).json({
+          status:200,
+          data:{
+            message:'​User account changed to mentor',
+            ...user_mentor,
+          }
+        });
+      }
+      error_msg='​User is already a mentor';
+      
+      
     }
 
-    return res.status(404).json({
-      status:404,
-      error:'User not found,check his id',
+    return res.status(400).json({
+      status:400,
+      error:error_msg,
       
     });
 

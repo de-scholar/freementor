@@ -7,6 +7,14 @@ const router = express.Router();
 const {authorization,tokenVerify}=AuthMw;
 const {isAdmin}=permissionMw;
 
+
+
+/* User to admin*/
+router.patch('/admin/:userId',
+  authorization,
+  tokenVerify,
+  AdminController.userToAdmin);
+
 /* User to mentor*/
 router.patch('/user/:userId',
   authorization,

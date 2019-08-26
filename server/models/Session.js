@@ -19,28 +19,28 @@
 import GeneralHelper from '../helpers/general';
 
 let table=[
-  {
-    'questions': 'questions ',
-    'start_date': '12-03-2019',
-    'end_date': '04-12-2019',
-    'mentorId': 2,
-    'menteeId': 1,
-    'status': 'pending',
-    'id': 1,
-    'created_at': 1566471653903
+  // {
+  //   'questions': 'questions ',
+  //   'start_date': '12-03-2019',
+  //   'end_date': '04-12-2019',
+  //   'mentorId': 2,
+  //   'menteeId': 1,
+  //   'status': 'pending',
+  //   'id': 1,
+  //   'created_at': 1566471653903
     
-  },
-  {
-    'questions': 'questions ',
-    'start_date': '12-03-2019',
-    'end_date': '04-12-2019',
-    'mentorId': 2,
-    'menteeId': 3,
-    'status': 'pending',
-    'id': 1,
-    'created_at': 1566471653903
+  // },
+  // {
+  //   'questions': 'questions ',
+  //   'start_date': '12-03-2019',
+  //   'end_date': '04-12-2019',
+  //   'mentorId': 2,
+  //   'menteeId': 3,
+  //   'status': 'pending',
+  //   'id': 1,
+  //   'created_at': 1566471653903
     
-  }
+  // }
 ];
 const {removeUnexpect,isEmpty}=GeneralHelper;
 

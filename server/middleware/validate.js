@@ -12,11 +12,11 @@ const validate = (req, res, next) => {
 
   if (!validationError.isEmpty()) {
     const errorMsg = validationError.mapped();
-
+    
     return res.status(400).json({
       status: 400,
       error: errorMsg,
-      message:'Unexpected input value'
+      message:'Invalid input value'
 
     });
   }

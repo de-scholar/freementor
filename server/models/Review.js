@@ -14,17 +14,17 @@
 import GeneralHelper from '../helpers/general';
 
 let table=[
-  {
-    'score': 3,
-    'remark': 'fsdfjnhfjksdf nkfdfjksd nkjfdskfds',
-    'sessionId': 1,
-    'id': 1,
-    'created_at': 1566558853223,
-    'mentorId': 2,
-    'menteeId': 1,
-    'menteeFullName': 'prodo kaka'
+  // {
+  //   'score': 3,
+  //   'remark': 'fsdfjnhfjksdf nkfdfjksd nkjfdskfds',
+  //   'sessionId': 1,
+  //   'id': 1,
+  //   'created_at': 1566558853223,
+  //   'mentorId': 2,
+  //   'menteeId': 1,
+  //   'menteeFullName': 'prodo kaka'
 
-  },
+  // },
 ];
 
 const {removeUnexpect,isEmpty}=GeneralHelper;

@@ -34,8 +34,8 @@ class AuthController{
       //store user
       var created_user=Users.create(user_data);
 
-      return res.status(200).json({
-        status:200,
+      return res.status(201).json({
+        status:201,
         message:'User created successfully',
         data:{
           token:token,
@@ -65,6 +65,7 @@ class AuthController{
           
            
       bcrypt.compare(user_data.password,user.password, function(err, success) {
+
         if(success){
           const token=generateToken(user);
           return res.status(200).json({
@@ -77,9 +78,9 @@ class AuthController{
           });
         }
         else{
-          return res.status(404).json({
+          return res.status(401).json({
             status:401,
-            error:'Incorrect Password ',
+            error:'Invalid Password ',
             field:'password'
           });
         }
@@ -89,9 +90,9 @@ class AuthController{
             
             
     }else{
-      return res.status(404).json({
+      return res.status(401).json({
         status:401,
-        error:'Incorrect Email',
+        error:'Invalid Email',
         field:'email'
       });
     }

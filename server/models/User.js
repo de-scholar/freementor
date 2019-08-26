@@ -18,46 +18,46 @@
  */
 
 let table=[
-  {
-    'id': 1,
-    'firstName': 'prodo',
-    'lastName': 'kaka',
-    'email': 'p@gmail.com',
-    'password': '$2b$10$T9E0O1I7MWN688TD3WIYPuAYgLRO9sdxM/Viwo0XIKw.MqSvDkmC6',
-    'address': 'address',
-    'bio': 'bio',
-    'occupation': 'occup',
-    'expertise': 'exprt',
-    'type': 'normal',
-    'created_at': 1566471640041,
+  // {
+  //   'id': 1,
+  //   'firstName': 'prodo',
+  //   'lastName': 'kaka',
+  //   'email': 'p@gmail.com',
+  //   'password': '$2b$10$T9E0O1I7MWN688TD3WIYPuAYgLRO9sdxM/Viwo0XIKw.MqSvDkmC6',
+  //   'address': 'address',
+  //   'bio': 'bio',
+  //   'occupation': 'occup',
+  //   'expertise': 'exprt',
+  //   'type': 'normal',
+  //   'created_at': 1566471640041,
 
-  },
-  {
-    'id': 2,
-    'firstName': 'bro',
-    'lastName': 'vick',
-    'email': 'vick@gmail.com',
-    'password': '$2b$10$LZwvFxhIVCgqYxVXOx.qkOjUHbuBO20HrXRhYjgGhs8U14UE107ES',
-    'address': 'address',
-    'bio': 'bio',
-    'occupation': 'occup',
-    'expertise': 'exprt',
-    'type': 'mentor',
-    'created_at': 1566471646043
-  },
-  {
-    'id': 3,
-    'firstName': 'gedeon',
-    'lastName': 'kate',
-    'email': 'g@gmail.com',
-    'password': '$2b$10$LZwvFxhIVCgqYxVXOx.qkOjUHbuBO20HrXRhYjgGhs8U14UE107ES',
-    'address': 'address',
-    'bio': 'bio',
-    'occupation': 'occup',
-    'expertise': 'exprt',
-    'type': 'mentor',
-    'created_at': 1566471646043
-  }
+  // },
+  // {
+  //   'id': 2,
+  //   'firstName': 'bro',
+  //   'lastName': 'vick',
+  //   'email': 'vick@gmail.com',
+  //   'password': '$2b$10$LZwvFxhIVCgqYxVXOx.qkOjUHbuBO20HrXRhYjgGhs8U14UE107ES',
+  //   'address': 'address',
+  //   'bio': 'bio',
+  //   'occupation': 'occup',
+  //   'expertise': 'exprt',
+  //   'type': 'mentor',
+  //   'created_at': 1566471646043
+  // },
+  // {
+  //   'id': 3,
+  //   'firstName': 'gedeon',
+  //   'lastName': 'kate',
+  //   'email': 'g@gmail.com',
+  //   'password': '$2b$10$LZwvFxhIVCgqYxVXOx.qkOjUHbuBO20HrXRhYjgGhs8U14UE107ES',
+  //   'address': 'address',
+  //   'bio': 'bio',
+  //   'occupation': 'occup',
+  //   'expertise': 'exprt',
+  //   'type': 'mentor',
+  //   'created_at': 1566471646043
+  // }
 ];
 
 class User{
@@ -120,6 +120,10 @@ class User{
     });
     return update_item;
 
+  }
+
+  static truncate(){
+    table=[];
   }
 
 

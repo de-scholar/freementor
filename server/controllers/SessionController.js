@@ -72,8 +72,8 @@ class SessionController{
       });
     }
     else{
-      res.status(401).json({
-        status:401,
+      res.status(400).json({
+        status:400,
         error:'Mentor not found',
       });
     }
@@ -85,9 +85,11 @@ class SessionController{
     const {sessionId}=req.params;
     const {auth_user}=req;
     const fetch_session=Session.find(sessionId);
+    let error_msg='Session not found,create sessions';
 
     if(fetch_session){
       //check if the mentor is concerned for this sesion
+     
       if(auth_user.id===fetch_session.mentorId){
         
         if(fetch_session.status==='pending'){
@@ -97,26 +99,20 @@ class SessionController{
             data:update_session
           });
         }
-        else{
-          return res.status(400).json({
-            status:401,
-            error:`You can not do this operation : session status is ${fetch_session.status}`,
-          });
-        }
-        
 
+        error_msg=`You can not do this operation : session status is ${fetch_session.status}`;
+       
       }
       else{
-        return res.status(400).json({
-          status:401,
-          error:'Session does not concerns you',
-        });
+        error_msg='Session does not concern you';
+       
       }
       
     }
-    return res.status(404).json({
-      status:401,
-      error:'Session not found,create sessions',
+
+    return res.status(400).json({
+      status:400,
+      error:error_msg,
     });
     
   }
@@ -125,11 +121,12 @@ class SessionController{
     const {sessionId}=req.params;
     const {auth_user}=req;
     const fetch_session=Session.find(sessionId);
+    let error_msg='Session not found,create sessions';
 
     if(fetch_session){
       //check if the mentor is concerned for this sesion
       if(auth_user.id===fetch_session.mentorId){
-
+        
         if(fetch_session.status==='pending'){
           const update_session=Session.update(sessionId,{status:'rejected'});
           return res.status(200).json({
@@ -137,25 +134,20 @@ class SessionController{
             data:update_session
           });
         }
-        else{
-          return res.status(400).json({
-            status:401,
-            error:`You can not do this operation : session status is ${fetch_session.status}`,
-          });
-        }
-        
+
+        error_msg=`You can not do this operation : session status is ${fetch_session.status}`;
+       
       }
       else{
-        return res.status(400).json({
-          status:401,
-          error:'Session does not concerns you',
-        });
+        error_msg='Session does not concern you';
+       
       }
       
     }
-    return res.status(404).json({
-      status:401,
-      error:'Session not found,create sessions',
+
+    return res.status(400).json({
+      status:400,
+      error:error_msg,
     });
     
   }
