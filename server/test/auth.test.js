@@ -4,7 +4,6 @@ import chaiHttp from 'chai-http';
 import server from '../bin/www';
 import UserModel from '../models/User';
 
-
 should();
 use(chaiHttp);
 
