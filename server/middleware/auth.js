@@ -6,7 +6,7 @@ class Auth{
     const token=req.headers['token'];
          
     if(token===undefined){
-      return res.status(403).json({
+      return res.status(401).json({
         error:'Anauthorized,please login first',
         status:401
       });

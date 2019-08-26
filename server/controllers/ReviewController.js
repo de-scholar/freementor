@@ -10,6 +10,23 @@ class ReviewController{
     body.score=parseInt(body.score);
     
     const session=Session.find(sessionId);
+
+    if(session===undefined){
+      return res.status(400).json({
+        status:400,
+        error:'Session to review is not found',
+      });
+    }
+
+    const fetch_review=new Review().findWhere('sessionId',sessionId).first();
+
+    if(fetch_review){
+      return res.status(400).json({
+        status:400,
+        error:'Session has another review',
+      });
+    }
+
     const review=Review.create(body);
     const mentee=User.find(session.menteeId);
 
@@ -20,7 +37,11 @@ class ReviewController{
 
     return res.status(200).json({
       status:200,
-      data:review
+      data:{
+        message:'Review successfully set',
+        ...review
+      },
+      
     });
 
   }
@@ -37,8 +58,8 @@ class ReviewController{
         }
       });
     }
-    res.status(401).json({
-      status:401,
+    res.status(400).json({
+      status:400,
       error:'Review of the session not found',
     });
 
