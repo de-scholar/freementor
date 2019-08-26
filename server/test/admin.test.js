@@ -1,5 +1,5 @@
 /* eslint-disable no-undef */
-import {should,use,request} from 'chai';
+import { should,use,request } from 'chai';
 import chaiHttp from 'chai-http';
 import server from '../bin/www';
 import UserModel from '../models/User';
@@ -11,8 +11,6 @@ use(chaiHttp);
 let user_admin;
 let user_normal;
 let notAdmin_user;
-
-
 
 
 
