@@ -2,3 +2,5 @@ node_modules
 .eslintrc.json
 .env
 package-lock.json
+/.nyc_output
+coverage

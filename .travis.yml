@@ -1,12 +1,9 @@
 language: node_js
 node_js: 
   - 'stable'
-before_script:
-  - npm i @babel/cli 
-  - npm i @babel/core @babel/node
-  - npm i @babel/preset-env @babel/register
 script:
   - npm test
 notifications:
   email: false
-
+after_success:
+  - npm run coverage
