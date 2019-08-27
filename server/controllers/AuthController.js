@@ -1,5 +1,5 @@
 import GeneralHelper from '../helpers/general';
-import Users from '../models/User';
+import users from '../models/User';
 import bcrypt from 'bcrypt';
 const {
   hashPassword,
@@ -15,7 +15,7 @@ class AuthController{
         
 
     let user_data={};
-    user_data.id=Users.all().length+1;
+    user_data.id=users.all().length+1;
     user_data.firstName=req.body.firstName;
     user_data.lastName=req.body.lastName;
     user_data.email=req.body.email;
@@ -25,14 +25,13 @@ class AuthController{
     user_data.occupation=req.body.occupation;
     user_data.expertise=req.body.expertise;
     user_data.type='normal';//normal,mentor,admin
-
+    
     const token=generateToken(user_data);
-    const user=new Users();
-    const simuler_user=user.findWhere('email',user_data.email).first();
+    const simuler_user=users.findWhere('email',user_data.email).first();
       
     if(!simuler_user){
       //store user
-      var created_user=Users.create(user_data);
+      var created_user=users.create(user_data);
 
       return res.status(201).json({
         status:201,
@@ -56,8 +55,8 @@ class AuthController{
     let user_data={};
     user_data.email=req.body.email;
     user_data.password=req.body.password;
-    const user=new Users();
-    const user_found=user.findWhere('email',user_data.email).first();
+    
+    const user_found=users.findWhere('email',user_data.email).first();
 
     if(user_found!==false){
       const user=user_found;
@@ -80,7 +79,7 @@ class AuthController{
         else{
           return res.status(401).json({
             status:401,
-            error:'Invalid Password ',
+            error:'Invalid Password',
             field:'password'
           });
         }

@@ -1,12 +1,13 @@
 
-import Users from '../models/User';
+import users from '../models/User';
+
 class AdminController{
 
   static userToAdmin(req,res){
     const {userId}=req.params;
-    const user=Users.find(userId);
+    const user=users.find(userId);
     if(user!==undefined){
-      const user_admin=Users.update(user.id,{type:'admin'});
+      const user_admin=users.update(user.id,{type:'admin'});
       return res.status(200).json({
         status:200,
         data:{
@@ -26,7 +27,7 @@ class AdminController{
   static userToMentor(req,res){
 
     const {userId}=req.params;
-    const user=Users.find(userId);
+    const user=users.find(userId);
     let error_msg='User not found,check his id';
 
     if(user!==undefined){
@@ -34,7 +35,7 @@ class AdminController{
       
       if(user.type!=='mentor'){
 
-        user_mentor=Users.update(user.id,{type:'mentor'});
+        user_mentor=users.update(user.id,{type:'mentor'});
 
         return res.status(200).json({
           status:200,

@@ -1,6 +1,7 @@
 import Review from '../models/Review';
 import Session from '../models/Session';
-import User from '../models/User';
+import users from '../models/User';
+
 
 class ReviewController{
  
@@ -18,7 +19,7 @@ class ReviewController{
       });
     }
 
-    const fetch_review=new Review().findWhere('sessionId',sessionId).first();
+    const fetch_review=Review.findWhere('sessionId',sessionId).first();
 
     if(fetch_review){
       return res.status(400).json({
@@ -28,7 +29,7 @@ class ReviewController{
     }
 
     const review=Review.create(body);
-    const mentee=User.find(session.menteeId);
+    const mentee=users.find(session.menteeId);
 
     review.mentorId=session.mentorId;
     review.menteeId=session.menteeId;
@@ -48,7 +49,7 @@ class ReviewController{
 
   static delete(req,res){
     const {sessionId}=req.params;
-    const review=new Review().findWhere('sessionId',sessionId).first();
+    const review=Review.findWhere('sessionId',sessionId).first();
     if(review){
       Review.delete(review.id);
       return res.status(200).json({

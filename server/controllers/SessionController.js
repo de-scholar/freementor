@@ -1,4 +1,4 @@
-import User from '../models/User';
+import users from '../models/User';
 import Session from '../models/Session';
 
 class SessionController{
@@ -15,7 +15,7 @@ class SessionController{
       const fetch_sessions=Session.findForMentor(auth_userId);
 
       fetch_sessions.forEach(session => {
-        const mentee=User.find(session.menteeId);
+        const mentee=users.find(session.menteeId);
         const menteeEmail=mentee.email;
         const sessionWithMenteeEmail={...session,menteeEmail};
 
@@ -33,7 +33,7 @@ class SessionController{
       const fetch_sessions=Session.findForMentee(auth_userId);
 
       fetch_sessions.forEach(session => {
-        const mentor=User.find(session.mentorId);
+        const mentor=users.find(session.mentorId);
         const menteeEmail=auth_email;
         const sessionWithMenteeEmail={...session,menteeEmail};
 
@@ -61,7 +61,7 @@ class SessionController{
     body.mentorId=parseInt(body.mentorId);
     body.status='pending';
    
-    const fetch_mentor=User.findMentor(body.mentorId);
+    const fetch_mentor=users.findMentor(body.mentorId);
     if(fetch_mentor){
       let session=Session.create(body);
       session.menteeEmail=email;
