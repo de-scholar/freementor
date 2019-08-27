@@ -1,13 +1,12 @@
 /* eslint-disable no-undef */
-import chai from 'chai';
+import { should,use,request } from 'chai';
 import chaiHttp from 'chai-http';
 import server from '../bin/www';
 
 
 
-
-chai.should();
-chai.use(chaiHttp);
+should();
+use(chaiHttp);
 
 let user_mentee;
 let user_mentor;
@@ -69,7 +68,7 @@ describe('SessionController /POST sessions',()=>{
       address:'kigali',
     };
 
-    chai.request(server).post('/api/v1/auth/signup')
+    request(server).post('/api/v1/auth/signup')
       .set('Content-type', 'application/json')
       .set('Content-type', 'application/x-www-form-urlencoded')
       .send(defaultUserAdmin)
@@ -79,7 +78,7 @@ describe('SessionController /POST sessions',()=>{
        
       });
 
-    chai.request(server).post('/api/v1/auth/signup')
+    request(server).post('/api/v1/auth/signup')
       .set('Content-type', 'application/json')
       .set('Content-type', 'application/x-www-form-urlencoded')
       .send(defaultUser1)
@@ -89,7 +88,7 @@ describe('SessionController /POST sessions',()=>{
        
       });
 
-    chai.request(server).post('/api/v1/auth/signup')
+    request(server).post('/api/v1/auth/signup')
       .set('Content-type', 'application/json')
       .set('Content-type', 'application/x-www-form-urlencoded')
       .send(defaultUser2)
@@ -100,7 +99,7 @@ describe('SessionController /POST sessions',()=>{
       });
 
 
-    chai.request(server).post('/api/v1/auth/signup')
+    request(server).post('/api/v1/auth/signup')
       .set('Content-type', 'application/json')
       .set('Content-type', 'application/x-www-form-urlencoded')
       .send(defaultUser3)
@@ -117,7 +116,7 @@ describe('SessionController /POST sessions',()=>{
   it('Should change a normal user to admin',(done)=>{
     
     const {id:normal_user_id,token:user_admin_token}=user_admin;
-    chai.request(server).patch(`/api/v1/admin/${normal_user_id}`)
+    request(server).patch(`/api/v1/admin/${normal_user_id}`)
       .set('Content-type', 'application/json')
       .set('Content-type', 'application/x-www-form-urlencoded')
       .set('token', user_admin_token)
@@ -140,7 +139,7 @@ describe('SessionController /POST sessions',()=>{
       password: '12345678'
     };
           
-    chai.request(server).post('/api/v1/auth/signin')
+    request(server).post('/api/v1/auth/signin')
       .set('Content-type', 'application/json')
       .set('Content-type', 'application/x-www-form-urlencoded')
       .send(user_admin_credential)
@@ -157,7 +156,7 @@ describe('SessionController /POST sessions',()=>{
   it('Should change normal user to mentor first',(done)=>{
     const {id:normal_user_id}=user_mentor;
     const {token:user_admin_token}=user_admin;
-    chai.request(server).patch(`/api/v1/user/${normal_user_id}`)
+    request(server).patch(`/api/v1/user/${normal_user_id}`)
       .set('Content-type', 'application/json')
       .set('Content-type', 'application/x-www-form-urlencoded')
       .set('token', user_admin_token)
@@ -183,7 +182,7 @@ describe('SessionController /POST sessions',()=>{
       end_date:'20/03/2020',
   
     };
-    chai.request(server).post('/api/v1/sessions')
+    request(server).post('/api/v1/sessions')
       .set('Content-type', 'application/json')
       .set('Content-type', 'application/x-www-form-urlencoded')
       .set('token', mentee_token)
@@ -208,7 +207,7 @@ describe('SessionController /POST sessions',()=>{
       end_date:'20/03/2020',
   
     };
-    chai.request(server).post('/api/v1/sessions')
+    request(server).post('/api/v1/sessions')
       .set('Content-type', 'application/json')
       .set('Content-type', 'application/x-www-form-urlencoded')
       .set('token', mentee_token)
@@ -223,7 +222,7 @@ describe('SessionController /POST sessions',()=>{
   
   it('Should return 400 code status if the mentorId is not found',(done)=>{
     const wrongToken='ciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZmlyc3ROYW1lIjoicHJvZG8iLCJsYXN0TmFtZSI6Imtha2EiLCJlbWFpbCI6InBAZ21haWwuY29tIiwicGFzc3dvcmQiOiIkMmIkMTAkVFcyYmxUWnYzZ1FiNldNRXJZSmtULi5YSUhrendnZW5GWm1NTVlXVjZwaFRFd1dGUjhqbk8iLCJhZGRyZXNzIjoiYWRkcmVzcyIsImJpbyI6ImJpbyIsIm9jY3VwYXRpb24iOiJvY2N1cCIsImV4cGVydGlzZSI6ImV4cHJ0IiwidHlwZSI6Im5vcm1hbCIsImlhdCI6MTU2NjQ2NjQyNiwiZXhwIjoxNTY2ODEyMDI2fQ.hBkHlelgfCp1qnRVhgvCPFcm16camwv0mZNxFGhHkmw';
-    chai.request(server).post('/api/v1/sessions')
+    request(server).post('/api/v1/sessions')
       .set('Content-type', 'application/json')
       .set('Content-type', 'application/x-www-form-urlencoded')
       .set('token',wrongToken)
@@ -240,7 +239,7 @@ describe('SessionController /POST sessions',()=>{
 
   
   it('Should return status 401 if the token has been not sent',(done)=>{
-    chai.request(server).post('/api/v1/sessions')
+    request(server).post('/api/v1/sessions')
       .set('Content-type', 'application/json')
       .set('Content-type', 'application/x-www-form-urlencoded')
       .end((err,res)=>{
@@ -253,7 +252,7 @@ describe('SessionController /POST sessions',()=>{
   
   it('Should verify invalid token',(done)=>{
     const wrongToken='ciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZmlyc3ROYW1lIjoicHJvZG8iLCJsYXN0TmFtZSI6Imtha2EiLCJlbWFpbCI6InBAZ21haWwuY29tIiwicGFzc3dvcmQiOiIkMmIkMTAkVFcyYmxUWnYzZ1FiNldNRXJZSmtULi5YSUhrendnZW5GWm1NTVlXVjZwaFRFd1dGUjhqbk8iLCJhZGRyZXNzIjoiYWRkcmVzcyIsImJpbyI6ImJpbyIsIm9jY3VwYXRpb24iOiJvY2N1cCIsImV4cGVydGlzZSI6ImV4cHJ0IiwidHlwZSI6Im5vcm1hbCIsImlhdCI6MTU2NjQ2NjQyNiwiZXhwIjoxNTY2ODEyMDI2fQ.hBkHlelgfCp1qnRVhgvCPFcm16camwv0mZNxFGhHkmw';
-    chai.request(server).post('/api/v1/sessions')
+    request(server).post('/api/v1/sessions')
       .set('Content-type', 'application/json')
       .set('Content-type', 'application/x-www-form-urlencoded')
       .set('token',wrongToken)
@@ -270,7 +269,7 @@ describe('SessionController /POST sessions',()=>{
   it('Should verify malformed token',(done)=>{
     
     const malformed_token='badToken';
-    chai.request(server).post('/api/v1/sessions')
+    request(server).post('/api/v1/sessions')
       .set('Content-type', 'application/json')
       .set('Content-type', 'application/x-www-form-urlencoded')
       .set('token',malformed_token)
@@ -294,7 +293,7 @@ describe('SessionController /GET sessions',()=>{
     const {token:mentorToken}=user_mentor;
    
     
-    chai.request(server).get('/api/v1/sessions')
+    request(server).get('/api/v1/sessions')
       .set('Content-type', 'application/json')
       .set('Content-type', 'application/x-www-form-urlencoded')
       .set('token', mentorToken)
@@ -311,7 +310,7 @@ describe('SessionController /GET sessions',()=>{
   
   it('Should return an array of sent mentorship sessions if the auth user is a mentee',(done)=>{
     const {token:menteeToken}=user_mentee;
-    chai.request(server).get('/api/v1/sessions')
+    request(server).get('/api/v1/sessions')
       .set('Content-type', 'application/json')
       .set('Content-type', 'application/x-www-form-urlencoded')
       .set('token', menteeToken)
@@ -326,7 +325,7 @@ describe('SessionController /GET sessions',()=>{
 
   
   it('Should return status 401 if the token has been not sent',(done)=>{
-    chai.request(server).get('/api/v1/sessions')
+    request(server).get('/api/v1/sessions')
       .set('Content-type', 'application/json')
       .set('Content-type', 'application/x-www-form-urlencoded')
       .end((err,res)=>{
@@ -339,7 +338,7 @@ describe('SessionController /GET sessions',()=>{
   
   it('Should verify invalid token',(done)=>{
     const wrongToken='ciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZmlyc3ROYW1lIjoicHJvZG8iLCJsYXN0TmFtZSI6Imtha2EiLCJlbWFpbCI6InBAZ21haWwuY29tIiwicGFzc3dvcmQiOiIkMmIkMTAkVFcyYmxUWnYzZ1FiNldNRXJZSmtULi5YSUhrendnZW5GWm1NTVlXVjZwaFRFd1dGUjhqbk8iLCJhZGRyZXNzIjoiYWRkcmVzcyIsImJpbyI6ImJpbyIsIm9jY3VwYXRpb24iOiJvY2N1cCIsImV4cGVydGlzZSI6ImV4cHJ0IiwidHlwZSI6Im5vcm1hbCIsImlhdCI6MTU2NjQ2NjQyNiwiZXhwIjoxNTY2ODEyMDI2fQ.hBkHlelgfCp1qnRVhgvCPFcm16camwv0mZNxFGhHkmw';
-    chai.request(server).get('/api/v1/sessions')
+    request(server).get('/api/v1/sessions')
       .set('Content-type', 'application/json')
       .set('Content-type', 'application/x-www-form-urlencoded')
       .set('token',wrongToken)
@@ -356,7 +355,7 @@ describe('SessionController /GET sessions',()=>{
   it('Should verify malformed token',(done)=>{
     
     const malformed_token='badToken';
-    chai.request(server).get('/api/v1/sessions')
+    request(server).get('/api/v1/sessions')
       .set('Content-type', 'application/json')
       .set('Content-type', 'application/x-www-form-urlencoded')
       .set('token',malformed_token)
@@ -386,7 +385,7 @@ describe('SessionController /PATCH: accept session',()=>{
       password: '12345678'
     };
         
-    chai.request(server).post('/api/v1/auth/signin')
+    request(server).post('/api/v1/auth/signin')
       .set('Content-type', 'application/json')
       .set('Content-type', 'application/x-www-form-urlencoded')
       .send(user_mentor_credential)
@@ -404,7 +403,7 @@ describe('SessionController /PATCH: accept session',()=>{
     const {token:mentorToken}=user_mentor;
    
     
-    chai.request(server).patch(`/api/v1/sessions/${sessionId}/accept`)
+    request(server).patch(`/api/v1/sessions/${sessionId}/accept`)
       .set('Content-type', 'application/json')
       .set('Content-type', 'application/x-www-form-urlencoded')
       .set('token', mentorToken)
@@ -423,7 +422,7 @@ describe('SessionController /PATCH: accept session',()=>{
   it('Should return a status code 400 when session with sent sessionId is not found',(done)=>{
     const wrong_sessionId=312;
     const {token:mentorToken}=user_mentor;
-    chai.request(server).patch(`/api/v1/sessions/${wrong_sessionId}/accept`)
+    request(server).patch(`/api/v1/sessions/${wrong_sessionId}/accept`)
       .set('Content-type', 'application/json')
       .set('Content-type', 'application/x-www-form-urlencoded')
       .set('token', mentorToken)
@@ -441,7 +440,7 @@ describe('SessionController /PATCH: accept session',()=>{
     const {id:sessionId}=created_session;
     const token_otherMentor='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiZmlyc3ROYW1lIjoiYnJvIiwibGFzdE5hbWUiOiJ2aWNrIiwiZW1haWwiOiJ2aWNrQGdtYWlsLmNvbSIsInBhc3N3b3JkIjoiJDJiJDEwJGMyLzZsWGhIOC5RMnE2cG5oM3BpQy5CVi9tOEJPdm9idlE1RkZaVHY4QlB4MngwNVNpc0tlIiwiYWRkcmVzcyI6ImFkZHJlc3MiLCJiaW8iOiJiaW8iLCJvY2N1cGF0aW9uIjoib2NjdXAiLCJleHBlcnRpc2UiOiJleHBydCIsInR5cGUiOiJtZW50b3IiLCJjcmVhdGVkX2F0IjoxNTY2Nzc0Nzc4MTEwLCJpYXQiOjE1NjY3NzQ4MzksImV4cCI6MTU2NzEyMDQzOX0.7qQr193tqO6-WtN0y4M6Cm9jPrttiZA1dvQLQEmih-4';
     
-    chai.request(server).patch(`/api/v1/sessions/${sessionId}/accept`)
+    request(server).patch(`/api/v1/sessions/${sessionId}/accept`)
       .set('Content-type', 'application/json')
       .set('Content-type', 'application/x-www-form-urlencoded')
       .set('token', token_otherMentor)
@@ -460,7 +459,7 @@ describe('SessionController /PATCH: accept session',()=>{
   
     const {id:sessionId}=created_session;
     const {token:mentorToken}=user_mentor;
-    chai.request(server).patch(`/api/v1/sessions/${sessionId}/accept`)
+    request(server).patch(`/api/v1/sessions/${sessionId}/accept`)
       .set('Content-type', 'application/json')
       .set('Content-type', 'application/x-www-form-urlencoded')
       .set('token', mentorToken)
@@ -479,7 +478,7 @@ describe('SessionController /PATCH: accept session',()=>{
     const {id:sessionId}=created_session;
     const {token:normal_userToken}=user_3;
     
-    chai.request(server).patch(`/api/v1/sessions/${sessionId}/accept`)
+    request(server).patch(`/api/v1/sessions/${sessionId}/accept`)
       .set('Content-type', 'application/json')
       .set('Content-type', 'application/x-www-form-urlencoded')
       .set('token', normal_userToken)
@@ -497,7 +496,7 @@ describe('SessionController /PATCH: accept session',()=>{
   it('Should return status 401 if the token has been not sent',(done)=>{
     const {id:sessionId}=created_session;
     
-    chai.request(server).patch(`/api/v1/sessions/${sessionId}/accept`)
+    request(server).patch(`/api/v1/sessions/${sessionId}/accept`)
       .set('Content-type', 'application/json')
       .set('Content-type', 'application/x-www-form-urlencoded')
       .end((err,res)=>{
@@ -512,7 +511,7 @@ describe('SessionController /PATCH: accept session',()=>{
     const wrongToken='ciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZmlyc3ROYW1lIjoicHJvZG8iLCJsYXN0TmFtZSI6Imtha2EiLCJlbWFpbCI6InBAZ21haWwuY29tIiwicGFzc3dvcmQiOiIkMmIkMTAkVFcyYmxUWnYzZ1FiNldNRXJZSmtULi5YSUhrendnZW5GWm1NTVlXVjZwaFRFd1dGUjhqbk8iLCJhZGRyZXNzIjoiYWRkcmVzcyIsImJpbyI6ImJpbyIsIm9jY3VwYXRpb24iOiJvY2N1cCIsImV4cGVydGlzZSI6ImV4cHJ0IiwidHlwZSI6Im5vcm1hbCIsImlhdCI6MTU2NjQ2NjQyNiwiZXhwIjoxNTY2ODEyMDI2fQ.hBkHlelgfCp1qnRVhgvCPFcm16camwv0mZNxFGhHkmw';
     const {id:sessionId}=created_session;
     
-    chai.request(server).patch(`/api/v1/sessions/${sessionId}/accept`)
+    request(server).patch(`/api/v1/sessions/${sessionId}/accept`)
       .set('Content-type', 'application/json')
       .set('Content-type', 'application/x-www-form-urlencoded')
       .set('token',wrongToken)
@@ -530,7 +529,7 @@ describe('SessionController /PATCH: accept session',()=>{
       
     const malformed_token='badToken';
     const {id:sessionId}=created_session;
-    chai.request(server).patch(`/api/v1/sessions/${sessionId}/accept`)
+    request(server).patch(`/api/v1/sessions/${sessionId}/accept`)
       .set('Content-type', 'application/json')
       .set('Content-type', 'application/x-www-form-urlencoded')
       .set('token',malformed_token)
@@ -568,7 +567,7 @@ describe('SessionController /PATCH reject session',()=>{
   
     };
 
-    chai.request(server).post('/api/v1/sessions')
+    request(server).post('/api/v1/sessions')
       .set('Content-type', 'application/json')
       .set('Content-type', 'application/x-www-form-urlencoded')
       .set('token', mentee_token)
@@ -585,7 +584,7 @@ describe('SessionController /PATCH reject session',()=>{
     const {id:sessionId}=created_session;
     const {token:mentorToken}=user_mentor;
      
-    chai.request(server).patch(`/api/v1/sessions/${sessionId}/reject`)
+    request(server).patch(`/api/v1/sessions/${sessionId}/reject`)
       .set('Content-type', 'application/json')
       .set('Content-type', 'application/x-www-form-urlencoded')
       .set('token', mentorToken)
@@ -605,7 +604,7 @@ describe('SessionController /PATCH reject session',()=>{
   it('Should return a status code 400 when session with sent sessionId is not found',(done)=>{
     const wrong_sessionId=312;
     const {token:mentorToken}=user_mentor;
-    chai.request(server).patch(`/api/v1/sessions/${wrong_sessionId}/reject`)
+    request(server).patch(`/api/v1/sessions/${wrong_sessionId}/reject`)
       .set('Content-type', 'application/json')
       .set('Content-type', 'application/x-www-form-urlencoded')
       .set('token', mentorToken)
@@ -623,7 +622,7 @@ describe('SessionController /PATCH reject session',()=>{
     const {id:sessionId}=created_session;
     const token_otherMentor='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiZmlyc3ROYW1lIjoiYnJvIiwibGFzdE5hbWUiOiJ2aWNrIiwiZW1haWwiOiJ2aWNrQGdtYWlsLmNvbSIsInBhc3N3b3JkIjoiJDJiJDEwJGMyLzZsWGhIOC5RMnE2cG5oM3BpQy5CVi9tOEJPdm9idlE1RkZaVHY4QlB4MngwNVNpc0tlIiwiYWRkcmVzcyI6ImFkZHJlc3MiLCJiaW8iOiJiaW8iLCJvY2N1cGF0aW9uIjoib2NjdXAiLCJleHBlcnRpc2UiOiJleHBydCIsInR5cGUiOiJtZW50b3IiLCJjcmVhdGVkX2F0IjoxNTY2Nzc0Nzc4MTEwLCJpYXQiOjE1NjY3NzQ4MzksImV4cCI6MTU2NzEyMDQzOX0.7qQr193tqO6-WtN0y4M6Cm9jPrttiZA1dvQLQEmih-4';
       
-    chai.request(server).patch(`/api/v1/sessions/${sessionId}/reject`)
+    request(server).patch(`/api/v1/sessions/${sessionId}/reject`)
       .set('Content-type', 'application/json')
       .set('Content-type', 'application/x-www-form-urlencoded')
       .set('token', token_otherMentor)
@@ -641,7 +640,7 @@ describe('SessionController /PATCH reject session',()=>{
   it('Should return a status code 400 when a mentor is trying to repeat the same operation',(done)=>{
     const {id:sessionId}=created_session;
     const {token:mentorToken}=user_mentor;
-    chai.request(server).patch(`/api/v1/sessions/${sessionId}/reject`)
+    request(server).patch(`/api/v1/sessions/${sessionId}/reject`)
       .set('Content-type', 'application/json')
       .set('Content-type', 'application/x-www-form-urlencoded')
       .set('token', mentorToken)
@@ -661,7 +660,7 @@ describe('SessionController /PATCH reject session',()=>{
       
     const {token:normal_userToken}=user_3;
       
-    chai.request(server).patch(`/api/v1/sessions/${sessionId}/reject`)
+    request(server).patch(`/api/v1/sessions/${sessionId}/reject`)
       .set('Content-type', 'application/json')
       .set('Content-type', 'application/x-www-form-urlencoded')
       .set('token', normal_userToken)
@@ -679,7 +678,7 @@ describe('SessionController /PATCH reject session',()=>{
   it('Should return status 401 if the token has been not sent',(done)=>{
     const {id:sessionId}=created_session;
       
-    chai.request(server).patch(`/api/v1/sessions/${sessionId}/reject`)
+    request(server).patch(`/api/v1/sessions/${sessionId}/reject`)
       .set('Content-type', 'application/json')
       .set('Content-type', 'application/x-www-form-urlencoded')
       .end((err,res)=>{
@@ -694,7 +693,7 @@ describe('SessionController /PATCH reject session',()=>{
     const wrongToken='ciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZmlyc3ROYW1lIjoicHJvZG8iLCJsYXN0TmFtZSI6Imtha2EiLCJlbWFpbCI6InBAZ21haWwuY29tIiwicGFzc3dvcmQiOiIkMmIkMTAkVFcyYmxUWnYzZ1FiNldNRXJZSmtULi5YSUhrendnZW5GWm1NTVlXVjZwaFRFd1dGUjhqbk8iLCJhZGRyZXNzIjoiYWRkcmVzcyIsImJpbyI6ImJpbyIsIm9jY3VwYXRpb24iOiJvY2N1cCIsImV4cGVydGlzZSI6ImV4cHJ0IiwidHlwZSI6Im5vcm1hbCIsImlhdCI6MTU2NjQ2NjQyNiwiZXhwIjoxNTY2ODEyMDI2fQ.hBkHlelgfCp1qnRVhgvCPFcm16camwv0mZNxFGhHkmw';
     const {id:sessionId}=created_session;
       
-    chai.request(server).patch(`/api/v1/sessions/${sessionId}/reject`)
+    request(server).patch(`/api/v1/sessions/${sessionId}/reject`)
       .set('Content-type', 'application/json')
       .set('Content-type', 'application/x-www-form-urlencoded')
       .set('token',wrongToken)
@@ -712,7 +711,7 @@ describe('SessionController /PATCH reject session',()=>{
         
     const malformed_token='badToken';
     const {id:sessionId}=created_session;
-    chai.request(server).patch(`/api/v1/sessions/${sessionId}/reject`)
+    request(server).patch(`/api/v1/sessions/${sessionId}/reject`)
       .set('Content-type', 'application/json')
       .set('Content-type', 'application/x-www-form-urlencoded')
       .set('token',malformed_token)

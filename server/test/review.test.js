@@ -1,12 +1,12 @@
 /* eslint-disable no-undef */
-import chai from 'chai';
+import { should,use,request } from 'chai';
 import chaiHttp from 'chai-http';
 import server from '../bin/www';
 
 
+should();
+use(chaiHttp);
 
-chai.should();
-chai.use(chaiHttp);
 
 let user_mentee;
 let user_mentor;
@@ -60,7 +60,7 @@ describe('Review ,init dependencies',()=>{
       occupation:'software developer',
       address:'kigali',
     };
-    chai.request(server).post('/api/v1/auth/signup')
+    request(server).post('/api/v1/auth/signup')
       .set('Content-type', 'application/json')
       .set('Content-type', 'application/x-www-form-urlencoded')
       .send(defaultUser1)
@@ -70,7 +70,7 @@ describe('Review ,init dependencies',()=>{
        
       });
 
-    chai.request(server).post('/api/v1/auth/signup')
+    request(server).post('/api/v1/auth/signup')
       .set('Content-type', 'application/json')
       .set('Content-type', 'application/x-www-form-urlencoded')
       .send(defaultUser2)
@@ -78,7 +78,7 @@ describe('Review ,init dependencies',()=>{
         user_mentor=res.body.data;
         
       });
-    chai.request(server).post('/api/v1/auth/signup')
+    request(server).post('/api/v1/auth/signup')
       .set('Content-type', 'application/json')
       .set('Content-type', 'application/x-www-form-urlencoded')
       .send(defaultUserAdmin)
@@ -95,7 +95,7 @@ describe('Review ,init dependencies',()=>{
   it('user normal to admin',(done)=>{
     
     const {id:normal_user_id,token:user_admin_token}=user_admin;
-    chai.request(server).patch(`/api/v1/admin/${normal_user_id}`)
+    request(server).patch(`/api/v1/admin/${normal_user_id}`)
       .set('Content-type', 'application/json')
       .set('Content-type', 'application/x-www-form-urlencoded')
       .set('token', user_admin_token)
@@ -118,7 +118,7 @@ describe('Review ,init dependencies',()=>{
       password: '12345678'
     };
               
-    chai.request(server).post('/api/v1/auth/signin')
+    request(server).post('/api/v1/auth/signin')
       .set('Content-type', 'application/json')
       .set('Content-type', 'application/x-www-form-urlencoded')
       .send(user_admin_credential)
@@ -137,7 +137,7 @@ describe('Review ,init dependencies',()=>{
     const {id:normal_user_id}=user_mentor;
     const {token:user_admin_token}=user_admin;
   
-    chai.request(server).patch(`/api/v1/user/${normal_user_id}`)
+    request(server).patch(`/api/v1/user/${normal_user_id}`)
       .set('Content-type', 'application/json')
       .set('Content-type', 'application/x-www-form-urlencoded')
       .set('token',user_admin_token)
@@ -161,7 +161,7 @@ describe('Review ,init dependencies',()=>{
       end_date:'20/03/2020',
         
     };
-    chai.request(server).post('/api/v1/sessions')
+    request(server).post('/api/v1/sessions')
       .set('Content-type', 'application/json')
       .set('Content-type', 'application/x-www-form-urlencoded')
       .set('token', mentee_token)
@@ -196,7 +196,7 @@ describe('ReviewController /POST review',()=>{
         
     };
 
-    chai.request(server).post(`/api/v1/sessions/${sessionId}/review`)
+    request(server).post(`/api/v1/sessions/${sessionId}/review`)
       .set('Content-type', 'application/json')
       .set('Content-type', 'application/x-www-form-urlencoded')
       .set('token', mentee_token)
@@ -222,7 +222,7 @@ describe('ReviewController /POST review',()=>{
         
     };
 
-    chai.request(server).post(`/api/v1/sessions/${sessionId}/review`)
+    request(server).post(`/api/v1/sessions/${sessionId}/review`)
       .set('Content-type', 'application/json')
       .set('Content-type', 'application/x-www-form-urlencoded')
       .set('token', mentee_token)
@@ -248,7 +248,7 @@ describe('ReviewController /POST review',()=>{
         
     };
 
-    chai.request(server).post(`/api/v1/sessions/${sessionId}/review`)
+    request(server).post(`/api/v1/sessions/${sessionId}/review`)
       .set('Content-type', 'application/json')
       .set('Content-type', 'application/x-www-form-urlencoded')
       .set('token', mentee_token)
@@ -274,7 +274,7 @@ describe('ReviewController /POST review',()=>{
         
     };
 
-    chai.request(server).post(`/api/v1/sessions/${wrongSessionId}/review`)
+    request(server).post(`/api/v1/sessions/${wrongSessionId}/review`)
       .set('Content-type', 'application/json')
       .set('Content-type', 'application/x-www-form-urlencoded')
       .set('token', mentee_token)
@@ -292,7 +292,7 @@ describe('ReviewController /POST review',()=>{
   it('Should return status 401 if the token has been not sent',(done)=>{
     const {id:sessionId}=created_session;
       
-    chai.request(server).post(`/api/v1/sessions/${sessionId}/review`)
+    request(server).post(`/api/v1/sessions/${sessionId}/review`)
       .set('Content-type', 'application/json')
       .set('Content-type', 'application/x-www-form-urlencoded')
       .end((err,res)=>{
@@ -307,7 +307,7 @@ describe('ReviewController /POST review',()=>{
     const wrongToken='ciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZmlyc3ROYW1lIjoicHJvZG8iLCJsYXN0TmFtZSI6Imtha2EiLCJlbWFpbCI6InBAZ21haWwuY29tIiwicGFzc3dvcmQiOiIkMmIkMTAkVFcyYmxUWnYzZ1FiNldNRXJZSmtULi5YSUhrendnZW5GWm1NTVlXVjZwaFRFd1dGUjhqbk8iLCJhZGRyZXNzIjoiYWRkcmVzcyIsImJpbyI6ImJpbyIsIm9jY3VwYXRpb24iOiJvY2N1cCIsImV4cGVydGlzZSI6ImV4cHJ0IiwidHlwZSI6Im5vcm1hbCIsImlhdCI6MTU2NjQ2NjQyNiwiZXhwIjoxNTY2ODEyMDI2fQ.hBkHlelgfCp1qnRVhgvCPFcm16camwv0mZNxFGhHkmw';
     const {id:sessionId}=created_session;
       
-    chai.request(server).post(`/api/v1/sessions/${sessionId}/review`)
+    request(server).post(`/api/v1/sessions/${sessionId}/review`)
       .set('Content-type', 'application/json')
       .set('Content-type', 'application/x-www-form-urlencoded')
       .set('token',wrongToken)
@@ -325,7 +325,7 @@ describe('ReviewController /POST review',()=>{
         
     const malformed_token='badToken';
     const {id:sessionId}=created_session;
-    chai.request(server).post(`/api/v1/sessions/${sessionId}/review`)
+    request(server).post(`/api/v1/sessions/${sessionId}/review`)
       .set('Content-type', 'application/json')
       .set('Content-type', 'application/x-www-form-urlencoded')
       .set('token',malformed_token)
@@ -355,7 +355,7 @@ describe('ReviewController /DELETE review',()=>{
     const {token:admin_token}=user_admin;
     
   
-    chai.request(server).delete(`/api/v1/sessions/${sessionId}/review`)
+    request(server).delete(`/api/v1/sessions/${sessionId}/review`)
       .set('Content-type', 'application/json')
       .set('token',admin_token)
       .end((err,res)=>{
@@ -375,7 +375,7 @@ describe('ReviewController /DELETE review',()=>{
     const wrongSessionId=10000;
     const {token:mentee_token}=user_mentee;
       
-    chai.request(server).delete(`/api/v1/sessions/${wrongSessionId}/review`)
+    request(server).delete(`/api/v1/sessions/${wrongSessionId}/review`)
       .set('Content-type', 'application/json')
       .set('token', mentee_token)
       .end((err,res)=>{
@@ -396,7 +396,7 @@ describe('ReviewController /DELETE review',()=>{
     const wrongSessionId=10000;
     const {token:admin_token}=user_admin;
   
-    chai.request(server).delete(`/api/v1/sessions/${wrongSessionId}/review`)
+    request(server).delete(`/api/v1/sessions/${wrongSessionId}/review`)
       .set('Content-type', 'application/json')
       .set('token', admin_token)
       .end((err,res)=>{
@@ -412,7 +412,7 @@ describe('ReviewController /DELETE review',()=>{
   it('Should return status 401 if the token has been not sent',(done)=>{
     const {id:sessionId}=created_session;
         
-    chai.request(server).delete(`/api/v1/sessions/${sessionId}/review`)
+    request(server).delete(`/api/v1/sessions/${sessionId}/review`)
       .set('Content-type', 'application/json')
       .end((err,res)=>{
               
@@ -426,7 +426,7 @@ describe('ReviewController /DELETE review',()=>{
     const wrongToken='ciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZmlyc3ROYW1lIjoicHJvZG8iLCJsYXN0TmFtZSI6Imtha2EiLCJlbWFpbCI6InBAZ21haWwuY29tIiwicGFzc3dvcmQiOiIkMmIkMTAkVFcyYmxUWnYzZ1FiNldNRXJZSmtULi5YSUhrendnZW5GWm1NTVlXVjZwaFRFd1dGUjhqbk8iLCJhZGRyZXNzIjoiYWRkcmVzcyIsImJpbyI6ImJpbyIsIm9jY3VwYXRpb24iOiJvY2N1cCIsImV4cGVydGlzZSI6ImV4cHJ0IiwidHlwZSI6Im5vcm1hbCIsImlhdCI6MTU2NjQ2NjQyNiwiZXhwIjoxNTY2ODEyMDI2fQ.hBkHlelgfCp1qnRVhgvCPFcm16camwv0mZNxFGhHkmw';
     const {id:sessionId}=created_session;
         
-    chai.request(server).delete(`/api/v1/sessions/${sessionId}/review`)
+    request(server).delete(`/api/v1/sessions/${sessionId}/review`)
       .set('Content-type', 'application/json')
       .set('token',wrongToken)
       .end((err,res)=>{
@@ -443,7 +443,7 @@ describe('ReviewController /DELETE review',()=>{
           
     const malformed_token='badToken';
     const {id:sessionId}=created_session;
-    chai.request(server).delete(`/api/v1/sessions/${sessionId}/review`)
+    request(server).delete(`/api/v1/sessions/${sessionId}/review`)
       .set('Content-type', 'application/json')
       .set('token',malformed_token)
       .end((err,res)=>{
