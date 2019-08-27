@@ -1,10 +1,10 @@
-import User from '../models/User';
+import users from '../models/User';
 
 
 class UserController{
 
   static mentors(req,res){
-    const users=new User();
+    
     let mentors=users.findWhere('type','mentor').get();
 
     
@@ -18,8 +18,8 @@ class UserController{
 
   static mentor(req,res){
     const {mentorId}=req.params;
-    const mentor=User.findMentor(mentorId);
-
+    const mentor=users.findMentor(mentorId);
+    
     if(mentor!==undefined){
       
       return res.status(200).json({
@@ -27,8 +27,8 @@ class UserController{
         data:mentor,
       });
     }
-    res.status(404).json({
-      status:404,
+    res.status(400).json({
+      status:400,
       error:'Mentor not found',
     });
     

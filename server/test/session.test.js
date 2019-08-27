@@ -26,7 +26,7 @@ describe('SessionController /POST sessions',()=>{
     const defaultUser1={
       firstName:'prodo',
       lastName:'kaka',
-      email:'p@gmail.com',
+      email:'p4@gmail.com',
       password:'12345678',
       bio:'his bio',
       expertise:'web development',
@@ -38,7 +38,7 @@ describe('SessionController /POST sessions',()=>{
     const defaultUser2={
       firstName:'ged',
       lastName:'bro',
-      email:'g@gmail.com',
+      email:'g4@gmail.com',
       password:'12345678',
       bio:'his bio',
       expertise:'web development',
@@ -49,7 +49,7 @@ describe('SessionController /POST sessions',()=>{
     const defaultUser3={
       firstName:'lol',
       lastName:'amakuru',
-      email:'ama@gmail.com',
+      email:'ama8@gmail.com',
       password:'12345678',
       bio:'his bio',
       expertise:'web development',
@@ -196,6 +196,10 @@ describe('SessionController /POST sessions',()=>{
   });
 
   
+    
+
+
+  
   it('Should return status code 400 when try to create session with invalid input ',(done)=>{
     
    
@@ -287,7 +291,28 @@ describe('SessionController /POST sessions',()=>{
 
 
 
+
+
+
 describe('SessionController /GET sessions',()=>{
+
+  it(('Should login a user mentor to update his token paylaod'), (done) => {
+    const existingUser = {
+      email: user_mentor.email,
+      password: '12345678'
+    };
+          
+    request(server).post('/api/v1/auth/signin')
+      .set('Content-type', 'application/json')
+      .set('Content-type', 'application/x-www-form-urlencoded')
+      .send(existingUser)
+      .end((err, res) => {
+        
+        user_mentor=res.body.data;
+        res.should.have.status(200);
+        done();
+      });
+  });
   
   it('Should return an array of received mentorship sessions if the auth user is a mentor',(done)=>{
     const {token:mentorToken}=user_mentor;
@@ -298,7 +323,7 @@ describe('SessionController /GET sessions',()=>{
       .set('Content-type', 'application/x-www-form-urlencoded')
       .set('token', mentorToken)
       .end((err,res)=>{
-          
+       
         res.should.have.status(200);
         res.body.data.should.be.an('array');
        

@@ -2,27 +2,22 @@
 import { should,use,request } from 'chai';
 import chaiHttp from 'chai-http';
 import server from '../bin/www';
-import UserModel from '../models/User';
-
 
 
 
 should();
 use(chaiHttp);
 
+
 describe('AuthController',()=>{
 
   
-  before((done)=>{
-    //remove all registered user
-    UserModel.truncate();
-    done();
-  });
+  
 
   const defaultUser={
     firstName:'dany',
     lastName:'umela',
-    email:'d@gmail.com',
+    email:'d1@gmail.com',
     password:'12345678',
     bio:'his bio',
     expertise:'web development',
@@ -49,20 +44,27 @@ describe('AuthController',()=>{
 
 
   
-  it(('Should not duplicate a user email'), (done) => {
+  it('Should remove unexpected input data before storing them then return status code 201',(done)=>{
 
-    
+    const input_over_load={
+      ...defaultUser,
+      ...{
+        email:'another_email@gmail.com',
+        unexpected1:'unexpected1',
+        unexpected2:'unexpected2',   
+      }
+    };
     request(server).post('/api/v1/auth/signup')
       .set('Content-type', 'application/json')
       .set('Content-type', 'application/x-www-form-urlencoded')
-      .send(defaultUser)
+      .send(input_over_load)
       .end((err, res) => {
-         
-        res.should.have.status(401);
-        res.body.error.should.be.a('string').eql('Email already exist');
+       
+        res.should.have.status(201);
         done();
       });
   });
+  
 
   
   it(('Should return an object with status 400 when a user signs up without required credentials'), (done) => {
@@ -92,7 +94,7 @@ describe('AuthController',()=>{
   
   it(('Should login a user and return an object with user token'), (done) => {
     const existingUser = {
-      email: 'd@gmail.com',
+      email: 'd1@gmail.com',
       password: '12345678'
     };
     
@@ -113,7 +115,7 @@ describe('AuthController',()=>{
   
   it(('Should return an error with status 401 for a user login with wrong email'), (done) => {
     const user_with_WrongEmail = {
-      email: 'o@gmail.com',
+      email: 'ko45o@gmail.com',
       password: '12345678'
     };
     
@@ -123,7 +125,8 @@ describe('AuthController',()=>{
       .send(user_with_WrongEmail)
       .end((err, res) => {
         res.should.have.status(401);
-        res.should.have.property('error');
+        res.body.should.have.property('error');
+        res.body.error.should.be.a('string').eql('Invalid Email');
         done();
       });
   });
@@ -131,7 +134,7 @@ describe('AuthController',()=>{
   
   it(('Should return an error with status 401 for a user login with wrong password'), (done) => {
     const user_with_WrongEmail = {
-      email: 'p@gmail.com',
+      email: 'd1@gmail.com',
       password: '45678'
     };
     
@@ -140,8 +143,10 @@ describe('AuthController',()=>{
       .set('Content-type', 'application/x-www-form-urlencoded')
       .send(user_with_WrongEmail)
       .end((err, res) => {
+       
         res.should.have.status(401);
-        res.should.have.property('error');
+        res.body.should.have.property('error');
+        res.body.error.should.be.a('string').eql('Invalid Password');
         done();
       });
   });

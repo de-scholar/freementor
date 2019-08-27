@@ -2,8 +2,6 @@
 import { should,use,request } from 'chai';
 import chaiHttp from 'chai-http';
 import server from '../bin/www';
-import UserModel from '../models/User';
-
 
 
 
@@ -16,18 +14,17 @@ let notAdmin_user;
 
 
 
+
 describe('AdminController /PATCH user to admin',()=>{
 
   
   before((done) => {
     
-    //remove all registered user
-    UserModel.truncate();
-
+    
     const defaultUser1={
       firstName:'prodo',
       lastName:'kaka',
-      email:'p@gmail.com',
+      email:'p2@gmail.com',
       password:'12345678',
       bio:'his bio',
       expertise:'web development',
@@ -39,7 +36,7 @@ describe('AdminController /PATCH user to admin',()=>{
     const defaultUser2={
       firstName:'ged',
       lastName:'bro',
-      email:'g@gmail.com',
+      email:'g2@gmail.com',
       password:'12345678',
       bio:'his bio',
       expertise:'web development',
@@ -50,7 +47,7 @@ describe('AdminController /PATCH user to admin',()=>{
     const defaultUser3={
       firstName:'lol',
       lastName:'amakuru',
-      email:'ama@gmail.com',
+      email:'ama1@gmail.com',
       password:'12345678',
       bio:'his bio',
       expertise:'web development',
@@ -66,7 +63,6 @@ describe('AdminController /PATCH user to admin',()=>{
       .set('Content-type', 'application/x-www-form-urlencoded')
       .send(defaultUser1)
       .then((res) => {
-         
         user_admin=res.body.data;
        
       });
@@ -102,7 +98,7 @@ describe('AdminController /PATCH user to admin',()=>{
       .set('Content-type', 'application/x-www-form-urlencoded')
       .set('token', user_admin_token)
       .end((err,res)=>{
-
+        
         Object.assign(user_admin,res.body.data);
         res.should.have.status(200);
         res.body.data.should.have.property('type').eql('admin');
@@ -125,7 +121,7 @@ describe('AdminController /PATCH user to admin',()=>{
       .set('Content-type', 'application/x-www-form-urlencoded')
       .send(user_admin_credential)
       .end((err, res) => {
-         
+        
         Object.assign(user_admin,res.body.data);
         res.should.have.status(200);
           

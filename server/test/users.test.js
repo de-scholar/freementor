@@ -2,7 +2,6 @@
 import { should,use,request } from 'chai';
 import chaiHttp from 'chai-http';
 import server from '../bin/www';
-import UserModel from '../models/User';
 
 
 should();
@@ -18,14 +17,12 @@ describe('UserController /GET all mentors',()=>{
   // eslint-disable-next-line no-undef
   before((done) => {
 
-    //remove all registered user
-    UserModel.truncate();
-
+  
     
     const defaultUser1={
       firstName:'prodo',
       lastName:'kaka',
-      email:'p@gmail.com',
+      email:'p1@gmail.com',
       password:'12345678',
       bio:'his bio',
       expertise:'web development',
@@ -37,7 +34,7 @@ describe('UserController /GET all mentors',()=>{
     const defaultUser2={
       firstName:'ged',
       lastName:'bro',
-      email:'g@gmail.com',
+      email:'g1@gmail.com',
       password:'12345678',
       bio:'his bio',
       expertise:'web development',
@@ -208,6 +205,21 @@ describe('UserController /GET specific mentor',()=>{
         done();
       });
   });
+
+  it('Should return a status code 400 if the mentor was not found',(done)=>{
+    const {token}=user_mentor;
+    const wrong_mentor_id='jjoi4768';
+    request(server).get(`/api/v1/mentors/${wrong_mentor_id}`)
+      .set('Content-type', 'application/json')
+      .set('Content-type', 'application/x-www-form-urlencoded')
+      .set('token', token)
+      .end((err,res)=>{
+          
+        res.should.have.status(400);
+        res.body.error.should.be.an('string').eql('Mentor not found');
+        done();
+      });
+  });
   
   
   it('Should return status 401 if the token has been not sent',(done)=>{
@@ -253,4 +265,6 @@ describe('UserController /GET specific mentor',()=>{
         done();
       });
   });
+
+
 });
