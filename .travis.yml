@@ -1,13 +1,8 @@
 language: node_js
 node_js: 
-  - '8.13.0'
-before_script:
-  - npm i @babel/cli
-  - npm i @babel/core
-  - npm i @babel/node
-  - npm i @babel/preset-env
-  - npm i @babel/register
+  - 'stable'
 script:
   - npm test
 notifications:
   email: false
+
