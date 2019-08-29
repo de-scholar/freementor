@@ -6,7 +6,7 @@
       "description": "Social platform for Free mentors",
       "contact": {}
     },
-    "host": "localhost:3000",
+    "host": "freementors-app.herokuapp.com",
     "basePath": "/api/v1",
     "securityDefinitions": {},
     "schemes": [
