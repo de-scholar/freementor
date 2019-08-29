@@ -24,7 +24,7 @@ class AuthController{
     user_data.bio=req.body.bio;
     user_data.occupation=req.body.occupation;
     user_data.expertise=req.body.expertise;
-    user_data.type='normal';//normal,mentor,admin
+    user_data.type='user';//normal,mentor,admin
     
     const token=generateToken(user_data);
     const simuler_user=users.findWhere('email',user_data.email).first();
