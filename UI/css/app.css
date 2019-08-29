@@ -344,25 +344,45 @@
    font-size:12px;
  }
 
- .btn.auth{
+ .badge{
+  padding:2px 10px 2px 10px;
+  border-radius: 2px;
+  border:1px solid transparent;
+  font-family: var(--app-family);
+  background: var(--app_color) ;
+  color:white;
+  cursor:pointer;
+  margin:2px;
+  
+ }
+
+ .btn.auth,.badge.auth{
    color:var(--brand-color);
    background: white;
    border:1px solid var(--brand-color);
    
  }
 
- .btn.red-btn{
+
+
+
+
+ .btn.red-btn,.badge.red{
   color:rgb(240, 110, 110);
   background: white;
   border:1px solid rgb(240, 110, 110);
   
 }
 
-.btn.green-btn{
+.btn.green-btn,.badge.green{
   color:rgb(67, 146, 67);
   background: white;
   border:1px solid rgb(67, 146, 67);
   
+}
+
+.badge.no-border{
+  border:none;
 }
 
  .btn .full{
@@ -566,7 +586,12 @@
 .header-title .sub-title{
   font-family: var(--app-family);
   font-size:12px;
+  margin:2px 2px 2px 0px;
 }
+
+
+
+
 
 .card .header-img img{
   height: 45px;
@@ -745,7 +770,11 @@
   padding:5px 10px;
   font-weight: bold;
   line-height: 1.3em;
+  background: white;
+  color:black !important;
 }
+
+
 
 .nav-admin .close:hover{
   background:none;
@@ -832,6 +861,38 @@
 
 .manage-user-session .user-manage-otherInfo{
 width:70% ;
+}
+
+.manage-user-session .admin-side-user-manage-btn{
+  margin-top:2px !important;
+  display: none;
+  border-top:1px solid rgb(201, 195, 195);
+  width: 100% !important;
+  border-radius: none !important;
+}
+
+.admin-auth-user{
+  background: white;
+  padding-top:10px;
+  padding-bottom:5px;
+}
+
+.admin-auth-user img{
+  height: 80px;
+  width:80px;
+  border:2px solid var(--brand-color);
+}
+
+.admin-auth-user .title{
+  font-size: 17px;
+  font-weight: bold;
+}
+
+.admin-auth-user .sub-title{
+  font-size:15px;
+}
+.admin-auth-user p{
+  margin:2px;
 }
 
 

@@ -247,6 +247,33 @@
     margin-top:-250px !important;
     
   }
+
+
+
+  .manage-user-session .card.manage-info-i{
+    width:100% ;
+    
+  }
+ 
+  .manage-user-session .user-manage-otherInfo{
+   width:100% ;
+  }
+
+  .manage-user-session .user-manage-otherInfo .card-body{
+     border-bottom: 1px solid #ccc;
+  }
+  .admin-side-user-manage-btn{
+    border-top:none !important;
+  }
+
+  .manage-user-session .user-manage-otherInfo .card-body .btn{
+    font-size: 10px !important;
+    
+  }
+
+  .manage-user-session .user-manage-otherInfo .change-btns{
+    text-align:center;
+  }
  
 }
 
@@ -304,28 +331,6 @@
   }
   .card-header.image .header-title{
     width:85%;
-  }
-
-  .manage-user-session .card.manage-info-i{
-    width:100% ;
-    
-  }
- 
-  .manage-user-session .user-manage-otherInfo{
-   width:100% ;
-  }
-
-  .manage-user-session .user-manage-otherInfo .card-body{
-     border-bottom: 1px solid #ccc;
-  }
-
-  .manage-user-session .user-manage-otherInfo .card-body .btn{
-    font-size: 10px !important;
-    
-  }
-
-  .manage-user-session .user-manage-otherInfo .change-btns{
-    text-align:center;
   }
 
   

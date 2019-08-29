@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Admin dashboard</title>
+    <title>User management</title>
     <link rel="stylesheet" href="../../css/app.css">
     <link rel="stylesheet" href="../../css/responsive.css">
     
@@ -20,13 +20,15 @@
                 <a class="close" href="#">
                     <span id="close-slide-menu"  >&#9747;</span>
                 </a>
+                <div class="center admin-auth-user">
+                    <img class="circle" src="../../img/person.png">
+                    <p class="title">mr been</p>
+                    <p class="sub-title">prodo@gmail.com</p>
+                </div>
                 <a href="dashboard.html">Analytic</a>
                 <a href="all_users.html">All users</a>
-                <a href="#">All mentors</a>
-                <a href="#">All admins</a>
-                <a href="#">All sessions</a>
-                <a href="#">Session in process</a>
-                <a href="#">Finished sessions</a>
+                <a href="all_mentors.html">All mentors</a>
+                <a href="all_admins.html">All admins</a>
             </div>
            
         </div>
@@ -39,7 +41,7 @@
                     <span id="open-slide-menu" class="black-text">
                         <span>&#9776;</span>
                     </span>
-                    <Span class="black-text">Free</Span><span class="brand-color">Mentor</span>
+                    <Span class="black-text">Free</Span><span class="brand-color">Mentors</span>
                 </span>
               
                 <div class="menu-container">
@@ -47,7 +49,7 @@
                     <div class="menu">
                             
                             <a href="#">News</a>
-                            <a href="../../index.html">Logout</a>
+                            <a href="../login.html">Logout</a>
                             
                     </div>
                 </div>
@@ -65,25 +67,41 @@
                              <a href="../mentor.html">John peter</a>
                             </p>
                          <span>john@gmail.com</span>
+
+                         
                     </div>
+                    
                     
                 </div>
 
-                <div class="card user-manage-otherInfo">
-                        <div class="card-body change-btns">
-                            <button class="btn auth">Change to user</button> /
-                            <button class="btn green-btn">Change to mentor</button>
+                <div class="card user-manage-otherInfo ">
+                        
+                       <div class="card-body">
+                             
+                            <p class="title">Expertize</p>
+                            <span>Software analysis</span>
                         </div>
                         <div class="card-body">
                              
-                             <p class="title">Expertize</p>
-                             <span>Software analysis</span>
+                            <p class="title">Occupation</p>
+                            <span>Software developer at andela,Professor at University</span>
                         </div>
                         <div class="card-body">
-                             
-                                <p class="title">Occupation</p>
-                                <span>Software developer at andela,Professor at University</span>
+                            <p class="title">Address :</p>
+                            <span>Kigali gisozi</span>
                         </div>
+                        
+                       
+                </div>
+                <div class="card admin-side-user-manage-btn">
+                    <div class="card-body">
+                        <p class="title">Manage the user :</p>
+                        <div class="input-button">
+                            <button class="btn auth">Change to mentor</button>
+                            <button class="btn auth">Set user to admin</button>
+                        </div>
+                        
+                    </div>
                 </div>
                 
                
