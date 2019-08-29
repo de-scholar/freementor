@@ -2,11 +2,11 @@
   "name": "freementor_server",
   "version": "1.0.0",
   "description": "A Social platform for free mentors",
-  "main": "./server/bin/www.js",
+  "main": "./index.js",
   "scripts": {
-    "start": "nodemon --exec babel-node  ./server/bin/www.js",
+    "start": "nodemon --exec babel-node  ./index.js",
     "test": "mocha --exit --require @babel/register --require babel-polyfill ./server/**/*.test.js",
-    "coverage" : "nyc --reporter=lcov --reporter=text-lcov npm test | coveralls"
+    "coverage": "nyc --reporter=lcov --reporter=text-lcov npm test | coveralls"
   },
   "repository": {
     "type": "git",
@@ -37,7 +37,9 @@
     "jsonwebtoken": "^8.5.1",
     "mocha": "^6.2.0",
     "morgan": "^1.9.1",
-    "nyc": "^14.1.1"
+    "nyc": "^14.1.1",
+    "swagger-jsdoc": "^3.4.0",
+    "swagger-ui-express": "^4.0.7"
   },
   "devDependencies": {
     "eslint": "^6.1.0",
