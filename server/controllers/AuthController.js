@@ -77,8 +77,8 @@ class AuthController{
           });
         }
         else{
-          return res.status(401).json({
-            status:401,
+          return res.status(400).json({
+            status:400,
             error:'Invalid Password',
             field:'password'
           });
@@ -89,8 +89,8 @@ class AuthController{
             
             
     }else{
-      return res.status(401).json({
-        status:401,
+      return res.status(400).json({
+        status:400,
         error:'Invalid Email',
         field:'email'
       });
