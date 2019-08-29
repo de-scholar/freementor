@@ -1,6 +1,6 @@
 import express from 'express';
 //import morgan from 'morgan';
-import routers from './routes/';
+import routers_V1 from './v1/routes/';
 import swaggerUi from 'swagger-ui-express';
 import docs from '../swagger.json';
 
@@ -21,10 +21,10 @@ app.get('/',(req,res)=>{
 });
 
 //intialize endpoint of api documatation  of vesrion 1
-app.use('/api/v1/api-doc', swaggerUi.serve, swaggerUi.setup(docs));
+app.use('/api/api-docs', swaggerUi.serve, swaggerUi.setup(docs));
 
 //built routes
-app.use(routers);
+app.use(routers_V1);
 
 // catch 404 and forward to error handler
 // eslint-disable-next-line no-unused-vars

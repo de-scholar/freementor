@@ -1,30 +1,28 @@
 /* eslint-disable no-undef */
 import { should,use,request } from 'chai';
 import chaiHttp from 'chai-http';
-import server from '../../index';
-
+import server from '../../../index';
 
 
 should();
 use(chaiHttp);
 
+
 let user_admin;
-let user_normal;
-let notAdmin_user;
+let user_mentor;
 
+// eslint-disable-next-line no-undef
+describe('UserController /GET all mentors',()=>{
 
-
-
-describe('AdminController /PATCH user to admin',()=>{
+  // eslint-disable-next-line no-undef
+  before((done) => {
 
   
-  before((done) => {
-    
     
     const defaultUser1={
       firstName:'prodo',
       lastName:'kaka',
-      email:'p2@gmail.com',
+      email:'p1@gmail.com',
       password:'12345678',
       bio:'his bio',
       expertise:'web development',
@@ -36,7 +34,7 @@ describe('AdminController /PATCH user to admin',()=>{
     const defaultUser2={
       firstName:'ged',
       lastName:'bro',
-      email:'g2@gmail.com',
+      email:'g1@gmail.com',
       password:'12345678',
       bio:'his bio',
       expertise:'web development',
@@ -44,25 +42,14 @@ describe('AdminController /PATCH user to admin',()=>{
       address:'kigali',
     };
 
-    const defaultUser3={
-      firstName:'lol',
-      lastName:'amakuru',
-      email:'ama1@gmail.com',
-      password:'12345678',
-      bio:'his bio',
-      expertise:'web development',
-      occupation:'software developer',
-      address:'kigali',
-    };
+  
 
-
-    
-     
     request(server).post('/api/v1/auth/signup')
       .set('Content-type', 'application/json')
       .set('Content-type', 'application/x-www-form-urlencoded')
       .send(defaultUser1)
       .then((res) => {
+         
         user_admin=res.body.data;
        
       });
@@ -72,24 +59,20 @@ describe('AdminController /PATCH user to admin',()=>{
       .set('Content-type', 'application/x-www-form-urlencoded')
       .send(defaultUser2)
       .then((res) => {
-        user_normal=res.body.data;
+         
+        user_mentor=res.body.data;
+        done();
        
       });
 
-    request(server).post('/api/v1/auth/signup')
-      .set('Content-type', 'application/json')
-      .set('Content-type', 'application/x-www-form-urlencoded')
-      .send(defaultUser3)
-      .then((res) => {
-        
-        notAdmin_user=res.body.data;
-        done();
-      });
 
+
+   
 
   });
 
-  //eslint-disable-next-line no-undef
+
+  
   it('Should change a normal user to admin',(done)=>{
     
     const {id:normal_user_id,token:user_admin_token}=user_admin;
@@ -98,7 +81,7 @@ describe('AdminController /PATCH user to admin',()=>{
       .set('Content-type', 'application/x-www-form-urlencoded')
       .set('token', user_admin_token)
       .end((err,res)=>{
-        
+
         Object.assign(user_admin,res.body.data);
         res.should.have.status(200);
         res.body.data.should.have.property('type').eql('admin');
@@ -109,7 +92,7 @@ describe('AdminController /PATCH user to admin',()=>{
 
  
 
-  
+  // eslint-disable-next-line no-undef
   it(('Should login the new admin user to update his payload in jwt'), (done) => {
     const user_admin_credential = {
       email: user_admin.email,
@@ -121,7 +104,7 @@ describe('AdminController /PATCH user to admin',()=>{
       .set('Content-type', 'application/x-www-form-urlencoded')
       .send(user_admin_credential)
       .end((err, res) => {
-        
+         
         Object.assign(user_admin,res.body.data);
         res.should.have.status(200);
           
@@ -130,26 +113,36 @@ describe('AdminController /PATCH user to admin',()=>{
   });
 
   
-  it('Should return a code status 400 if corresponding user of the  sent user id is not found',(done)=>{
-    
+  it('Should change normal user to mentor first',(done)=>{
+    const {id:normal_user_id}=user_mentor;
     const {token:user_admin_token}=user_admin;
-    const wrong_user_id=1001;
-    request(server).patch(`/api/v1/admin/${wrong_user_id}`)
+    request(server).patch(`/api/v1/user/${normal_user_id}`)
       .set('Content-type', 'application/json')
       .set('Content-type', 'application/x-www-form-urlencoded')
       .set('token', user_admin_token)
+      .end(()=>{
+        done();
+      });
+  });
+  
+  it('Should return an array containing object of all mentors',(done)=>{
+    const {token}=user_mentor;
+    request(server).get('/api/v1/mentors')
+      .set('Content-type', 'application/json')
+      .set('Content-type', 'application/x-www-form-urlencoded')
+      .set('token', token)
       .end((err,res)=>{
-        res.should.have.status(400);
-        res.body.error.should.be.a('string').eql('User with the sent id not found');
+        
+        res.should.have.status(200);
+        res.body.data.should.be.an('array');
         done();
       });
   });
 
 
-  //eslint-disable-next-line no-undef
+  
   it('Should return status 401 if the token has been not sent',(done)=>{
-    const {id:admin_user_id}=user_admin;
-    request(server).patch(`/api/v1/admin/${admin_user_id}`)
+    request(server).get('/api/v1/mentors')
       .set('Content-type', 'application/json')
       .set('Content-type', 'application/x-www-form-urlencoded')
       .end((err,res)=>{
@@ -159,165 +152,119 @@ describe('AdminController /PATCH user to admin',()=>{
       });
   });
 
-  //eslint-disable-next-line no-undef
+  
   it('Should verify invalid token',(done)=>{
-    
     const wrongToken='ciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZmlyc3ROYW1lIjoicHJvZG8iLCJsYXN0TmFtZSI6Imtha2EiLCJlbWFpbCI6InBAZ21haWwuY29tIiwicGFzc3dvcmQiOiIkMmIkMTAkVFcyYmxUWnYzZ1FiNldNRXJZSmtULi5YSUhrendnZW5GWm1NTVlXVjZwaFRFd1dGUjhqbk8iLCJhZGRyZXNzIjoiYWRkcmVzcyIsImJpbyI6ImJpbyIsIm9jY3VwYXRpb24iOiJvY2N1cCIsImV4cGVydGlzZSI6ImV4cHJ0IiwidHlwZSI6Im5vcm1hbCIsImlhdCI6MTU2NjQ2NjQyNiwiZXhwIjoxNTY2ODEyMDI2fQ.hBkHlelgfCp1qnRVhgvCPFcm16camwv0mZNxFGhHkmw';
-    const {id:admin_user_id}=user_admin;
-
-    request(server).patch(`/api/v1/admin/${admin_user_id}`)
+    request(server).get('/api/v1/mentors')
       .set('Content-type', 'application/json')
       .set('Content-type', 'application/x-www-form-urlencoded')
       .set('token',wrongToken)
       .end((err,res)=>{
         
         res.should.have.status(200);
+        res.body.status.should.be.a('number').eql(500);
         res.body.error.should.be.a('string').eql('invalid token');
         done();
       });
   });
 
-  //eslint-disable-next-line no-undef
+  
   it('Should verify malformed token',(done)=>{
     
     const malformed_token='badToken';
-    const {id:admin_user_id}=user_admin;
-    request(server).patch(`/api/v1/admin/${admin_user_id}`)
+    request(server).get('/api/v1/mentors')
       .set('Content-type', 'application/json')
       .set('Content-type', 'application/x-www-form-urlencoded')
       .set('token',malformed_token)
       .end((err,res)=>{
-       
+           
         res.should.have.status(200);
         res.body.status.should.be.a('number').eql(500);
         res.body.error.should.be.a('string').eql('jwt malformed');
         done();
       });
   });
-
 
 
 });
 
 
-describe('AdminController /PATCH user to mentor',()=>{
-
-  //eslint-disable-next-line no-undef
-  it('Should change a normal user to mentor',(done)=>{
-    const {id:normal_user_id}=user_normal;
-    const {token:user_admin_token}=user_admin;
-    request(server).patch(`/api/v1/user/${normal_user_id}`)
+// eslint-disable-next-line no-undef
+describe('UserController /GET specific mentor',()=>{
+  
+  it('Should return an object of a specific mentor',(done)=>{
+    const {token,id:mentorId}=user_mentor;
+    request(server).get(`/api/v1/mentors/${mentorId}`)
       .set('Content-type', 'application/json')
       .set('Content-type', 'application/x-www-form-urlencoded')
-      .set('token', user_admin_token)
+      .set('token', token)
       .end((err,res)=>{
-        
+          
         res.should.have.status(200);
-        res.body.data.should.have.property('type').eql('mentor');
-        res.body.data.should.have.property('message').eql('​User account changed to mentor');
+        res.body.data.should.be.an('object');
         done();
       });
   });
 
-  //eslint-disable-next-line no-undef
+  it('Should return a status code 400 if the mentor was not found',(done)=>{
+    const {token}=user_mentor;
+    const wrong_mentor_id='jjoi4768';
+    request(server).get(`/api/v1/mentors/${wrong_mentor_id}`)
+      .set('Content-type', 'application/json')
+      .set('Content-type', 'application/x-www-form-urlencoded')
+      .set('token', token)
+      .end((err,res)=>{
+          
+        res.should.have.status(400);
+        res.body.error.should.be.an('string').eql('Mentor not found');
+        done();
+      });
+  });
+  
+  
   it('Should return status 401 if the token has been not sent',(done)=>{
-    const {id:normal_user_id}=user_normal;
-    
-    request(server).patch(`/api/v1/user/${normal_user_id}`)
+    request(server).get('/api/v1/mentors')
       .set('Content-type', 'application/json')
       .set('Content-type', 'application/x-www-form-urlencoded')
       .end((err,res)=>{
-        
+          
         res.should.have.status(401);
         done();
       });
   });
-
-  //eslint-disable-next-line no-undef
+  
+  
   it('Should verify invalid token',(done)=>{
-    const {id:normal_user_id}=user_normal;
-
     const wrongToken='ciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZmlyc3ROYW1lIjoicHJvZG8iLCJsYXN0TmFtZSI6Imtha2EiLCJlbWFpbCI6InBAZ21haWwuY29tIiwicGFzc3dvcmQiOiIkMmIkMTAkVFcyYmxUWnYzZ1FiNldNRXJZSmtULi5YSUhrendnZW5GWm1NTVlXVjZwaFRFd1dGUjhqbk8iLCJhZGRyZXNzIjoiYWRkcmVzcyIsImJpbyI6ImJpbyIsIm9jY3VwYXRpb24iOiJvY2N1cCIsImV4cGVydGlzZSI6ImV4cHJ0IiwidHlwZSI6Im5vcm1hbCIsImlhdCI6MTU2NjQ2NjQyNiwiZXhwIjoxNTY2ODEyMDI2fQ.hBkHlelgfCp1qnRVhgvCPFcm16camwv0mZNxFGhHkmw';
-
-
-    request(server).patch(`/api/v1/user/${normal_user_id}`)
+    request(server).get('/api/v1/mentors')
       .set('Content-type', 'application/json')
       .set('Content-type', 'application/x-www-form-urlencoded')
       .set('token',wrongToken)
       .end((err,res)=>{
-        
+          
         res.should.have.status(200);
+        res.body.status.should.be.a('number').eql(500);
         res.body.error.should.be.a('string').eql('invalid token');
         done();
       });
   });
-
-  //eslint-disable-next-line no-undef
+  
+  
   it('Should verify malformed token',(done)=>{
-    const {id:normal_user_id}=user_normal;
+      
     const malformed_token='badToken';
-    request(server).patch(`/api/v1/user/${normal_user_id}`)
+    request(server).get('/api/v1/mentors')
       .set('Content-type', 'application/json')
       .set('Content-type', 'application/x-www-form-urlencoded')
       .set('token',malformed_token)
       .end((err,res)=>{
-       
+             
         res.should.have.status(200);
         res.body.status.should.be.a('number').eql(500);
         res.body.error.should.be.a('string').eql('jwt malformed');
         done();
       });
   });
-  
-  //eslint-disable-next-line no-undef
-  it('Should return status:400 if the user is already a mentor',(done)=>{
-    const {id:normal_user_id}=user_normal;
-    const {token:user_admin_token}=user_admin;
-    request(server).patch(`/api/v1/user/${normal_user_id}`)
-      .set('Content-type', 'application/json')
-      .set('Content-type', 'application/x-www-form-urlencoded')
-      .set('token', user_admin_token)
-      .end((err,res)=>{
-         
-        res.should.have.status(400);
-        res.body.error.should.be.a('string').eql('​User is already a mentor');
-        done();
-      });
-  });
-  
-  
-  //eslint-disable-next-line no-undef
-  it('Should return an access forbiden if the user who changes is not an admin or does not have email:p@gmail.com',(done)=>{
-    const {id:normal_user_id}=user_normal;
-    const {token:user_noAdmin_token}=notAdmin_user;
-    request(server).patch(`/api/v1/user/${normal_user_id}`)
-      .set('Content-type', 'application/json')
-      .set('Content-type', 'application/x-www-form-urlencoded')
-      .set('token', user_noAdmin_token)
-      .end((err,res)=>{
-           
-        res.should.have.status(403);
-        res.body.error.should.be.a('string').eql('Access forbiden,reserved for admin');
-        done();
-      });
-  });
-  
-  //eslint-disable-next-line no-undef
-  it('Should return status:400 if the id of the user to be changed was not found',(done)=>{
-    const wrongId=450;
-    const {token:user_admin_token}=user_admin;
-    request(server).patch(`/api/v1/user/${wrongId}`)
-      .set('Content-type', 'application/json')
-      .set('Content-type', 'application/x-www-form-urlencoded')
-      .set('token', user_admin_token)
-      .end((err,res)=>{
-         
-        res.should.have.status(400);
-        res.body.error.should.be.a('string').eql('User not found,check his id');
-        done();
-      });
-  });
-
 
 
 });
