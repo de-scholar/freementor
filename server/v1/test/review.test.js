@@ -92,7 +92,7 @@ describe('Review ,init dependencies',()=>{
   });
 
   
-  it('user normal to admin',(done)=>{
+  it('Should change a normal user to admin ',(done)=>{
     
     const {id:normal_user_id,token:user_admin_token}=user_admin;
     request(server).patch(`/api/v1/admin/${normal_user_id}`)
@@ -103,7 +103,7 @@ describe('Review ,init dependencies',()=>{
     
         Object.assign(user_admin,res.body.data);
         res.should.have.status(200);
-        res.body.data.should.have.property('type').eql('admin');
+        res.body.data.should.have.property('role').eql('admin');
         res.body.data.should.have.property('message').eql('​User account changed to admin');
         done();
       });

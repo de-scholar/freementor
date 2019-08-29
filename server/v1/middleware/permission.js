@@ -3,11 +3,11 @@
 class Admin{
 
   static isAdmin(req,res,next){
-    const {auth_user:{type}}=req;
+    const {auth_user:{role}}=req;
     
     /*email= if this email is mine,by default i have full permission
     */
-    if(type==='admin'){
+    if(role==='admin'){
       return next();
     }
 

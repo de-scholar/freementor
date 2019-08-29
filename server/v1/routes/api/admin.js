@@ -15,6 +15,13 @@ router.patch('/admin/:userId',
   tokenVerify,
   AdminController.userToAdmin);
 
+/* admin to normal user*/
+router.patch('/admin-to/:userId/',
+  authorization,
+  tokenVerify,
+  isAdmin,
+  AdminController.adminToUser);
+
 /* User to mentor*/
 router.patch('/user/:userId',
   authorization,
@@ -22,7 +29,7 @@ router.patch('/user/:userId',
   isAdmin,
   AdminController.userToMentor);
 
-/* Mentorr to user*/
+/* Mentor to user*/
 router.patch('/mentor/:mentorId',
   authorization,
   tokenVerify,

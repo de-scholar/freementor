@@ -101,6 +101,96 @@
           }
         }
       },
+      "/admin/:userId": {
+        "patch": {
+          "description": "Admin Changes a normal user to an admin user ",
+          "summary": "Set a normal user to an admin",
+          "tags": [
+            "Admin"
+          ],
+         "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "name": "token",
+              "in": "header",
+              "required": true,
+              "type": "string"
+            },
+            {
+                "name": "user_id",
+                "in": "formData",
+                "required": true,
+                "type": "integer",
+                "format": "int32",
+                "description": ""
+              }
+          ],
+          "responses": {
+            "200": {
+              "description": "Successfull operation"
+            },
+            "400": {
+              "description": "An error occured"
+            },
+            "401": {
+              "description": "Not authorized"
+            },
+            "403": {
+              "description": "Auth token not supplied"
+            },
+            "500": {
+              "description": "Auth token expired"
+            }
+          }
+        }
+      },
+      "/admin-to/:adminId": {
+        "patch": {
+          "description": "Admin Changes another admin to normal user ",
+          "summary": "Reset an admin to a normal user ",
+          "tags": [
+            "Admin"
+          ],
+         "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "name": "token",
+              "in": "header",
+              "required": true,
+              "type": "string"
+            },
+            {
+                "name": "admin_id",
+                "in": "formData",
+                "required": true,
+                "type": "integer",
+                "format": "int32",
+                "description": ""
+              }
+          ],
+          "responses": {
+            "200": {
+              "description": "Successfull operation"
+            },
+            "400": {
+              "description": "An error occured"
+            },
+            "401": {
+              "description": "Not authorized"
+            },
+            "403": {
+              "description": "Auth token not supplied"
+            },
+            "500": {
+              "description": "Auth token expired"
+            }
+          }
+        }
+      },
      "/user/:userId": {
         "patch": {
           "description": "Admin Changes a normal user to mentor  ",
@@ -164,7 +254,7 @@
               "type": "string"
             },
             {
-              "name": "user_id",
+              "name": "mentor_id",
               "in": "formData",
               "required": true,
               "type": "integer",

@@ -28,7 +28,7 @@ class SessionController{
       });
      
      
-    }else if(user_type==='normal'){//mentee
+    }else if(user_type==='user'){//mentee
       
       const fetch_sessions=Session.findForMentee(auth_userId);
 

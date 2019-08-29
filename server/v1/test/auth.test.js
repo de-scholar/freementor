@@ -42,6 +42,20 @@ describe('AuthController',()=>{
       });
   });
 
+  it(('Should return an status code 400 when user with email already exist'), (done) => {
+
+
+    request(server).post('/api/v1/auth/signup')
+      .set('Content-type', 'application/json')
+      .set('Content-type', 'application/x-www-form-urlencoded')
+      .send(defaultUser)
+      .end((err, res) => {
+        res.should.have.status(400);
+        res.body.error.should.be.a('string').eql('Email already exist');
+        done();
+      });
+  });
+
 
   
   it('Should remove unexpected input data before storing them then return status code 201',(done)=>{

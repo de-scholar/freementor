@@ -14,7 +14,9 @@
  * 8. expertise
  * 9. type :normal/mentor/admin;
  * 10. address
- * 11. created_at
+ * 11. role
+ * 12. created_at
+ * 
  */
 
 import Model from './model';
@@ -36,6 +38,7 @@ class User extends Model{
       'expertise',
       'type',
       'address',
+      'role'
       
     ];
   }

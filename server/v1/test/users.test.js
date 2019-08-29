@@ -84,9 +84,9 @@ describe('UserController /GET all mentors',()=>{
 
         Object.assign(user_admin,res.body.data);
         res.should.have.status(200);
-        res.body.data.should.have.property('type').eql('admin');
+        res.body.data.should.have.property('role').eql('admin');
         res.body.data.should.have.property('message').eql('​User account changed to admin');
-        done();
+        done(err);
       });
   });
 
