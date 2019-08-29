@@ -7,7 +7,9 @@ class AdminController{
     const {userId}=req.params;
     const user=users.find(userId);
     if(user!==undefined){
-      const user_admin=users.update(user.id,{type:'admin'});
+     
+      const user_admin=users.update(user.id,{role:'admin'});
+      
       return res.status(200).json({
         status:200,
         data:{
@@ -20,6 +22,27 @@ class AdminController{
     return res.status(400).json({
       status:400,
       error:'User with the sent id not found',
+      
+    });
+  }
+
+  static adminToUser(req,res){
+    const {userId}=req.params;
+    const user=users.find(userId);
+    if(user!==undefined){
+      const user_admin=users.update(user.id,{role:'user'});
+      return res.status(200).json({
+        status:200,
+        data:{
+          message:'​Admin account changed to normal user',
+          ...user_admin,
+        }
+      });
+    }
+    
+    return res.status(400).json({
+      status:400,
+      error:'Admin with the sent id not found',
       
     });
   }

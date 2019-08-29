@@ -43,26 +43,18 @@ class General{
 
   static removeUnexpect(expect_input,inputData){
     const input_keys=Object.keys(inputData);
+    let filtered_input={};
     //removing unexpected input
     input_keys.forEach((key)=>{
-      if(!expect_input.includes(key)){
-        delete inputData[key];
+      if(expect_input.includes(key)){
+        filtered_input[key]=inputData[key];
       }
+      
     });
-    return inputData;
+    return filtered_input;
   }
 
-  /**
-     *
-     *@description check if an array or an object is EMPTY
-    * @param { Array or Object } value
-    * @returns{ Boolean } 
-    */
-
-  static isEmpty(value){
-    return Object.entries(value).length==0;
-    
-  }
+  
 
  
 }

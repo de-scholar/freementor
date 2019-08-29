@@ -24,7 +24,8 @@ class AuthController{
     user_data.bio=req.body.bio;
     user_data.occupation=req.body.occupation;
     user_data.expertise=req.body.expertise;
-    user_data.type='user';//normal,mentor,admin
+    user_data.type='user';//user,mentor
+    user_data.role='user';//user,admin
     
     const token=generateToken(user_data);
     const simuler_user=users.findWhere('email',user_data.email).first();
@@ -43,8 +44,8 @@ class AuthController{
         }
       });
     }
-    return res.status(401).json({
-      status:401,
+    return res.status(400).json({
+      status:400,
       error:'Email already exist',
     });
         
