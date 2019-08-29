@@ -22,4 +22,11 @@ router.patch('/user/:userId',
   isAdmin,
   AdminController.userToMentor);
 
+/* Mentorr to user*/
+router.patch('/mentor/:mentorId',
+  authorization,
+  tokenVerify,
+  isAdmin,
+  AdminController.mentorToUser);
+
 export default router;

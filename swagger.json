@@ -146,6 +146,51 @@
           }
         }
       },
+      "/mentor/:mentorId": {
+        "patch": {
+          "description": "Admin Changes a mentor to normal user",
+          "summary": "Change mentor to normal user",
+          "tags": [
+            "Admin"
+          ],
+         "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "name": "token",
+              "in": "header",
+              "required": true,
+              "type": "string"
+            },
+            {
+              "name": "user_id",
+              "in": "formData",
+              "required": true,
+              "type": "integer",
+              "format": "int32",
+              "description": ""
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Successfull operation"
+            },
+            "400": {
+              "description": "An error occured"
+            },
+            "401": {
+              "description": "Not authorized"
+            },
+            "403": {
+              "description": "Auth token not supplied"
+            },
+            "500": {
+              "description": "Auth token expired"
+            }
+          }
+        }
+      },
       "/mentors": {
         "get": {
           "description": "Getting the list of all mentors in the platform",

@@ -57,6 +57,33 @@ class AdminController{
     });
 
   }
+
+  static mentorToUser(req,res){
+
+    const {mentorId}=req.params;
+    const mentor=users.findMentor(mentorId);
+    
+    if(mentor!==undefined){
+     
+      const user_updated=users.update(mentorId,{type:'user'});
+
+      return res.status(200).json({
+        status:200,
+        data:{
+          message:'​Mentor account changed to user',
+          ...user_updated,
+        }
+      });
+     
+    }
+
+    return res.status(400).json({
+      status:400,
+      error:'Mentor not found',
+      
+    });
+
+  }
 }
 
 export default AdminController;
