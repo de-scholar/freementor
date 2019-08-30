@@ -13,6 +13,7 @@ let user_mentor;
 let created_session;
 let user_3;
 let user_admin;
+let unconcern_mentor;
 
 //CREATE SESSIONS
 
@@ -67,6 +68,8 @@ describe('SessionController /POST sessions',()=>{
       occupation:'software developer',
       address:'kigali',
     };
+
+    
 
     request(server).post('/api/v1/auth/signup')
       .set('Content-type', 'application/json')
@@ -296,6 +299,30 @@ describe('SessionController /POST sessions',()=>{
 
 describe('SessionController /GET sessions',()=>{
 
+  before((done)=>{
+    const unconern_mentor_info={
+      firstName:'unconern',
+      lastName:'doctor',
+      email:'unconern@gmail.com',
+      password:'12345678',
+      bio:'his bio',
+      expertise:'web development',
+      occupation:'software developer',
+      address:'kigali',
+    };
+
+    
+
+    request(server).post('/api/v1/auth/signup')
+      .set('Content-type', 'application/json')
+      .set('Content-type', 'application/x-www-form-urlencoded')
+      .send(unconern_mentor_info)
+      .then((res) => {
+        unconcern_mentor=res.body.data;
+        done();
+      });
+  });
+
   it(('Should login a user mentor to update his token paylaod'), (done) => {
     const existingUser = {
       email: user_mentor.email,
@@ -403,8 +430,9 @@ describe('SessionController /GET sessions',()=>{
 
 describe('SessionController /PATCH: accept session',()=>{
 
-  
-  it(('Should login the mentor to update his payload in jwt'), (done) => {
+  before((done)=>{
+
+    //login the mentor
     const user_mentor_credential = {
       email: user_mentor.email,
       password: '12345678'
@@ -414,10 +442,37 @@ describe('SessionController /PATCH: accept session',()=>{
       .set('Content-type', 'application/json')
       .set('Content-type', 'application/x-www-form-urlencoded')
       .send(user_mentor_credential)
-      .end((err, res) => {
-       
+      .then((res) => {
         Object.assign(user_mentor,res.body.data);
-        res.should.have.status(200);
+      });
+
+
+    //creating uncorcern mentor
+    const {id:normal_user_id}=unconcern_mentor;
+    const {token:user_admin_token}=user_admin;
+    request(server).patch(`/api/v1/user/${normal_user_id}`)
+      .set('Content-type', 'application/json')
+      .set('Content-type', 'application/x-www-form-urlencoded')
+      .set('token', user_admin_token)
+      .then((res)=>{
+          
+        Object.assign(unconcern_mentor,res.body.data);
+        done();
+      });
+  });
+  
+  it(('Should login the unconcern mentor to update his payload in jwt'), (done) => {
+    const unconcern_mentor_credential = {
+      email: unconcern_mentor.email,
+      password: '12345678'
+    };
+        
+    request(server).post('/api/v1/auth/signin')
+      .set('Content-type', 'application/json')
+      .set('Content-type', 'application/x-www-form-urlencoded')
+      .send(unconcern_mentor_credential)
+      .end((err, res) => {
+        Object.assign(unconcern_mentor,res.body.data);
         done();
       });
   });
@@ -463,14 +518,12 @@ describe('SessionController /PATCH: accept session',()=>{
   
   it('Should return a status code 400 when an unconcern mentor want to accept a mentorship request',(done)=>{
     const {id:sessionId}=created_session;
-    const token_otherMentor='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiZmlyc3ROYW1lIjoiYnJvIiwibGFzdE5hbWUiOiJ2aWNrIiwiZW1haWwiOiJ2aWNrQGdtYWlsLmNvbSIsInBhc3N3b3JkIjoiJDJiJDEwJGMyLzZsWGhIOC5RMnE2cG5oM3BpQy5CVi9tOEJPdm9idlE1RkZaVHY4QlB4MngwNVNpc0tlIiwiYWRkcmVzcyI6ImFkZHJlc3MiLCJiaW8iOiJiaW8iLCJvY2N1cGF0aW9uIjoib2NjdXAiLCJleHBlcnRpc2UiOiJleHBydCIsInR5cGUiOiJtZW50b3IiLCJjcmVhdGVkX2F0IjoxNTY2Nzc0Nzc4MTEwLCJpYXQiOjE1NjY3NzQ4MzksImV4cCI6MTU2NzEyMDQzOX0.7qQr193tqO6-WtN0y4M6Cm9jPrttiZA1dvQLQEmih-4';
-    
+    const {token:token_otherMentor}=unconcern_mentor;
     request(server).patch(`/api/v1/sessions/${sessionId}/accept`)
       .set('Content-type', 'application/json')
       .set('Content-type', 'application/x-www-form-urlencoded')
       .set('token', token_otherMentor)
       .end((err,res)=>{
-        
         res.should.have.status(400);
         res.body.error.should.be.a('string').eql('Session does not concern you');
              
@@ -645,8 +698,7 @@ describe('SessionController /PATCH reject session',()=>{
   
   it('Should return a status code 400 when an unconcern mentor want to reject a mentorship request',(done)=>{
     const {id:sessionId}=created_session;
-    const token_otherMentor='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiZmlyc3ROYW1lIjoiYnJvIiwibGFzdE5hbWUiOiJ2aWNrIiwiZW1haWwiOiJ2aWNrQGdtYWlsLmNvbSIsInBhc3N3b3JkIjoiJDJiJDEwJGMyLzZsWGhIOC5RMnE2cG5oM3BpQy5CVi9tOEJPdm9idlE1RkZaVHY4QlB4MngwNVNpc0tlIiwiYWRkcmVzcyI6ImFkZHJlc3MiLCJiaW8iOiJiaW8iLCJvY2N1cGF0aW9uIjoib2NjdXAiLCJleHBlcnRpc2UiOiJleHBydCIsInR5cGUiOiJtZW50b3IiLCJjcmVhdGVkX2F0IjoxNTY2Nzc0Nzc4MTEwLCJpYXQiOjE1NjY3NzQ4MzksImV4cCI6MTU2NzEyMDQzOX0.7qQr193tqO6-WtN0y4M6Cm9jPrttiZA1dvQLQEmih-4';
-      
+    const {token:token_otherMentor}=unconcern_mentor;
     request(server).patch(`/api/v1/sessions/${sessionId}/reject`)
       .set('Content-type', 'application/json')
       .set('Content-type', 'application/x-www-form-urlencoded')
