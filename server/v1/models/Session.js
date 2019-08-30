@@ -16,7 +16,7 @@
  
  */
 import Model from './model';
-
+import Review from './Review';
 
 
 
@@ -48,6 +48,11 @@ class Session extends Model{
   findForMentee(mentee_id){
     const all_sessions=this.all().filter((session)=>session.menteeId===parseInt(mentee_id));
     return all_sessions;
+  }
+
+  //relashionship: session hasOne review
+  review(sessionId){
+    return Review.findWhere('sessionId',sessionId).first();
   }
 
 

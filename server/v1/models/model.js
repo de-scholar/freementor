@@ -59,7 +59,8 @@ class Model{
   }
 
   delete(item_id){
-    this._table.filter(({id})=>id!==parseInt(item_id));
+    const new_table=this._table.filter(({id})=>id!==parseInt(item_id));
+    this._table=new_table;
     return true;
   }
 
