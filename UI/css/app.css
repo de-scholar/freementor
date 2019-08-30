@@ -479,6 +479,7 @@
   bottom:0px;
   width:100%;
   padding: 20px 10px 20px 10px;
+  background: #fafafa;
 
 }
 
@@ -489,9 +490,10 @@
 }
 .footer .copy-right{
   display: inline-block;
-  width:68%;
-  color:#ccc;
-  text-align: right;
+  color:rgb(141, 138, 138);
+  width:100%;
+  text-align: center;
+  
 }
 
 
