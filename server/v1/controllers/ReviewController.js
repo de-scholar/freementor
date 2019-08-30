@@ -19,12 +19,13 @@ class ReviewController{
       });
     }
 
-    const fetch_review=Review.findWhere('sessionId',sessionId).first();
+    const fetch_review=Review.session(sessionId);
 
     if(fetch_review){
       return res.status(400).json({
         status:400,
         error:'Session has another review',
+        
       });
     }
 
@@ -39,7 +40,7 @@ class ReviewController{
     return res.status(200).json({
       status:200,
       data:{
-        message:'Review successfully set',
+        message:'Review successfully created',
         ...review
       },
       
@@ -49,7 +50,7 @@ class ReviewController{
 
   static delete(req,res){
     const {sessionId}=req.params;
-    const review=Review.findWhere('sessionId',sessionId).first();
+    const review=Review.session(sessionId);
     if(review){
       Review.delete(review.id);
       return res.status(200).json({

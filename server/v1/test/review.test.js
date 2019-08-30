@@ -204,7 +204,7 @@ describe('ReviewController /POST review',()=>{
       .end((err,res)=>{
         //created_review=res.body.data;
         res.should.have.status(200);
-        res.body.data.should.have.property('message').eql('Review successfully set');
+        res.body.data.should.have.property('message').eql('Review successfully created');
         res.body.data.should.have.property('menteeFullName');
         done();
       });

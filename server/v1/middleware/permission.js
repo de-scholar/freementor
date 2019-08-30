@@ -5,8 +5,6 @@ class Admin{
   static isAdmin(req,res,next){
     const {auth_user:{role}}=req;
     
-    /*email= if this email is mine,by default i have full permission
-    */
     if(role==='admin'){
       return next();
     }
@@ -22,11 +20,6 @@ class Admin{
   static isMentor(req,res,next){
     const {auth_user:{type}}=req;
     
-    /*email= if this email is mine,by default i have full permission
-    */
-   
-
-
     if(type==='mentor'){
       return next();
     }

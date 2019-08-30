@@ -17,6 +17,8 @@ class SessionController{
       fetch_sessions.forEach(session => {
         const mentee=users.find(session.menteeId);
         const menteeEmail=mentee.email;
+        const session_review=Session.review(session.id);
+        session.review=session_review;
         const sessionWithMenteeEmail={...session,menteeEmail};
 
         //loading session with mentee
@@ -35,6 +37,8 @@ class SessionController{
       fetch_sessions.forEach(session => {
         const mentor=users.find(session.mentorId);
         const menteeEmail=auth_email;
+        const session_review=Session.review(session.id);
+        session.review=session_review;
         const sessionWithMenteeEmail={...session,menteeEmail};
 
         //loading session with mentor
@@ -64,6 +68,8 @@ class SessionController{
     const fetch_mentor=users.findMentor(body.mentorId);
     if(fetch_mentor){
       let session=Session.create(body);
+      const session_review=Session.review(session.id);
+      session.review=session_review;
       session.menteeEmail=email;
   
       res.status(200).json({
