@@ -183,12 +183,12 @@
  
  .super-cover .darken{
    position: relative;
-   top:-10px;
+   
    left: 0;
    right: 0;
    height: 100%;
    width: 100%;
-   background:  rgba(56, 48, 59, 0.5);
+   background:  rgba(0, 0, 0, 0.6);
    
  }
  
