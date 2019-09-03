@@ -667,9 +667,18 @@
 .auth-user-container{
   width: 100%;
   height: 250px;
-  background: rgba(0, 0, 0, .5);
   color:white;
   font-style:var(--app-family);
+  background: url(../img/cover2.jpg) center;
+  background-size: cover;
+  
+}
+
+.auth-user-container .auth-opacity{
+  width: 100%;
+  height: 250px;
+  background:rgba(0,0,0,.5);
+
 }
 
 .auth-avatar {
