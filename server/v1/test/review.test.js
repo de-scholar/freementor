@@ -202,10 +202,35 @@ describe('ReviewController /POST review',()=>{
       .set('token', mentee_token)
       .send(defaultReview)
       .end((err,res)=>{
-        //created_review=res.body.data;
+        
         res.should.have.status(200);
         res.body.data.should.have.property('message').eql('Review successfully created');
         res.body.data.should.have.property('menteeFullName');
+        done();
+      });
+  });
+
+  it('Should return a status code 400 when the score is not between 0 and 5',(done)=>{
+    
+    
+    const {id:sessionId}=created_session;
+    const {token:mentee_token}=user_mentee;
+    const defaultReview={
+      score:36,
+      remark:'Every thing was good, but and then ,so i conclude',
+        
+    };
+
+    request(server).post(`/api/v1/sessions/${sessionId}/review`)
+      .set('Content-type', 'application/json')
+      .set('Content-type', 'application/x-www-form-urlencoded')
+      .set('token', mentee_token)
+      .send(defaultReview)
+      .end((err,res)=>{
+        
+        res.should.have.status(400);
+        res.body.should.have.property('message').eql('Invalid input value');
+        res.body.error.should.be.an('object');
         done();
       });
   });
