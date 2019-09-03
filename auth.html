@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <link rel="stylesheet" type="text/css" href="UI/css/app.css">
+  <link rel="stylesheet" type="text/css" href="UI/css/auth-modal.css">
+</head>
+<body>
+  <h1>Pure CSS modal box</h1>
+<div>
+  <p>You can place trigger button wherever you want.</p>
+  <p>
+    <button  class="btn" id="btn-login">Logint</button >
+    <button  class="btn" id="btn-signup">Signup</button >
+  </p>
+</div>
+
+
+
+<div class="modal login-modal">
+  
+  <div class="modal-body login">
+    <span class="modal-close">X</span>  
+    <form action="dashboard.html">
+                    
+      <div>
+          <h4 class="center">Sign in :</h4>
+      </div>
+      <div class="input-field">
+          <label for="email">Email :</label>
+          <input placeholder="Your email here" type="text" id="email">
+      </div>
+      <div class="input-field">
+              <label for="password">password :</label>
+          <input type="password" id="password" placeholder="Your password here">
+      </div>
+
+      <div class="footer-auth">
+          <div  class="input-button account-exist">
+            <button type="submit" id="submit-login" class="btn full">Login</button>
+          </div>
+          <div  class="input-button account-exist">
+          
+              <p>Don't have an account? <a href="signup.html">Sign up</a></p>
+          
+          </div>
+          
+      </div>
+
+      
+
+      
+    </form>
+  </div>
+</div>
+
+<div class="modal signup-modal">
+  
+  <div class="modal-body signup">
+    <span class="modal-close">X</span>  
+    <form action="dashboard.html">
+      <div>
+          <h4 class="center">Sign up</h4>
+      </div>
+      <div class="input-divider">
+          <div class="input-field">
+              <label for="firstname">First name :</label>
+              <input placeholder="Your first name" type="text" id="firstname">
+          </div>
+
+          <div class="input-field">
+              <label for="lastname">Last name :</label>
+              <input placeholder="Your last name" type="text" id="lastname">
+          </div>
+
+          <div class="input-field">
+              <label for="email">Email :</label>
+              <input placeholder="Your email here" type="text" id="email">
+          </div>
+      </div>
+
+      <div class="input-divider">
+
+          <div class="input-field">
+              <label for="occupation">Occupation :</label>
+              <input placeholder="Your occupation" type="text" id="occupation">
+          </div>
+
+          <div class="input-field">
+              <label for="expertise">Expertise :</label>
+              <input placeholder="Your expertise" type="text" id="expertise">
+          </div>
+
+          <div class="input-field">
+              <label for="password">password :</label>
+              <input type="password" id="password" placeholder="Your password here">
+          </div>
+      </div>
+
+      <div class="input-field">
+          <label for="bio">Your biography :</label>
+          <textarea placeholder="Your Biography" id="bio" rows="3"></textarea>
+       </div>
+
+      
+
+      
+     <div class="footer-auth">
+       <div   class="input-button account-btn-auth">
+         <button type="submit" id="submit-signup" class="btn">Create now</button>
+      </div>
+       <div  class="input-button account-exist">
+          <p>Have an account? <a href="login.html">Sign in</a></p>
+      </div>
+      
+     </div>
+      
+  </form>
+  </div>
+</div>
+
+<script type="text/javascript" src="UI/js/client-utility.js"></script>
+<script type="text/javascript">
+ 
+   
+   initModal('.modal.login-modal',"#btn-login");
+    
+   initModal('.modal.signup-modal',"#btn-signup");
+</script>
+</body>
+</html>
