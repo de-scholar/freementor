@@ -7,11 +7,9 @@ class SessionController{
     const {auth_user}=req;
     const {type:user_type,id:auth_userId,email:auth_email}=auth_user;
     let all_sessions=[];
-    //check if the auth user is mentor or mentee
-
     
-    if(user_type==='mentor'){//mentor
-      
+    
+    if(user_type==='mentor'){
       const fetch_sessions=Session.findForMentor(auth_userId);
 
       fetch_sessions.forEach(session => {
@@ -21,7 +19,6 @@ class SessionController{
         session.review=session_review;
         const sessionWithMenteeEmail={...session,menteeEmail};
 
-        //loading session with mentee
         all_sessions.push({
           ...sessionWithMenteeEmail,mentee
         });
@@ -30,7 +27,7 @@ class SessionController{
       });
      
      
-    }else if(user_type==='user'){//mentee
+    }else if(user_type==='user'){
       
       const fetch_sessions=Session.findForMentee(auth_userId);
 
@@ -41,7 +38,6 @@ class SessionController{
         session.review=session_review;
         const sessionWithMenteeEmail={...session,menteeEmail};
 
-        //loading session with mentor
         all_sessions.push({
           ...sessionWithMenteeEmail,mentor
         });
@@ -94,7 +90,7 @@ class SessionController{
     let error_msg='Session not found,create sessions';
 
     if(fetch_session){
-      //check if the mentor is concerned for this sesion
+     
      
       if(auth_user.id===fetch_session.mentorId){
         
@@ -130,7 +126,7 @@ class SessionController{
     let error_msg='Session not found,create sessions';
 
     if(fetch_session){
-      //check if the mentor is concerned for this sesion
+     
       if(auth_user.id===fetch_session.mentorId){
         
         if(fetch_session.status==='pending'){

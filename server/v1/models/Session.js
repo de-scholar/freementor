@@ -38,19 +38,16 @@ class Session extends Model{
   }
 
 
-  //list of all sessions received by a mentor
   findForMentor(mentor_id){
     const all_sessions=this.all().filter((session)=>session.mentorId===parseInt(mentor_id));
     return all_sessions;
   }
 
-  //list of all sessions sent by a normal user(mentee)
   findForMentee(mentee_id){
     const all_sessions=this.all().filter((session)=>session.menteeId===parseInt(mentee_id));
     return all_sessions;
   }
 
-  //relashionship: session hasOne review
   review(sessionId){
     return Review.findWhere('sessionId',sessionId).first();
   }

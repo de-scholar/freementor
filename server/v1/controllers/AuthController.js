@@ -24,14 +24,13 @@ class AuthController{
     user_data.bio=req.body.bio;
     user_data.occupation=req.body.occupation;
     user_data.expertise=req.body.expertise;
-    user_data.type='user';//user,mentor
-    user_data.role='user';//user,admin
-    
+    user_data.type='user';
+    user_data.role='user';
     const token=generateToken(user_data);
     const simuler_user=users.findWhere('email',user_data.email).first();
       
     if(!simuler_user){
-      //store user
+      
       var created_user=users.create(user_data);
 
       return res.status(201).json({
