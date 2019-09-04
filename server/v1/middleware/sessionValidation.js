@@ -31,8 +31,16 @@ const sessionValidation={
     check('score')
       .exists({ checkFalsy: true })
       .withMessage('Score is required')
+      .custom((value)=>{
+        value=parseInt(value);
+        if(value<0 || value>5){
+          throw new Error('The score must be between 0 and 5');
+        }
+        return true;
+      })
       .isNumeric()
       .withMessage('Score must be a number')
+      
       
     ,
     check('remark')
