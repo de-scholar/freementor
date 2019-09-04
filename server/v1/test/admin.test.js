@@ -2,7 +2,7 @@
 import { should,use,request } from 'chai';
 import chaiHttp from 'chai-http';
 import server from '../../../index';
-
+import data from './data';
 
 
 should();
@@ -22,58 +22,12 @@ describe('AdminController /PATCH user to admin',()=>{
   before((done) => {
     
     
-    const defaultUser1={
-      firstName:'prodo',
-      lastName:'kaka',
-      email:'p2@gmail.com',
-      password:'12345678',
-      bio:'his bio',
-      expertise:'web development',
-      occupation:'software developer',
-      address:'kigali',
-    };
-
-
-    const defaultUser2={
-      firstName:'ged',
-      lastName:'bro',
-      email:'g2@gmail.com',
-      password:'12345678',
-      bio:'his bio',
-      expertise:'web development',
-      occupation:'software developer',
-      address:'kigali',
-    };
-
-    const defaultUser3={
-      firstName:'lol',
-      lastName:'amakuru',
-      email:'ama1@gmail.com',
-      password:'12345678',
-      bio:'his bio',
-      expertise:'web development',
-      occupation:'software developer',
-      address:'kigali',
-    };
-
-    const defaultUser4={
-      firstName:'lol',
-      lastName:'amakuru',
-      email:'pprodo@gmail.com',
-      password:'12345678',
-      bio:'his bio',
-      expertise:'web development',
-      occupation:'software developer',
-      address:'kigali',
-    };
-
-
     
      
     request(server).post('/api/v1/auth/signup')
       .set('Content-type', 'application/json')
       .set('Content-type', 'application/x-www-form-urlencoded')
-      .send(defaultUser1)
+      .send(data.admin_test.user1)
       .then((res) => {
         user_admin1=res.body.data;
        
@@ -82,7 +36,7 @@ describe('AdminController /PATCH user to admin',()=>{
     request(server).post('/api/v1/auth/signup')
       .set('Content-type', 'application/json')
       .set('Content-type', 'application/x-www-form-urlencoded')
-      .send(defaultUser4)
+      .send(data.admin_test.user4)
       .then((res) => {
         user_admin2=res.body.data;
        
@@ -91,7 +45,7 @@ describe('AdminController /PATCH user to admin',()=>{
     request(server).post('/api/v1/auth/signup')
       .set('Content-type', 'application/json')
       .set('Content-type', 'application/x-www-form-urlencoded')
-      .send(defaultUser2)
+      .send(data.admin_test.user2)
       .then((res) => {
         user_normal=res.body.data;
        
@@ -100,7 +54,7 @@ describe('AdminController /PATCH user to admin',()=>{
     request(server).post('/api/v1/auth/signup')
       .set('Content-type', 'application/json')
       .set('Content-type', 'application/x-www-form-urlencoded')
-      .send(defaultUser3)
+      .send(data.admin_test.user3)
       .then((res) => {
         
         notAdmin_user=res.body.data;
@@ -145,8 +99,9 @@ describe('AdminController /PATCH user to admin',()=>{
         
         Object.assign(user_admin1,res.body.data);
         res.should.have.status(200);
-          
+        res.body.message.should.be.a('string').eql('User is successfully logged in');
         done();
+
       });
   });
 
@@ -257,6 +212,7 @@ describe('AdminController /PATCH admin to user',()=>{
         
         Object.assign(user_admin2,res.body.data);
         res.should.have.status(200);
+        res.body.message.should.be.a('string').eql('User is successfully logged in');
           
         done();
       });
@@ -320,8 +276,8 @@ describe('AdminController /PATCH admin to user',()=>{
       .set('Content-type', 'application/json')
       .set('Content-type', 'application/x-www-form-urlencoded')
       .end((err,res)=>{
-        
         res.should.have.status(401);
+        res.body.should.have.property('error').eql('Anauthorized,please login first');
         done();
       });
   });
@@ -393,6 +349,7 @@ describe('AdminController /PATCH user to mentor',()=>{
       .end((err,res)=>{
         
         res.should.have.status(401);
+        res.body.should.have.property('error').eql('Anauthorized,please login first');
         done();
       });
   });
@@ -519,6 +476,7 @@ describe('AdminController /PATCH mentor to user',()=>{
       .end((err,res)=>{
         
         res.should.have.status(401);
+        res.body.should.have.property('error').eql('Anauthorized,please login first');
         done();
       });
   });

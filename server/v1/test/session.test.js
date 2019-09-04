@@ -2,7 +2,7 @@
 import { should,use,request } from 'chai';
 import chaiHttp from 'chai-http';
 import server from '../../../index';
-
+import data from './data';
 
 
 should();
@@ -24,57 +24,12 @@ describe('SessionController /POST sessions',()=>{
   
   before((done) => {
     
-    const defaultUser1={
-      firstName:'prodo',
-      lastName:'kaka',
-      email:'p4@gmail.com',
-      password:'12345678',
-      bio:'his bio',
-      expertise:'web development',
-      occupation:'software developer',
-      address:'kigali',
-    };
-
-
-    const defaultUser2={
-      firstName:'ged',
-      lastName:'bro',
-      email:'g4@gmail.com',
-      password:'12345678',
-      bio:'his bio',
-      expertise:'web development',
-      occupation:'software developer',
-      address:'kigali',
-    };
-
-    const defaultUser3={
-      firstName:'lol',
-      lastName:'amakuru',
-      email:'ama8@gmail.com',
-      password:'12345678',
-      bio:'his bio',
-      expertise:'web development',
-      occupation:'software developer',
-      address:'kigali',
-    };
-
-    const defaultUserAdmin={
-      firstName:'admin',
-      lastName:'doctor',
-      email:'doctor@gmail.com',
-      password:'12345678',
-      bio:'his bio',
-      expertise:'web development',
-      occupation:'software developer',
-      address:'kigali',
-    };
-
-    
+   
 
     request(server).post('/api/v1/auth/signup')
       .set('Content-type', 'application/json')
       .set('Content-type', 'application/x-www-form-urlencoded')
-      .send(defaultUserAdmin)
+      .send(data.session_test.user4)
       .then((res) => {
          
         user_admin=res.body.data;
@@ -84,7 +39,7 @@ describe('SessionController /POST sessions',()=>{
     request(server).post('/api/v1/auth/signup')
       .set('Content-type', 'application/json')
       .set('Content-type', 'application/x-www-form-urlencoded')
-      .send(defaultUser1)
+      .send(data.session_test.user1)
       .then((res) => {
          
         user_mentee=res.body.data;
@@ -94,7 +49,7 @@ describe('SessionController /POST sessions',()=>{
     request(server).post('/api/v1/auth/signup')
       .set('Content-type', 'application/json')
       .set('Content-type', 'application/x-www-form-urlencoded')
-      .send(defaultUser2)
+      .send(data.session_test.user2)
       .then((res) => {
         user_mentor=res.body.data;
        
@@ -105,7 +60,7 @@ describe('SessionController /POST sessions',()=>{
     request(server).post('/api/v1/auth/signup')
       .set('Content-type', 'application/json')
       .set('Content-type', 'application/x-www-form-urlencoded')
-      .send(defaultUser3)
+      .send(data.session_test.user3)
       .then((res) => {
       
         user_3=res.body.data;
@@ -150,6 +105,7 @@ describe('SessionController /POST sessions',()=>{
          
         Object.assign(user_admin,res.body.data);
         res.should.have.status(200);
+        res.body.message.should.be.a('string').eql('User is successfully logged in');
           
         done();
       });
@@ -167,6 +123,7 @@ describe('SessionController /POST sessions',()=>{
         
         Object.assign(user_mentor,res.body.data);
         res.should.have.status(200);
+        res.body.data.type.should.be.eql('mentor');
         done();
       });
   });
@@ -252,6 +209,7 @@ describe('SessionController /POST sessions',()=>{
       .end((err,res)=>{
         
         res.should.have.status(401);
+        res.body.should.have.property('error').eql('Anauthorized,please login first');
         done();
       });
   });
@@ -300,16 +258,7 @@ describe('SessionController /POST sessions',()=>{
 describe('SessionController /GET sessions',()=>{
 
   before((done)=>{
-    const unconern_mentor_info={
-      firstName:'unconern',
-      lastName:'doctor',
-      email:'unconern@gmail.com',
-      password:'12345678',
-      bio:'his bio',
-      expertise:'web development',
-      occupation:'software developer',
-      address:'kigali',
-    };
+    const unconern_mentor_info=data.session_test.unconcern_mentor;
 
     
 
@@ -337,6 +286,7 @@ describe('SessionController /GET sessions',()=>{
         
         user_mentor=res.body.data;
         res.should.have.status(200);
+        res.body.message.should.be.a('string').eql('User is successfully logged in');
         done();
       });
   });
@@ -383,6 +333,7 @@ describe('SessionController /GET sessions',()=>{
       .end((err,res)=>{
         
         res.should.have.status(401);
+        res.body.should.have.property('error').eql('Anauthorized,please login first');
         done();
       });
   });
@@ -580,6 +531,7 @@ describe('SessionController /PATCH: accept session',()=>{
       .end((err,res)=>{
           
         res.should.have.status(401);
+        res.body.should.have.property('error').eql('Anauthorized,please login first');
         done();
       });
   });
@@ -761,6 +713,7 @@ describe('SessionController /PATCH reject session',()=>{
       .end((err,res)=>{
             
         res.should.have.status(401);
+        res.body.should.have.property('error').eql('Anauthorized,please login first');
         done();
       });
   });
