@@ -16,6 +16,7 @@ describe('server', () => {
       .get('/')
       .end((err, res) => {
         res.should.have.status(200);
+        res.body.message.should.be.eql('Welcome');
         done();
       });
   });
@@ -23,7 +24,7 @@ describe('server', () => {
     request(server)
       .get('/error-page4546876')
       .end((err, res) => {
-        res.should.have.status(404);
+        res.body.error.should.be.eql('Page not found');
         done();
       });
   });

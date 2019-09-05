@@ -2,6 +2,8 @@
 import { should,use,request } from 'chai';
 import chaiHttp from 'chai-http';
 import server from '../../../index';
+import data from './data';
+
 
 
 should();
@@ -18,36 +20,10 @@ describe('UserController /GET all mentors',()=>{
   before((done) => {
 
   
-    
-    const defaultUser1={
-      firstName:'prodo',
-      lastName:'kaka',
-      email:'p1@gmail.com',
-      password:'12345678',
-      bio:'his bio',
-      expertise:'web development',
-      occupation:'software developer',
-      address:'kigali',
-    };
-
-
-    const defaultUser2={
-      firstName:'ged',
-      lastName:'bro',
-      email:'g1@gmail.com',
-      password:'12345678',
-      bio:'his bio',
-      expertise:'web development',
-      occupation:'software developer',
-      address:'kigali',
-    };
-
-  
-
     request(server).post('/api/v1/auth/signup')
       .set('Content-type', 'application/json')
       .set('Content-type', 'application/x-www-form-urlencoded')
-      .send(defaultUser1)
+      .send(data.user_test.user1)
       .then((res) => {
          
         user_admin=res.body.data;
@@ -57,7 +33,7 @@ describe('UserController /GET all mentors',()=>{
     request(server).post('/api/v1/auth/signup')
       .set('Content-type', 'application/json')
       .set('Content-type', 'application/x-www-form-urlencoded')
-      .send(defaultUser2)
+      .send(data.user_test.user2)
       .then((res) => {
          
         user_mentor=res.body.data;
@@ -107,6 +83,7 @@ describe('UserController /GET all mentors',()=>{
          
         Object.assign(user_admin,res.body.data);
         res.should.have.status(200);
+        res.body.message.should.be.a('string').eql('User is successfully logged in');
           
         done();
       });
@@ -120,7 +97,9 @@ describe('UserController /GET all mentors',()=>{
       .set('Content-type', 'application/json')
       .set('Content-type', 'application/x-www-form-urlencoded')
       .set('token', user_admin_token)
-      .end(()=>{
+      .end((err,res)=>{
+        res.should.have.status(200);
+        res.body.data.type.should.be.eql('mentor');
         done();
       });
   });
@@ -148,6 +127,7 @@ describe('UserController /GET all mentors',()=>{
       .end((err,res)=>{
         
         res.should.have.status(401);
+        res.body.should.have.property('error').eql('Anauthorized,please login first');
         done();
       });
   });
@@ -229,6 +209,7 @@ describe('UserController /GET specific mentor',()=>{
       .end((err,res)=>{
           
         res.should.have.status(401);
+        res.body.should.have.property('error').eql('Anauthorized,please login first');
         done();
       });
   });
