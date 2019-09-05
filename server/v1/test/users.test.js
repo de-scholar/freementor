@@ -1,4 +1,4 @@
-/* eslint-disable no-undef */
+
 import { should,use,request } from 'chai';
 import chaiHttp from 'chai-http';
 import server from '../../../index';
@@ -11,10 +11,10 @@ use(chaiHttp);
 let user_admin;
 let user_mentor;
 
-// eslint-disable-next-line no-undef
+
 describe('UserController /GET all mentors',()=>{
 
-  // eslint-disable-next-line no-undef
+ 
   before((done) => {
 
   
@@ -92,7 +92,7 @@ describe('UserController /GET all mentors',()=>{
 
  
 
-  // eslint-disable-next-line no-undef
+
   it(('Should login the new admin user to update his payload in jwt'), (done) => {
     const user_admin_credential = {
       email: user_admin.email,
@@ -189,7 +189,7 @@ describe('UserController /GET all mentors',()=>{
 });
 
 
-// eslint-disable-next-line no-undef
+
 describe('UserController /GET specific mentor',()=>{
   
   it('Should return an object of a specific mentor',(done)=>{

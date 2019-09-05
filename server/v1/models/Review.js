@@ -26,7 +26,6 @@ class Review extends Model{
     ];
   }
 
-  //relashionship: review belongs to session 
   session(sessionId){
     return this.findWhere('sessionId',sessionId).first();
   }

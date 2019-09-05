@@ -3,7 +3,7 @@ import dotenv from 'dotenv';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 dotenv.config();
-// eslint-disable-next-line no-undef
+
 const {AUTH_SECRET:secret,JWT_LIFE}=process.env;
 
 class General{
