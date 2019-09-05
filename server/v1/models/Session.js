@@ -17,6 +17,7 @@
  */
 import Model from './model';
 import Review from './Review';
+import User from './User';
 
 
 
@@ -38,15 +39,31 @@ class Session extends Model{
   }
 
 
-  //list of all sessions received by a mentor
-  findForMentor(mentor_id){
-    const all_sessions=this.all().filter((session)=>session.mentorId===parseInt(mentor_id));
-    return all_sessions;
-  }
+  
+  findFor(userId,userType){
+    const fetch_sessions=this.all().filter((session)=>{
+      return session[userType+'Id']===parseInt(userId);
+    });
+    let all_sessions=[];
+    fetch_sessions.forEach(session => {
+      let target_companionUser;//mentor or mentee
+      let companion_name;
+      if(userType==='mentor'){
+        target_companionUser=User.find(session.menteeId);
+        companion_name='mentee';
+      }
+      else{
+        target_companionUser=User.find(session.mentorId);
+        companion_name='mentor';
+      }
+      const {id,firstName,lastName,email}=target_companionUser;
+      target_companionUser={id,firstName,lastName,email};
+      const {id:sessionId,status,created_at}=session;
+      const session_needData={sessionId,status,created_at};
+      
+      all_sessions.push({...session,...{[companion_name]:target_companionUser}});
+    });
 
-  //list of all sessions sent by a normal user(mentee)
-  findForMentee(mentee_id){
-    const all_sessions=this.all().filter((session)=>session.menteeId===parseInt(mentee_id));
     return all_sessions;
   }
 

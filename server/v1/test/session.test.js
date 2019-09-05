@@ -109,11 +109,10 @@ describe('SessionController /POST sessions',()=>{
       .then((res) => {
       
         user_3=res.body.data;
-        
         done();
       });
 
-});
+  });
 
   
   it('Should change a normal user to admin',(done)=>{
@@ -128,7 +127,7 @@ describe('SessionController /POST sessions',()=>{
         Object.assign(user_admin,res.body.data);
         res.should.have.status(200);
         res.body.data.should.have.property('role').eql('admin');
-        res.body.should.have.property('message').eql('​User account changed to admin');
+        res.body.should.have.property('message').eql('Account changed to admin');
         done();
       });
   });
@@ -361,7 +360,6 @@ describe('SessionController /GET sessions',()=>{
       .set('Content-type', 'application/x-www-form-urlencoded')
       .set('token', mentorToken)
       .end((err,res)=>{
-       
         res.should.have.status(200);
         res.body.data.should.be.an('array');
        
@@ -631,7 +629,7 @@ describe('SessionController /PATCH: accept session',()=>{
       });
   });
   
- });
+});
 
 
 

@@ -7,49 +7,13 @@ class SessionController{
 
   static view_sessions(req,res){
     const {auth_user}=req;
-    const {type:user_type,id:auth_userId,email:auth_email}=auth_user;
-    let all_sessions=[];
-    //check if the auth user is mentor or mentee
-
+    let {type:user_type,id:auth_userId}=auth_user;
     
-    if(user_type==='mentor'){//mentor
-      
-      const fetch_sessions=Session.findForMentor(auth_userId);
-
-      fetch_sessions.forEach(session => {
-        const mentee=users.find(session.menteeId);
-        const menteeEmail=mentee.email;
-        const session_review=Session.review(session.id);
-        session.review=session_review;
-        const sessionWithMenteeEmail={...session,menteeEmail};
-
-        //loading session with mentee
-        all_sessions.push({
-          ...sessionWithMenteeEmail,mentee
-        });
-        delete session.menteeEmail;
-
-      });
-     
-     
-    }else if(user_type==='user'){//mentee
-      
-      const fetch_sessions=Session.findForMentee(auth_userId);
-
-      fetch_sessions.forEach(session => {
-        const mentor=users.find(session.mentorId);
-        const menteeEmail=auth_email;
-        const session_review=Session.review(session.id);
-        session.review=session_review;
-        const sessionWithMenteeEmail={...session,menteeEmail};
-
-        //loading session with mentor
-        all_sessions.push({
-          ...sessionWithMenteeEmail,mentor
-        });
-        delete session.menteeEmail;
-      });
+    
+    if(user_type==='user'){
+      user_type='mentee';
     }
+    const all_sessions=Session.findFor(auth_userId,user_type);
     
     return response(res,200,'OK',all_sessions);
     

@@ -104,7 +104,7 @@ describe('Review ,init dependencies',()=>{
         Object.assign(user_admin,res.body.data);
         res.should.have.status(200);
         res.body.data.should.have.property('role').eql('admin');
-        res.body.should.have.property('message').eql('​User account changed to admin');
+        res.body.should.have.property('message').eql('Account changed to admin');
         done();
       });
   });
