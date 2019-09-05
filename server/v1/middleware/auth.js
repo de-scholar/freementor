@@ -1,22 +1,15 @@
 import GeneralHelper from '../helpers/general';
+const {response}=GeneralHelper;
 
 class Auth{
 
   static authorization(req,res,next){
     const token=req.headers['token'];
-         
-    if(token===undefined){
-      return res.status(401).json({
-        error:'Anauthorized,please login first',
-        status:401
-      });
-            
-
-    }else{
-            
-      req.token=token;
-      next();
-    }
+    
+    if(token===undefined){return response(res,401,'Anauthorized,please login first');}
+    req.token=token;
+    return next();
+    
   }
 
   static tokenVerify(req,res,next){

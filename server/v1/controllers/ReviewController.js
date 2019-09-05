@@ -1,7 +1,8 @@
 import Review from '../models/Review';
 import Session from '../models/Session';
 import users from '../models/User';
-
+import GeneralHelper from '../helpers/general';
+const {response}=GeneralHelper;
 
 class ReviewController{
  
@@ -11,22 +12,18 @@ class ReviewController{
     body.score=parseInt(body.score);
     
     const session=Session.find(sessionId);
-
+    let msg;
     if(session===undefined){
-      return res.status(400).json({
-        status:400,
-        error:'Session to review is not found',
-      });
+      msg='Session to review is not found';
+      return response(res,400,msg);
+      
     }
 
     const fetch_review=Review.session(sessionId);
 
     if(fetch_review){
-      return res.status(400).json({
-        status:400,
-        error:'Session has another review',
-        
-      });
+      msg='Session has another review';
+      return response(res,400,msg);
     }
 
     const review=Review.create(body);
@@ -35,36 +32,25 @@ class ReviewController{
     review.mentorId=session.mentorId;
     review.menteeId=session.menteeId;
     review.menteeFullName=mentee.firstName+' '+mentee.lastName;
-    
-
-    return res.status(200).json({
-      status:200,
-      data:{
-        message:'Review successfully created',
-        ...review
-      },
-      
-    });
+    msg='Review successfully created';
+    return response(res,200,msg,review);
+   
 
   }
 
   static delete(req,res){
     const {sessionId}=req.params;
     const review=Review.session(sessionId);
+    let msg;
     if(review){
       Review.delete(review.id);
-      return res.status(200).json({
-        status:200,
-        data:{
-          message:'Review successfully deleted',
-        }
-      });
+      msg='Review successfully deleted';
+      return response(res,200,msg);
+      
     }
-    res.status(400).json({
-      status:400,
-      error:'Review of the session not found',
-    });
-
+    msg='Review of the session not found';
+    return response(res,400,msg);
+    
 
   }
 }

@@ -1,57 +1,49 @@
 
 import users from '../models/User';
+import GeneralHelper from '../helpers/general';
+const {response}=GeneralHelper;
 
 class AdminController{
 
   static userToAdmin(req,res){
     const {userId}=req.params;
     const user=users.find(userId);
+    let msg;
+    
     if(user!==undefined){
      
       const user_admin=users.update(user.id,{role:'admin'});
+      msg='​User account changed to admin';
       
-      return res.status(200).json({
-        status:200,
-        data:{
-          message:'​User account changed to admin',
-          ...user_admin,
-        }
-      });
+      return response(res,200,msg,user_admin);
+      
     }
+
+    msg='User with the sent id not found';
+    return response(res,400,msg);
     
-    return res.status(400).json({
-      status:400,
-      error:'User with the sent id not found',
-      
-    });
   }
 
   static adminToUser(req,res){
     const {userId}=req.params;
     const user=users.find(userId);
+    let msg='​Admin account changed to normal user';
+
     if(user!==undefined){
       const user_admin=users.update(user.id,{role:'user'});
-      return res.status(200).json({
-        status:200,
-        data:{
-          message:'​Admin account changed to normal user',
-          ...user_admin,
-        }
-      });
+      return response(res,200,msg,user_admin);
+    
     }
     
-    return res.status(400).json({
-      status:400,
-      error:'Admin with the sent id not found',
-      
-    });
+    msg='Admin with the sent id not found';
+    return response(res,400,msg);
   }
 
   static userToMentor(req,res){
 
     const {userId}=req.params;
     const user=users.find(userId);
-    let error_msg='User not found,check his id';
+    let msg='User not found,check his id';
 
     if(user!==undefined){
       let user_mentor=user;
@@ -59,25 +51,15 @@ class AdminController{
       if(user.type!=='mentor'){
 
         user_mentor=users.update(user.id,{type:'mentor'});
-
-        return res.status(200).json({
-          status:200,
-          data:{
-            message:'​User account changed to mentor',
-            ...user_mentor,
-          }
-        });
+        msg='​User account changed to mentor';
+        return response(res,200,msg,user_mentor);
       }
-      error_msg='​User is already a mentor';
+      msg='​User is already a mentor';
       
       
     }
-
-    return res.status(400).json({
-      status:400,
-      error:error_msg,
-      
-    });
+    return response(res,400,msg);
+    
 
   }
 
@@ -85,26 +67,18 @@ class AdminController{
 
     const {mentorId}=req.params;
     const mentor=users.findMentor(mentorId);
-    
+    let msg;
     if(mentor!==undefined){
      
       const user_updated=users.update(mentorId,{type:'user'});
-
-      return res.status(200).json({
-        status:200,
-        data:{
-          message:'​Mentor account changed to user',
-          ...user_updated,
-        }
-      });
+      msg='​Mentor account changed to user';
+      return response(res,200,msg,user_updated);
+     
      
     }
-
-    return res.status(400).json({
-      status:400,
-      error:'Mentor not found',
-      
-    });
+    msg='Mentor not found';
+    return response(res,400,msg);
+    
 
   }
 }
