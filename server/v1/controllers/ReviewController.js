@@ -8,11 +8,13 @@ class ReviewController{
  
   static review_mentor(req,res){
     let {body,params:{sessionId}}=req;
+
     body.sessionId=parseInt(sessionId);
     body.score=parseInt(body.score);
     
     const session=Session.find(sessionId);
     let msg;
+
     if(session===undefined){
       msg='Session to review is not found';
       return response(res,400,msg);
@@ -42,6 +44,7 @@ class ReviewController{
     const {sessionId}=req.params;
     const review=Review.session(sessionId);
     let msg;
+
     if(review){
       Review.delete(review.id);
       msg='Review successfully deleted';

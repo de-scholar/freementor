@@ -9,6 +9,7 @@ class SessionController{
     const {auth_user}=req;
 
     let {type:user_type,id:auth_userId}=auth_user;
+
     if(user_type==='user'){
       user_type='mentee';
     }
@@ -22,14 +23,17 @@ class SessionController{
   static create(req,res){
     let {body}=req;
     const {id,email}=req.auth_user;
+
     body.menteeId=id;
     body.mentorId=parseInt(body.mentorId);
     body.status='pending';
    
     const fetch_mentor=users.findMentor(body.mentorId);
+
     if(fetch_mentor){
       let session=Session.create(body);
       const session_review=Session.review(session.id);
+
       session.review=session_review;
       session.menteeEmail=email;
   
@@ -57,6 +61,7 @@ class SessionController{
         
         if(fetch_session.status==='pending'){
           const update_session=Session.update(sessionId,{status:'accepted'});
+
           return response(res,200,'OK',update_session);
           
         }

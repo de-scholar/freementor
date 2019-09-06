@@ -21,6 +21,7 @@ class General{
   static hashPassword(password){
     const salt = bcrypt.genSaltSync(10);
     const hash = bcrypt.hashSync(password, salt);
+
     return hash;
   }
 
@@ -29,7 +30,7 @@ class General{
     const input_keys=Object.keys(inputData);
     let filtered_input={};
     
-    input_keys.forEach((key)=>{
+    input_keys.forEach((key)=> {
       if(expect_input.includes(key)){
         filtered_input[key]=inputData[key];
       }
@@ -37,7 +38,6 @@ class General{
     });
     return filtered_input;
   }
-
   
 
   static response(res,status,msg,data={}){
@@ -59,8 +59,6 @@ class General{
       });
     } 
   }
-
-  
 
  
 }
