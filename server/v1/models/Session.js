@@ -46,7 +46,7 @@ class Session extends Model{
     });
     let all_sessions=[];
     fetch_sessions.forEach(session => {
-      let target_companionUser;//mentor or mentee
+      let target_companionUser;
       let companion_name;
       if(userType==='mentor'){
         target_companionUser=User.find(session.menteeId);
@@ -64,7 +64,7 @@ class Session extends Model{
       all_sessions.push({...session,...{[companion_name]:target_companionUser}});
     });
 
-
+    return all_sessions;
   }
 
   review(sessionId){

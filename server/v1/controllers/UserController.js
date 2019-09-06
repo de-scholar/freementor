@@ -18,11 +18,7 @@ class UserController{
     const mentor=users.findMentor(mentorId);
     
     if(mentor!==undefined){
-      
-      return res.status(200).json({
-        status:200,
-        data:mentor,
-      });
+      return response(res,200,'OK',mentor);
     }
     return response(res,400,'Mentor not found');
     
