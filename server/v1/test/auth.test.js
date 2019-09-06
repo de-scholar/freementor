@@ -111,7 +111,7 @@ describe('AuthController',()=>{
   });
 
   
-  it(('Should return an error with status 400 for a user login with wrong email'), (done) => {
+  it(('Should return an error with status 401 for a user login with wrong email'), (done) => {
     const user_with_WrongEmail = {
       email: 'ko45o@gmail.com',
       password: '12345678'
@@ -122,15 +122,15 @@ describe('AuthController',()=>{
       .set('Content-type', 'application/x-www-form-urlencoded')
       .send(user_with_WrongEmail)
       .end((err, res) => {
-        res.should.have.status(400);
+        res.should.have.status(401);
         res.body.should.have.property('error');
-        res.body.error.should.be.a('string').eql('Invalid Email');
+        res.body.error.should.be.a('string').eql('Invalid Credentials');
         done();
       });
   });
 
   
-  it(('Should return an error with status 400 for a user login with wrong password'), (done) => {
+  it(('Should return an error with status 401 for a user login with wrong password'), (done) => {
     const user_with_WrongEmail = {
       email: 'd1@gmail.com',
       password: '45678'
@@ -142,9 +142,9 @@ describe('AuthController',()=>{
       .send(user_with_WrongEmail)
       .end((err, res) => {
        
-        res.should.have.status(400);
+        res.should.have.status(401);
         res.body.should.have.property('error');
-        res.body.error.should.be.a('string').eql('Invalid Password');
+        res.body.error.should.be.a('string').eql('Invalid Credentials');
         done();
       });
   });

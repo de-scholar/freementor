@@ -1,3 +1,5 @@
+import GeneralHelper from '../helpers/general';
+const {response}=GeneralHelper;
 
 
 class Admin{
@@ -8,26 +10,17 @@ class Admin{
     if(role==='admin'){
       return next();
     }
-
-    return res.status(403).json({
-      error:'Access forbiden,reserved for admin',
-      status:403
-    });
-
+    return response(res,403,'Access forbiden,reserved for admin');
     
   }
 
   static isMentor(req,res,next){
     const {auth_user:{type}}=req;
     
-    if(type==='mentor'){
-      return next();
-    }
+    if(type==='mentor')return next();
+    
+    return response(res,403,'Access forbiden,reserved for mentors');
 
-    return res.status(403).json({
-      error:'Access forbiden,reserved for mentors',
-      status:403
-    });
   }
 
 

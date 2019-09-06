@@ -61,7 +61,7 @@ describe('UserController /GET all mentors',()=>{
         Object.assign(user_admin,res.body.data);
         res.should.have.status(200);
         res.body.data.should.have.property('role').eql('admin');
-        res.body.data.should.have.property('message').eql('​User account changed to admin');
+        res.body.should.have.property('message').eql('Account changed to admin');
         done(err);
       });
   });
@@ -141,7 +141,7 @@ describe('UserController /GET all mentors',()=>{
       .set('token',wrongToken)
       .end((err,res)=>{
         
-        res.should.have.status(200);
+       
         res.body.status.should.be.a('number').eql(500);
         res.body.error.should.be.a('string').eql('invalid token');
         done();
@@ -158,13 +158,12 @@ describe('UserController /GET all mentors',()=>{
       .set('token',malformed_token)
       .end((err,res)=>{
            
-        res.should.have.status(200);
+        
         res.body.status.should.be.a('number').eql(500);
         res.body.error.should.be.a('string').eql('jwt malformed');
         done();
       });
   });
-
 
 });
 
@@ -223,7 +222,7 @@ describe('UserController /GET specific mentor',()=>{
       .set('token',wrongToken)
       .end((err,res)=>{
           
-        res.should.have.status(200);
+       
         res.body.status.should.be.a('number').eql(500);
         res.body.error.should.be.a('string').eql('invalid token');
         done();
@@ -240,7 +239,7 @@ describe('UserController /GET specific mentor',()=>{
       .set('token',malformed_token)
       .end((err,res)=>{
              
-        res.should.have.status(200);
+       
         res.body.status.should.be.a('number').eql(500);
         res.body.error.should.be.a('string').eql('jwt malformed');
         done();

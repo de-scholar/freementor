@@ -63,7 +63,6 @@ describe('SessionController /POST sessions',()=>{
       .then((res) => {
       
         user_3=res.body.data;
-        
         done();
       });
 
@@ -82,7 +81,7 @@ describe('SessionController /POST sessions',()=>{
         Object.assign(user_admin,res.body.data);
         res.should.have.status(200);
         res.body.data.should.have.property('role').eql('admin');
-        res.body.data.should.have.property('message').eql('​User account changed to admin');
+        res.body.should.have.property('message').eql('Account changed to admin');
         done();
       });
   });
@@ -105,7 +104,6 @@ describe('SessionController /POST sessions',()=>{
         Object.assign(user_admin,res.body.data);
         res.should.have.status(200);
         res.body.message.should.be.a('string').eql('User is successfully logged in');
-          
         done();
       });
   });
@@ -159,7 +157,7 @@ describe('SessionController /POST sessions',()=>{
 
 
   
-  it('Should return status code 400 when try to create session with invalid input ',(done)=>{
+  it('Should return 400 code status if the mentorId is not found',(done)=>{
     
    
     const {token:mentee_token}=user_mentee;
@@ -183,17 +181,26 @@ describe('SessionController /POST sessions',()=>{
   });
 
   
-  it('Should return 400 code status if the mentorId is not found',(done)=>{
-    const wrongToken='ciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZmlyc3ROYW1lIjoicHJvZG8iLCJsYXN0TmFtZSI6Imtha2EiLCJlbWFpbCI6InBAZ21haWwuY29tIiwicGFzc3dvcmQiOiIkMmIkMTAkVFcyYmxUWnYzZ1FiNldNRXJZSmtULi5YSUhrendnZW5GWm1NTVlXVjZwaFRFd1dGUjhqbk8iLCJhZGRyZXNzIjoiYWRkcmVzcyIsImJpbyI6ImJpbyIsIm9jY3VwYXRpb24iOiJvY2N1cCIsImV4cGVydGlzZSI6ImV4cHJ0IiwidHlwZSI6Im5vcm1hbCIsImlhdCI6MTU2NjQ2NjQyNiwiZXhwIjoxNTY2ODEyMDI2fQ.hBkHlelgfCp1qnRVhgvCPFcm16camwv0mZNxFGhHkmw';
+  it('Should return 400 code status when the recorded input are invalid',(done)=>{
+
+    const {id:mentorId}=user_mentor;
+    const {token:mentee_token}=user_mentee;
+    const defaultSession={
+      questions:'questions here',
+      mentorI:mentorId,
+      start_date:'12/12/2019',
+      end_date:'20/03/2020',
+  
+    };
     request(server).post('/api/v1/sessions')
       .set('Content-type', 'application/json')
       .set('Content-type', 'application/x-www-form-urlencoded')
-      .set('token',wrongToken)
+      .set('token', mentee_token)
+      .send(defaultSession)
       .end((err,res)=>{
-        
-        res.should.have.status(200);
-        res.body.status.should.be.a('number').eql(500);
-        res.body.error.should.be.a('string').eql('invalid token');
+       
+        res.should.have.status(400);
+        res.body.error.should.have.be.an('object');
         done();
       });
   });
@@ -222,7 +229,7 @@ describe('SessionController /POST sessions',()=>{
       .set('token',wrongToken)
       .end((err,res)=>{
         
-        res.should.have.status(200);
+       
         res.body.status.should.be.a('number').eql(500);
         res.body.error.should.be.a('string').eql('invalid token');
         done();
@@ -239,7 +246,7 @@ describe('SessionController /POST sessions',()=>{
       .set('token',malformed_token)
       .end((err,res)=>{
            
-        res.should.have.status(200);
+      
         res.body.status.should.be.a('number').eql(500);
         res.body.error.should.be.a('string').eql('jwt malformed');
         done();
@@ -299,7 +306,6 @@ describe('SessionController /GET sessions',()=>{
       .set('Content-type', 'application/x-www-form-urlencoded')
       .set('token', mentorToken)
       .end((err,res)=>{
-       
         res.should.have.status(200);
         res.body.data.should.be.an('array');
        
@@ -346,7 +352,7 @@ describe('SessionController /GET sessions',()=>{
       .set('token',wrongToken)
       .end((err,res)=>{
         
-        res.should.have.status(200);
+     
         res.body.status.should.be.a('number').eql(500);
         res.body.error.should.be.a('string').eql('invalid token');
         done();
@@ -363,7 +369,7 @@ describe('SessionController /GET sessions',()=>{
       .set('token',malformed_token)
       .end((err,res)=>{
            
-        res.should.have.status(200);
+       
         res.body.status.should.be.a('number').eql(500);
         res.body.error.should.be.a('string').eql('jwt malformed');
         done();
@@ -546,7 +552,7 @@ describe('SessionController /PATCH: accept session',()=>{
       .set('token',wrongToken)
       .end((err,res)=>{
           
-        res.should.have.status(200);
+  
         res.body.status.should.be.a('number').eql(500);
         res.body.error.should.be.a('string').eql('invalid token');
         done();
@@ -564,7 +570,7 @@ describe('SessionController /PATCH: accept session',()=>{
       .set('token',malformed_token)
       .end((err,res)=>{
              
-        res.should.have.status(200);
+       
         res.body.status.should.be.a('number').eql(500);
         res.body.error.should.be.a('string').eql('jwt malformed');
         done();
@@ -728,7 +734,7 @@ describe('SessionController /PATCH reject session',()=>{
       .set('token',wrongToken)
       .end((err,res)=>{
             
-        res.should.have.status(200);
+        
         res.body.status.should.be.a('number').eql(500);
         res.body.error.should.be.a('string').eql('invalid token');
         done();
@@ -745,8 +751,7 @@ describe('SessionController /PATCH reject session',()=>{
       .set('Content-type', 'application/x-www-form-urlencoded')
       .set('token',malformed_token)
       .end((err,res)=>{
-               
-        res.should.have.status(200);
+      
         res.body.status.should.be.a('number').eql(500);
         res.body.error.should.be.a('string').eql('jwt malformed');
         done();

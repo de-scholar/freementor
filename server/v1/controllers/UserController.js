@@ -1,4 +1,6 @@
 import users from '../models/User';
+import GeneralHelper from '../helpers/general';
+const {response}=GeneralHelper;
 
 
 class UserController{
@@ -7,12 +9,7 @@ class UserController{
     
     let mentors=users.findWhere('type','mentor').get();
 
-    
-    return res.status(200).json({
-      status:200,
-      data:mentors,
-     
-    }); 
+    return response(res,200,'OK',mentors);
     
   }
 
@@ -27,10 +24,7 @@ class UserController{
         data:mentor,
       });
     }
-    res.status(400).json({
-      status:400,
-      error:'Mentor not found',
-    });
+    return response(res,400,'Mentor not found');
     
   }
 }

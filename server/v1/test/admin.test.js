@@ -29,8 +29,9 @@ describe('AdminController /PATCH user to admin',()=>{
       .set('Content-type', 'application/x-www-form-urlencoded')
       .send(data.admin_test.user1)
       .then((res) => {
+        Object.assign(res.body); 
         user_admin1=res.body.data;
-       
+        
       });
 
     request(server).post('/api/v1/auth/signup')
@@ -68,17 +69,18 @@ describe('AdminController /PATCH user to admin',()=>{
   it('Should change a normal user to admin',(done)=>{
     
     const {id:normal_user_id,token:user_admin_token}=user_admin1;
+
     request(server).patch(`/api/v1/admin/${normal_user_id}`)
       .set('Content-type', 'application/json')
       .set('Content-type', 'application/x-www-form-urlencoded')
       .set('token', user_admin_token)
       .end((err,res)=>{
-        
+      
         Object.assign(user_admin1,res.body.data);
         res.should.have.status(200);
         res.body.data.should.have.property('role').eql('admin');
-        res.body.data.should.have.property('message').eql('​User account changed to admin');
-        done();
+        res.body.should.have.property('message').eql('Account changed to admin');
+        done(err);
       });
   });
 
@@ -90,16 +92,15 @@ describe('AdminController /PATCH user to admin',()=>{
       email: user_admin1.email,
       password: '12345678'
     };
-          
+    
     request(server).post('/api/v1/auth/signin')
       .set('Content-type', 'application/json')
       .set('Content-type', 'application/x-www-form-urlencoded')
       .send(user_admin_credential)
       .end((err, res) => {
-        
         Object.assign(user_admin1,res.body.data);
         res.should.have.status(200);
-        res.body.message.should.be.a('string').eql('User is successfully logged in');
+        res.body.should.have.property('message').eql('User is successfully logged in');
         done();
 
       });
@@ -115,8 +116,9 @@ describe('AdminController /PATCH user to admin',()=>{
       .set('Content-type', 'application/x-www-form-urlencoded')
       .set('token', user_admin_token)
       .end((err,res)=>{
+        
         res.should.have.status(400);
-        res.body.error.should.be.a('string').eql('User with the sent id not found');
+        res.body.error.should.be.a('string').eql('user with the sent id not found');
         done();
       });
   });
@@ -129,8 +131,8 @@ describe('AdminController /PATCH user to admin',()=>{
       .set('Content-type', 'application/json')
       .set('Content-type', 'application/x-www-form-urlencoded')
       .end((err,res)=>{
-        
         res.should.have.status(401);
+        res.body.error.should.be.a('string').eql('Anauthorized,please login first');
         done();
       });
   });
@@ -146,8 +148,7 @@ describe('AdminController /PATCH user to admin',()=>{
       .set('Content-type', 'application/x-www-form-urlencoded')
       .set('token',wrongToken)
       .end((err,res)=>{
-        
-        res.should.have.status(200);
+        res.body.status.should.be.eql(500);
         res.body.error.should.be.a('string').eql('invalid token');
         done();
       });
@@ -164,7 +165,7 @@ describe('AdminController /PATCH user to admin',()=>{
       .set('token',malformed_token)
       .end((err,res)=>{
        
-        res.should.have.status(200);
+       
         res.body.status.should.be.a('number').eql(500);
         res.body.error.should.be.a('string').eql('jwt malformed');
         done();
@@ -175,7 +176,7 @@ describe('AdminController /PATCH user to admin',()=>{
 
 });
 
-//USER ADMIN TO NORMAL USER
+// //USER ADMIN TO NORMAL USER
 
 describe('AdminController /PATCH admin to user',()=>{
  
@@ -228,11 +229,11 @@ describe('AdminController /PATCH admin to user',()=>{
       .set('Content-type', 'application/x-www-form-urlencoded')
       .set('token', admin1_token)
       .end((err,res)=>{
-          
+       
         Object.assign(user_admin1,res.body.data);
         res.should.have.status(200);
         res.body.data.should.have.property('role').eql('user');
-        res.body.data.should.have.property('message').eql('​Admin account changed to normal user');
+        res.body.should.have.property('message').eql('Account changed to user');
         done();
       });
   });
@@ -247,7 +248,7 @@ describe('AdminController /PATCH admin to user',()=>{
       .set('token', admin1_token)
       .end((err,res)=>{
         res.should.have.status(400);
-        res.body.error.should.be.a('string').eql('Admin with the sent id not found');
+        res.body.error.should.be.a('string').eql('user with the sent id not found');
         done();
       });
   });
@@ -294,7 +295,7 @@ describe('AdminController /PATCH admin to user',()=>{
       .set('token',wrongToken)
       .end((err,res)=>{
         
-        res.should.have.status(200);
+        res.body.status.should.be.eql(500);
         res.body.error.should.be.a('string').eql('invalid token');
         done();
       });
@@ -311,7 +312,7 @@ describe('AdminController /PATCH admin to user',()=>{
       .set('token',malformed_token)
       .end((err,res)=>{
        
-        res.should.have.status(200);
+        
         res.body.status.should.be.a('number').eql(500);
         res.body.error.should.be.a('string').eql('jwt malformed');
         done();
@@ -331,10 +332,11 @@ describe('AdminController /PATCH user to mentor',()=>{
       .set('Content-type', 'application/x-www-form-urlencoded')
       .set('token', user_admin_token)
       .end((err,res)=>{
+        
         created_mentor=res.body.data;
         res.should.have.status(200);
         res.body.data.should.have.property('type').eql('mentor');
-        res.body.data.should.have.property('message').eql('​User account changed to mentor');
+        res.body.should.have.property('message').eql('Account changed to mentor');
         done();
       });
   });
@@ -349,7 +351,7 @@ describe('AdminController /PATCH user to mentor',()=>{
       .end((err,res)=>{
         
         res.should.have.status(401);
-        res.body.should.have.property('error').eql('Anauthorized,please login first');
+        res.body.error.should.be.a('string').eql('Anauthorized,please login first');
         done();
       });
   });
@@ -367,7 +369,7 @@ describe('AdminController /PATCH user to mentor',()=>{
       .set('token',wrongToken)
       .end((err,res)=>{
         
-        res.should.have.status(200);
+        res.body.status.should.be.eql(500);
         res.body.error.should.be.a('string').eql('invalid token');
         done();
       });
@@ -383,30 +385,14 @@ describe('AdminController /PATCH user to mentor',()=>{
       .set('token',malformed_token)
       .end((err,res)=>{
        
-        res.should.have.status(200);
+       
         res.body.status.should.be.a('number').eql(500);
         res.body.error.should.be.a('string').eql('jwt malformed');
         done();
       });
   });
   
-  
-  it('Should return status:400 if the user is already a mentor',(done)=>{
-    const {id:normal_user_id}=user_normal;
-    const {token:user_admin_token}=user_admin1;
-    request(server).patch(`/api/v1/user/${normal_user_id}`)
-      .set('Content-type', 'application/json')
-      .set('Content-type', 'application/x-www-form-urlencoded')
-      .set('token', user_admin_token)
-      .end((err,res)=>{
-         
-        res.should.have.status(400);
-        res.body.error.should.be.a('string').eql('​User is already a mentor');
-        done();
-      });
-  });
-  
-  
+
   
   it('Should return an access forbiden if the user who changes is not an admin or does not have email:p@gmail.com',(done)=>{
     const {id:normal_user_id}=user_normal;
@@ -434,7 +420,7 @@ describe('AdminController /PATCH user to mentor',()=>{
       .end((err,res)=>{
          
         res.should.have.status(400);
-        res.body.error.should.be.a('string').eql('User not found,check his id');
+        res.body.error.should.be.a('string').eql('user with the sent id not found');
         done();
       });
   });
@@ -475,13 +461,14 @@ describe('AdminController /PATCH mentor to user',()=>{
       .set('Content-type', 'application/x-www-form-urlencoded')
       .end((err,res)=>{
         
+
         res.should.have.status(401);
-        res.body.should.have.property('error').eql('Anauthorized,please login first');
+        res.body.error.should.be.a('string').eql('Anauthorized,please login first');
         done();
       });
   });
 
-  
+
   it('Should verify invalid token',(done)=>{
     const {id:normal_user_id}=user_normal;
 
@@ -494,7 +481,7 @@ describe('AdminController /PATCH mentor to user',()=>{
       .set('token',wrongToken)
       .end((err,res)=>{
         
-        res.should.have.status(200);
+        res.body.status.should.be.eql(500);
         res.body.error.should.be.a('string').eql('invalid token');
         done();
       });
@@ -510,7 +497,7 @@ describe('AdminController /PATCH mentor to user',()=>{
       .set('token',malformed_token)
       .end((err,res)=>{
        
-        res.should.have.status(200);
+       
         res.body.status.should.be.a('number').eql(500);
         res.body.error.should.be.a('string').eql('jwt malformed');
         done();
@@ -520,7 +507,7 @@ describe('AdminController /PATCH mentor to user',()=>{
  
   
   
-  
+
   it('Should return an access forbiden if the user who changes is not an admin or does not have email:p@gmail.com',(done)=>{
     const {id:normal_user_id}=user_normal;
     const {token:user_noAdmin_token}=notAdmin_user;
@@ -547,7 +534,7 @@ describe('AdminController /PATCH mentor to user',()=>{
       .end((err,res)=>{
          
         res.should.have.status(400);
-        res.body.error.should.be.a('string').eql('Mentor not found');
+        res.body.error.should.be.a('string').eql('user with the sent id not found');
         done();
       });
   });

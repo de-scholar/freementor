@@ -69,7 +69,7 @@ describe('Review ,init dependencies',()=>{
         Object.assign(user_admin,res.body.data);
         res.should.have.status(200);
         res.body.data.should.have.property('role').eql('admin');
-        res.body.data.should.have.property('message').eql('​User account changed to admin');
+        res.body.should.have.property('message').eql('Account changed to admin');
         done();
       });
   });
@@ -149,7 +149,7 @@ describe('Review ,init dependencies',()=>{
 
 
 describe('ReviewController /POST review',()=>{
-      
+     
 
   
   it('Should create a mentorship session review',(done)=>{
@@ -167,7 +167,7 @@ describe('ReviewController /POST review',()=>{
       .end((err,res)=>{
         
         res.should.have.status(200);
-        res.body.data.should.have.property('message').eql('Review successfully created');
+        res.body.should.have.property('message').eql('Review successfully created');
         res.body.data.should.have.property('menteeFullName');
         done();
       });
@@ -296,7 +296,7 @@ describe('ReviewController /POST review',()=>{
       .set('token',wrongToken)
       .end((err,res)=>{
             
-        res.should.have.status(200);
+       
         res.body.status.should.be.a('number').eql(500);
         res.body.error.should.be.a('string').eql('invalid token');
         done();
@@ -314,15 +314,13 @@ describe('ReviewController /POST review',()=>{
       .set('token',malformed_token)
       .end((err,res)=>{
                
-        res.should.have.status(200);
+       
         res.body.status.should.be.a('number').eql(500);
         res.body.error.should.be.a('string').eql('jwt malformed');
         done();
       });
   });
-    
 });
-
 
 
 // DELETE A REVIEW
@@ -344,7 +342,7 @@ describe('ReviewController /DELETE review',()=>{
       .end((err,res)=>{
        
         res.should.have.status(200);
-        res.body.data.should.have.property('message').eql('Review successfully deleted');
+        res.body.should.have.property('message').eql('Review successfully deleted');
        
         done();
       });
@@ -400,7 +398,7 @@ describe('ReviewController /DELETE review',()=>{
       .end((err,res)=>{
               
         res.should.have.status(401);
-        res.body.should.have.property('error').eql('Anauthorized,please login first');
+        res.body.error.should.be.a('string').eql('Anauthorized,please login first');
         done();
       });
   });
@@ -415,7 +413,7 @@ describe('ReviewController /DELETE review',()=>{
       .set('token',wrongToken)
       .end((err,res)=>{
               
-        res.should.have.status(200);
+   
         res.body.status.should.be.a('number').eql(500);
         res.body.error.should.be.a('string').eql('invalid token');
         done();
@@ -432,7 +430,6 @@ describe('ReviewController /DELETE review',()=>{
       .set('token',malformed_token)
       .end((err,res)=>{
                  
-        res.should.have.status(200);
         res.body.status.should.be.a('number').eql(500);
         res.body.error.should.be.a('string').eql('jwt malformed');
         done();

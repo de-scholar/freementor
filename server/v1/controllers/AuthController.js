@@ -1,9 +1,11 @@
 import GeneralHelper from '../helpers/general';
 import users from '../models/User';
 import bcrypt from 'bcrypt';
+
 const {
   hashPassword,
-  generateToken
+  generateToken,
+  response
 }=GeneralHelper;
 
 
@@ -11,44 +13,32 @@ const {
 class AuthController{
 
   static signUp(req,res){
-       
+    let {body}=req;
         
+ 
 
-    let user_data={};
-    user_data.id=users.all().length+1;
-    user_data.firstName=req.body.firstName;
-    user_data.lastName=req.body.lastName;
-    user_data.email=req.body.email;
-    user_data.password=hashPassword(req.body.password);
-    user_data.address=req.body.address;
-    user_data.bio=req.body.bio;
-    user_data.occupation=req.body.occupation;
-    user_data.expertise=req.body.expertise;
-    user_data.type='user';
-    user_data.role='user';
-    const token=generateToken(user_data);
-    const simuler_user=users.findWhere('email',user_data.email).first();
+    body.id=users.all().length+1;
+    body.password=hashPassword(req.body.password);
+    body.type='user';//user,mentor
+    body.role='user';//user,admin
+    const {id,email,type,role}=body;
+    
+    const token=generateToken({id,email,type,role});
+    const simuler_user=users.findWhere('email',email).first();
+    let msg;
       
     if(!simuler_user){
-      
-      var created_user=users.create(user_data);
-
-      return res.status(201).json({
-        status:201,
-        message:'User created successfully',
-        data:{
-          token:token,
-          message:'User created successfully',
-          ...created_user
-        }
-      });
+      //store user
+      var created_user=users.create(body);
+      msg='User created successfully';
+      const {id,firstName,lastName,email}=created_user;
+      const data={token,id,firstName,lastName,email};
+      return response(res,201,msg,data)
+  
     }
-    return res.status(400).json({
-      status:400,
-      error:'Email already exist',
-    });
-        
-
+    msg='Email already exist';
+    return response(res,400,msg);
+    
   }
 
   static signIn(req,res){
@@ -57,45 +47,33 @@ class AuthController{
     user_data.password=req.body.password;
     
     const user_found=users.findWhere('email',user_data.email).first();
-
+    let msg;
+    
     if(user_found!==false){
       const user=user_found;
-            
-          
-           
-      bcrypt.compare(user_data.password,user.password, function(err, success) {
-
+        
+      bcrypt.compare(user_data.password,user.password, (err, success)=>{
+       
         if(success){
-          const token=generateToken(user);
-          return res.status(200).json({
-            message:'User is successfully logged in',
-            status:200,
-            data:{
-              token:token,
-              ...user
-            }
-          });
+          const {id,email,type,role,firstName,lastName}=user;
+          const token=generateToken({id,email,type,role});
+
+          msg='User is successfully logged in';
+          let data={id,token,firstName,lastName,email};
+          return response(res,200,msg,data);
+          
         }
-        else{
-          return res.status(400).json({
-            status:400,
-            error:'Invalid Password',
-            field:'password'
-          });
-        }
+        msg='Invalid Credentials';
+        return response(res,401,msg);
                
       });
             
-            
-            
-    }else{
-      return res.status(400).json({
-        status:400,
-        error:'Invalid Email',
-        field:'email'
-      });
     }
-
+    else{
+      msg='Invalid Credentials';
+      return response(res,401,msg);
+    }
+    
         
        
   }
