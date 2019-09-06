@@ -39,7 +39,7 @@ class Session extends Model{
   }
 
 
-  
+
   findFor(userId,userType){
     const fetch_sessions=this.all().filter((session)=>{
       return session[userType+'Id']===parseInt(userId);
@@ -64,10 +64,9 @@ class Session extends Model{
       all_sessions.push({...session,...{[companion_name]:target_companionUser}});
     });
 
-    return all_sessions;
+
   }
 
-  //relashionship: session hasOne review
   review(sessionId){
     return Review.findWhere('sessionId',sessionId).first();
   }

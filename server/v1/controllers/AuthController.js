@@ -34,7 +34,7 @@ class AuthController{
       const {id,firstName,lastName,email}=created_user;
       const data={token,id,firstName,lastName,email};
       return response(res,201,msg,data)
-      
+  
     }
     msg='Email already exist';
     return response(res,400,msg);

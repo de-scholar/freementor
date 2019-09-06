@@ -1,7 +1,8 @@
-/* eslint-disable no-undef */
+
 import { should,use,request } from 'chai';
 import chaiHttp from 'chai-http';
 import server from '../../../index';
+import data from './data';
 
 
 should();
@@ -24,46 +25,10 @@ describe('Review ,init dependencies',()=>{
   
   before((done) => {
 
-   
-   
-
-    const defaultUser1={
-      firstName:'prodo',
-      lastName:'kaka',
-      email:'ppp@gmail.com',
-      password:'12345678',
-      bio:'his bio',
-      expertise:'web development',
-      occupation:'software developer',
-      address:'kigali',
-    };
-
-
-    const defaultUser2={
-      firstName:'ged',
-      lastName:'bro',
-      email:'ggg@gmail.com',
-      password:'12345678',
-      bio:'his bio',
-      expertise:'web development',
-      occupation:'software developer',
-      address:'kigali',
-    };
-    
-    const defaultUserAdmin={
-      firstName:'admin',
-      lastName:'bro',
-      email:'admin@gmail.com',
-      password:'12345678',
-      bio:'his bio',
-      expertise:'web development',
-      occupation:'software developer',
-      address:'kigali',
-    };
     request(server).post('/api/v1/auth/signup')
       .set('Content-type', 'application/json')
       .set('Content-type', 'application/x-www-form-urlencoded')
-      .send(defaultUser1)
+      .send(data.review_auth.user1)
       .then((res) => {
          
         user_mentee=res.body.data;
@@ -73,7 +38,7 @@ describe('Review ,init dependencies',()=>{
     request(server).post('/api/v1/auth/signup')
       .set('Content-type', 'application/json')
       .set('Content-type', 'application/x-www-form-urlencoded')
-      .send(defaultUser2)
+      .send(data.review_auth.user2)
       .then((res) => {
         user_mentor=res.body.data;
         
@@ -81,7 +46,7 @@ describe('Review ,init dependencies',()=>{
     request(server).post('/api/v1/auth/signup')
       .set('Content-type', 'application/json')
       .set('Content-type', 'application/x-www-form-urlencoded')
-      .send(defaultUserAdmin)
+      .send(data.review_auth.user3)
       .then((res) => {
         user_admin=res.body.data;
         
@@ -126,6 +91,7 @@ describe('Review ,init dependencies',()=>{
              
         Object.assign(user_admin,res.body.data);
         res.should.have.status(200);
+        res.body.message.should.be.a('string').eql('User is successfully logged in');
               
         done();
       });
@@ -142,9 +108,9 @@ describe('Review ,init dependencies',()=>{
       .set('Content-type', 'application/x-www-form-urlencoded')
       .set('token',user_admin_token)
       .then((res)=>{
-    
         Object.assign(user_mentor,res.body.data);
         res.should.have.status(200);
+        res.body.data.type.should.be.eql('mentor');
         done();
       });
   });
@@ -159,7 +125,7 @@ describe('Review ,init dependencies',()=>{
       mentorId:mentorId,
       start_date:'12/12/2019',
       end_date:'20/03/2020',
-        
+          
     };
     request(server).post('/api/v1/sessions')
       .set('Content-type', 'application/json')
@@ -170,6 +136,7 @@ describe('Review ,init dependencies',()=>{
         created_session=res.body.data;
         
         res.should.have.status(200);
+        res.body.data.should.be.an('object');
         done();
       });
   });
@@ -190,11 +157,7 @@ describe('ReviewController /POST review',()=>{
     
     const {id:sessionId}=created_session;
     const {token:mentee_token}=user_mentee;
-    const defaultReview={
-      score:3,
-      remark:'Every thing was good, but and then ,so i conclude',
-        
-    };
+    const defaultReview=data.review_auth.score_info;
 
     request(server).post(`/api/v1/sessions/${sessionId}/review`)
       .set('Content-type', 'application/json')
@@ -215,11 +178,7 @@ describe('ReviewController /POST review',()=>{
     
     const {id:sessionId}=created_session;
     const {token:mentee_token}=user_mentee;
-    const defaultReview={
-      score:36,
-      remark:'Every thing was good, but and then ,so i conclude',
-        
-    };
+    const defaultReview=data.review_auth.wrong_score_info;
 
     request(server).post(`/api/v1/sessions/${sessionId}/review`)
       .set('Content-type', 'application/json')
@@ -243,11 +202,7 @@ describe('ReviewController /POST review',()=>{
     
     const {id:sessionId}=created_session;
     const {token:mentee_token}=user_mentee;
-    const defaultReview={
-      score:3,
-      remark:'Every thing was good, but and then ,so i conclude',
-        
-    };
+    const defaultReview=data.review_auth.score_info;
 
     request(server).post(`/api/v1/sessions/${sessionId}/review`)
       .set('Content-type', 'application/json')
@@ -325,6 +280,7 @@ describe('ReviewController /POST review',()=>{
       .end((err,res)=>{
             
         res.should.have.status(401);
+        res.body.should.have.property('error').eql('Anauthorized,please login first');
         done();
       });
   });
@@ -442,7 +398,7 @@ describe('ReviewController /DELETE review',()=>{
       .end((err,res)=>{
               
         res.should.have.status(401);
-         res.body.error.should.be.a('string').eql('Anauthorized,please login first');
+        res.body.error.should.be.a('string').eql('Anauthorized,please login first');
         done();
       });
   });

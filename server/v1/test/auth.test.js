@@ -1,8 +1,8 @@
-/* eslint-disable no-undef */
+
 import { should,use,request } from 'chai';
 import chaiHttp from 'chai-http';
 import server from '../../../index';
-
+import data from './data';
 
 
 should();
@@ -14,17 +14,8 @@ describe('AuthController',()=>{
   
   
 
-  const defaultUser={
-    firstName:'dany',
-    lastName:'umela',
-    email:'d1@gmail.com',
-    password:'12345678',
-    bio:'his bio',
-    expertise:'web development',
-    occupation:'software developer',
-    address:'kigali',
-  };
- 
+  const defaultUser=data.auth_test.expect_user_info;
+  
   
   it(('Should signup a user'), (done) => {
 
@@ -73,8 +64,8 @@ describe('AuthController',()=>{
       .set('Content-type', 'application/x-www-form-urlencoded')
       .send(input_over_load)
       .end((err, res) => {
-       
         res.should.have.status(201);
+        res.body.data.should.be.an('object');
         done();
       });
   });
@@ -82,19 +73,12 @@ describe('AuthController',()=>{
 
   
   it(('Should return an object with status 400 when a user signs up without required credentials'), (done) => {
-    const defaultUser={
-      firstName:'prodo',
-      lastName:'kaka',
-      email:'pgmail.com',
-      password:'12345678',
-      bio:'his bio',
-      address:'kigali',
-    };
+   
     
     request(server).post('/api/v1/auth/signup')
       .set('Content-type', 'application/json')
       .set('Content-type', 'application/x-www-form-urlencoded')
-      .send(defaultUser)
+      .send(data.auth_test.wrong_info)
       .end((err, res) => {
         res.should.have.status(400);
         res.body.message.should.be.a('string').eql('Invalid input value');

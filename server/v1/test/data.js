@@ -1,0 +1,182 @@
+export default {
+
+  admin_test:{
+    user1:{
+      firstName:'prodo',
+      lastName:'kaka',
+      email:'p2@gmail.com',
+      password:'12345678',
+      bio:'his bio',
+      expertise:'web development',
+      occupation:'software developer',
+      address:'kigali',
+    },
+    user2:{
+      firstName:'ged',
+      lastName:'bro',
+      email:'g2@gmail.com',
+      password:'12345678',
+      bio:'his bio',
+      expertise:'web development',
+      occupation:'software developer',
+      address:'kigali',
+    },
+    user3:{
+      firstName:'lol',
+      lastName:'amakuru',
+      email:'ama1@gmail.com',
+      password:'12345678',
+      bio:'his bio',
+      expertise:'web development',
+      occupation:'software developer',
+      address:'kigali',
+    },
+    user4:{
+      firstName:'lol',
+      lastName:'amakuru',
+      email:'pprodo@gmail.com',
+      password:'12345678',
+      bio:'his bio',
+      expertise:'web development',
+      occupation:'software developer',
+      address:'kigali',
+    }    
+  },
+
+  auth_test:{
+    expect_user_info:{
+      firstName:'dany',
+      lastName:'umela',
+      email:'d1@gmail.com',
+      password:'12345678',
+      bio:'his bio',
+      expertise:'web development',
+      occupation:'software developer',
+      address:'kigali',
+    },
+    wrong_info:{
+      firstName:'prodo',
+      lastName:'kaka',
+      email:'pgmail.com',
+      password:'12345678',
+      bio:'his bio',
+      address:'kigali',
+    }
+  },
+  review_auth:{
+    user1:{
+      firstName:'prodo',
+      lastName:'kaka',
+      email:'ppp@gmail.com',
+      password:'12345678',
+      bio:'his bio',
+      expertise:'web development',
+      occupation:'software developer',
+      address:'kigali',
+    },
+    user2:{
+      firstName:'ged',
+      lastName:'bro',
+      email:'ggg@gmail.com',
+      password:'12345678',
+      bio:'his bio',
+      expertise:'web development',
+      occupation:'software developer',
+      address:'kigali',
+    },
+    user3:{
+      firstName:'admin',
+      lastName:'bro',
+      email:'admin@gmail.com',
+      password:'12345678',
+      bio:'his bio',
+      expertise:'web development',
+      occupation:'software developer',
+      address:'kigali',
+    },
+    score_info:{
+      score:3,
+      remark:'Every thing was good, but and then ,so i conclude',
+    },
+    wrong_score_info:{
+      score:36,
+      remark:'Every thing was good, but and then ,so i conclude',
+          
+    }
+  },
+  session_test:{
+    user1:{
+      firstName:'prodo',
+      lastName:'kaka',
+      email:'p4@gmail.com',
+      password:'12345678',
+      bio:'his bio',
+      expertise:'web development',
+      occupation:'software developer',
+      address:'kigali',
+    },
+    user2:{
+      firstName:'ged',
+      lastName:'bro',
+      email:'g4@gmail.com',
+      password:'12345678',
+      bio:'his bio',
+      expertise:'web development',
+      occupation:'software developer',
+      address:'kigali',
+    },
+    user3:{
+      firstName:'lol',
+      lastName:'amakuru',
+      email:'ama8@gmail.com',
+      password:'12345678',
+      bio:'his bio',
+      expertise:'web development',
+      occupation:'software developer',
+      address:'kigali',
+    },
+    user4:{
+      firstName:'admin',
+      lastName:'doctor',
+      email:'doctor@gmail.com',
+      password:'12345678',
+      bio:'his bio',
+      expertise:'web development',
+      occupation:'software developer',
+      address:'kigali',
+    },
+    unconcern_mentor:{
+      firstName:'unconern',
+      lastName:'doctor',
+      email:'unconern@gmail.com',
+      password:'12345678',
+      bio:'his bio',
+      expertise:'web development',
+      occupation:'software developer',
+      address:'kigali',
+    }
+  },
+  user_test:{
+    user1:{
+      firstName:'prodo',
+      lastName:'kaka',
+      email:'p1@gmail.com',
+      password:'12345678',
+      bio:'his bio',
+      expertise:'web development',
+      occupation:'software developer',
+      address:'kigali',
+    },
+    user2:{
+      firstName:'ged',
+      lastName:'bro',
+      email:'g1@gmail.com',
+      password:'12345678',
+      bio:'his bio',
+      expertise:'web development',
+      occupation:'software developer',
+      address:'kigali',
+    }
+  }
+}
+

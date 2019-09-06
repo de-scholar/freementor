@@ -1,8 +1,8 @@
-/* eslint-disable no-undef */
+
 import { should,use,request } from 'chai';
 import chaiHttp from 'chai-http';
 import server from '../../../index';
-
+import data from './data';
 
 
 should();
@@ -22,58 +22,12 @@ describe('AdminController /PATCH user to admin',()=>{
   before((done) => {
     
     
-    const defaultUser1={
-      firstName:'prodo',
-      lastName:'kaka',
-      email:'p2@gmail.com',
-      password:'12345678',
-      bio:'his bio',
-      expertise:'web development',
-      occupation:'software developer',
-      address:'kigali',
-    };
-
-
-    const defaultUser2={
-      firstName:'ged',
-      lastName:'bro',
-      email:'g2@gmail.com',
-      password:'12345678',
-      bio:'his bio',
-      expertise:'web development',
-      occupation:'software developer',
-      address:'kigali',
-    };
-
-    const defaultUser3={
-      firstName:'lol',
-      lastName:'amakuru',
-      email:'ama1@gmail.com',
-      password:'12345678',
-      bio:'his bio',
-      expertise:'web development',
-      occupation:'software developer',
-      address:'kigali',
-    };
-
-    const defaultUser4={
-      firstName:'lol',
-      lastName:'amakuru',
-      email:'pprodo@gmail.com',
-      password:'12345678',
-      bio:'his bio',
-      expertise:'web development',
-      occupation:'software developer',
-      address:'kigali',
-    };
-
-
     
      
     request(server).post('/api/v1/auth/signup')
       .set('Content-type', 'application/json')
       .set('Content-type', 'application/x-www-form-urlencoded')
-      .send(defaultUser1)
+      .send(data.admin_test.user1)
       .then((res) => {
         Object.assign(res.body); 
         user_admin1=res.body.data;
@@ -83,7 +37,7 @@ describe('AdminController /PATCH user to admin',()=>{
     request(server).post('/api/v1/auth/signup')
       .set('Content-type', 'application/json')
       .set('Content-type', 'application/x-www-form-urlencoded')
-      .send(defaultUser4)
+      .send(data.admin_test.user4)
       .then((res) => {
         user_admin2=res.body.data;
        
@@ -92,7 +46,7 @@ describe('AdminController /PATCH user to admin',()=>{
     request(server).post('/api/v1/auth/signup')
       .set('Content-type', 'application/json')
       .set('Content-type', 'application/x-www-form-urlencoded')
-      .send(defaultUser2)
+      .send(data.admin_test.user2)
       .then((res) => {
         user_normal=res.body.data;
        
@@ -101,7 +55,7 @@ describe('AdminController /PATCH user to admin',()=>{
     request(server).post('/api/v1/auth/signup')
       .set('Content-type', 'application/json')
       .set('Content-type', 'application/x-www-form-urlencoded')
-      .send(defaultUser3)
+      .send(data.admin_test.user3)
       .then((res) => {
         
         notAdmin_user=res.body.data;
@@ -111,7 +65,7 @@ describe('AdminController /PATCH user to admin',()=>{
 
   });
 
-  //eslint-disable-next-line no-undef
+  
   it('Should change a normal user to admin',(done)=>{
     
     const {id:normal_user_id,token:user_admin_token}=user_admin1;
@@ -147,8 +101,8 @@ describe('AdminController /PATCH user to admin',()=>{
         Object.assign(user_admin1,res.body.data);
         res.should.have.status(200);
         res.body.should.have.property('message').eql('User is successfully logged in');
-          
         done();
+
       });
   });
 
@@ -170,7 +124,7 @@ describe('AdminController /PATCH user to admin',()=>{
   });
 
 
-  //eslint-disable-next-line no-undef
+  
   it('Should return status 401 if the token has been not sent',(done)=>{
     const {id:admin_user_id}=user_admin1;
     request(server).patch(`/api/v1/admin/${admin_user_id}`)
@@ -183,7 +137,7 @@ describe('AdminController /PATCH user to admin',()=>{
       });
   });
 
-  //eslint-disable-next-line no-undef
+  
   it('Should verify invalid token',(done)=>{
     
     const wrongToken='ciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZmlyc3ROYW1lIjoicHJvZG8iLCJsYXN0TmFtZSI6Imtha2EiLCJlbWFpbCI6InBAZ21haWwuY29tIiwicGFzc3dvcmQiOiIkMmIkMTAkVFcyYmxUWnYzZ1FiNldNRXJZSmtULi5YSUhrendnZW5GWm1NTVlXVjZwaFRFd1dGUjhqbk8iLCJhZGRyZXNzIjoiYWRkcmVzcyIsImJpbyI6ImJpbyIsIm9jY3VwYXRpb24iOiJvY2N1cCIsImV4cGVydGlzZSI6ImV4cHJ0IiwidHlwZSI6Im5vcm1hbCIsImlhdCI6MTU2NjQ2NjQyNiwiZXhwIjoxNTY2ODEyMDI2fQ.hBkHlelgfCp1qnRVhgvCPFcm16camwv0mZNxFGhHkmw';
@@ -200,7 +154,7 @@ describe('AdminController /PATCH user to admin',()=>{
       });
   });
 
-  //eslint-disable-next-line no-undef
+  
   it('Should verify malformed token',(done)=>{
     
     const malformed_token='badToken';
@@ -259,12 +213,13 @@ describe('AdminController /PATCH admin to user',()=>{
         
         Object.assign(user_admin2,res.body.data);
         res.should.have.status(200);
+        res.body.message.should.be.a('string').eql('User is successfully logged in');
           
         done();
       });
   });
 
-  //eslint-disable-next-line no-undef
+  
   it('Should change an admin user to a normal user',(done)=>{
 
     const {token:admin1_token}=user_admin1;
@@ -314,7 +269,7 @@ describe('AdminController /PATCH admin to user',()=>{
   });
 
 
-  //eslint-disable-next-line no-undef
+  
   it('Should return status 401 if the token has been not sent',(done)=>{
    
     const {id:admin2_id}=user_admin2;
@@ -322,13 +277,13 @@ describe('AdminController /PATCH admin to user',()=>{
       .set('Content-type', 'application/json')
       .set('Content-type', 'application/x-www-form-urlencoded')
       .end((err,res)=>{
-        
         res.should.have.status(401);
+        res.body.should.have.property('error').eql('Anauthorized,please login first');
         done();
       });
   });
 
-  //eslint-disable-next-line no-undef
+  
   it('Should verify invalid token',(done)=>{
     
     const wrongToken='ciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZmlyc3ROYW1lIjoicHJvZG8iLCJsYXN0TmFtZSI6Imtha2EiLCJlbWFpbCI6InBAZ21haWwuY29tIiwicGFzc3dvcmQiOiIkMmIkMTAkVFcyYmxUWnYzZ1FiNldNRXJZSmtULi5YSUhrendnZW5GWm1NTVlXVjZwaFRFd1dGUjhqbk8iLCJhZGRyZXNzIjoiYWRkcmVzcyIsImJpbyI6ImJpbyIsIm9jY3VwYXRpb24iOiJvY2N1cCIsImV4cGVydGlzZSI6ImV4cHJ0IiwidHlwZSI6Im5vcm1hbCIsImlhdCI6MTU2NjQ2NjQyNiwiZXhwIjoxNTY2ODEyMDI2fQ.hBkHlelgfCp1qnRVhgvCPFcm16camwv0mZNxFGhHkmw';
@@ -346,7 +301,7 @@ describe('AdminController /PATCH admin to user',()=>{
       });
   });
 
-  //eslint-disable-next-line no-undef
+  
   it('Should verify malformed token',(done)=>{
     
     const malformed_token='badToken';
@@ -368,7 +323,7 @@ describe('AdminController /PATCH admin to user',()=>{
 
 describe('AdminController /PATCH user to mentor',()=>{
 
-  //eslint-disable-next-line no-undef
+  
   it('Should change a normal user to mentor',(done)=>{
     const {id:normal_user_id}=user_normal;
     const {token:user_admin_token}=user_admin1;
@@ -386,7 +341,7 @@ describe('AdminController /PATCH user to mentor',()=>{
       });
   });
 
-  //eslint-disable-next-line no-undef
+  
   it('Should return status 401 if the token has been not sent',(done)=>{
     const {id:normal_user_id}=user_normal;
     
@@ -401,7 +356,7 @@ describe('AdminController /PATCH user to mentor',()=>{
       });
   });
 
-  //eslint-disable-next-line no-undef
+  
   it('Should verify invalid token',(done)=>{
     const {id:normal_user_id}=user_normal;
 
@@ -420,7 +375,7 @@ describe('AdminController /PATCH user to mentor',()=>{
       });
   });
 
-  //eslint-disable-next-line no-undef
+  
   it('Should verify malformed token',(done)=>{
     const {id:normal_user_id}=user_normal;
     const malformed_token='badToken';
@@ -437,9 +392,8 @@ describe('AdminController /PATCH user to mentor',()=>{
       });
   });
   
- 
+
   
-  //eslint-disable-next-line no-undef
   it('Should return an access forbiden if the user who changes is not an admin or does not have email:p@gmail.com',(done)=>{
     const {id:normal_user_id}=user_normal;
     const {token:user_noAdmin_token}=notAdmin_user;
@@ -455,7 +409,7 @@ describe('AdminController /PATCH user to mentor',()=>{
       });
   });
   
-  //eslint-disable-next-line no-undef
+  
   it('Should return status:400 if the id of the user to be changed was not found',(done)=>{
     const wrongId=450;
     const {token:user_admin_token}=user_admin1;
@@ -482,7 +436,7 @@ describe('AdminController /PATCH user to mentor',()=>{
 
 describe('AdminController /PATCH mentor to user',()=>{
 
-  //eslint-disable-next-line no-undef
+  
   it('Should change a mentor to normal user',(done)=>{
     const {id:mentor_user_id}=created_mentor;
     const {token:user_admin_token}=user_admin1;
@@ -498,7 +452,7 @@ describe('AdminController /PATCH mentor to user',()=>{
       });
   });
 
-  //eslint-disable-next-line no-undef
+  
   it('Should return status 401 if the token has been not sent',(done)=>{
     const {id:normal_user_id}=user_normal;
     
@@ -514,7 +468,7 @@ describe('AdminController /PATCH mentor to user',()=>{
       });
   });
 
-  // //eslint-disable-next-line no-undef
+
   it('Should verify invalid token',(done)=>{
     const {id:normal_user_id}=user_normal;
 
@@ -533,7 +487,7 @@ describe('AdminController /PATCH mentor to user',()=>{
       });
   });
 
-  //eslint-disable-next-line no-undef
+  
   it('Should verify malformed token',(done)=>{
     const {id:normal_user_id}=user_normal;
     const malformed_token='badToken';
@@ -553,7 +507,7 @@ describe('AdminController /PATCH mentor to user',()=>{
  
   
   
-  // //eslint-disable-next-line no-undef
+
   it('Should return an access forbiden if the user who changes is not an admin or does not have email:p@gmail.com',(done)=>{
     const {id:normal_user_id}=user_normal;
     const {token:user_noAdmin_token}=notAdmin_user;
@@ -569,7 +523,7 @@ describe('AdminController /PATCH mentor to user',()=>{
       });
   });
   
-  //eslint-disable-next-line no-undef
+  
   it('Should return status:400 if the id of the mentor to be changed was not found',(done)=>{
     const wrongId=450;
     const {token:user_admin_token}=user_admin1;

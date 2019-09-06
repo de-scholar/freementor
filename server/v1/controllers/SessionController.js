@@ -7,9 +7,8 @@ class SessionController{
 
   static view_sessions(req,res){
     const {auth_user}=req;
+
     let {type:user_type,id:auth_userId}=auth_user;
-    
-    
     if(user_type==='user'){
       user_type='mentee';
     }
@@ -52,7 +51,7 @@ class SessionController{
     let msg='Session not found,create sessions';
 
     if(fetch_session){
-      //check if the mentor is concerned for this sesion
+     
      
       if(auth_user.id===fetch_session.mentorId){
         
@@ -84,7 +83,7 @@ class SessionController{
     let msg='Session not found,create sessions';
 
     if(fetch_session){
-      //check if the mentor is concerned for this sesion
+     
       if(auth_user.id===fetch_session.mentorId){
         
         if(fetch_session.status==='pending'){
