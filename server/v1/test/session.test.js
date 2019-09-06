@@ -306,6 +306,7 @@ describe('SessionController /GET sessions',()=>{
       .set('Content-type', 'application/x-www-form-urlencoded')
       .set('token', mentorToken)
       .end((err,res)=>{
+       
         res.should.have.status(200);
         res.body.data.should.be.an('array');
        
