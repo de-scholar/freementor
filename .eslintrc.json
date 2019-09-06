@@ -19,6 +19,14 @@
        "radix": 0,
        "no-undef": 0,
        "indent": ["error", 2],
-       "no-console":0
+       "arrow-spacing": ["error", { "before": false, "after": true }],
+       "no-console":0,
+       "quotes": [2, "single", { "avoidEscape": true }],
+       "no-multiple-empty-lines": [2, {"max": 2}],
+       "padding-line-between-statements": [
+        "error",
+        { "blankLine": "always", "prev": ["const", "let", "var"], "next": "*"},
+        { "blankLine": "any",    "prev": ["const", "let", "var"], "next": ["const", "let", "var"]}
+       ]
     }
 }

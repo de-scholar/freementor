@@ -9,6 +9,7 @@ class AdminController{
     const {userId}=req.params;
     
     const dataToChange={column:'role',value:'admin'};
+
     return users.switchTo(userId,dataToChange,res);
     
   }
@@ -17,6 +18,7 @@ class AdminController{
     const {userId}=req.params;
     
     const dataToChange={column:'role',value:'user'};
+
     return users.switchTo(userId,dataToChange,res);
   }
 
@@ -25,6 +27,7 @@ class AdminController{
     const {userId}=req.params;
     
     const dataToChange={column:'type',value:'mentor'};
+
     return users.switchTo(userId,dataToChange,res);
     
 
@@ -34,6 +37,7 @@ class AdminController{
 
     const {mentorId}=req.params;
     const dataToChange={column:'type',value:'user'};
+
     return users.switchTo(mentorId,dataToChange,res);
     
 

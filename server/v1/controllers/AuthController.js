@@ -9,12 +9,10 @@ const {
 }=GeneralHelper;
 
 
-
 class AuthController{
 
   static signUp(req,res){
     let {body}=req;
-        
  
 
     body.id=users.all().length+1;
@@ -30,9 +28,11 @@ class AuthController{
     if(!simuler_user){
       //store user
       var created_user=users.create(body);
+
       msg='User created successfully';
       const {id,firstName,lastName,email}=created_user;
       const data={token,id,firstName,lastName,email};
+
       return response(res,201,msg,data)
   
     }
@@ -43,6 +43,7 @@ class AuthController{
 
   static signIn(req,res){
     let user_data={};
+
     user_data.email=req.body.email;
     user_data.password=req.body.password;
     
@@ -52,7 +53,7 @@ class AuthController{
     if(user_found!==false){
       const user=user_found;
         
-      bcrypt.compare(user_data.password,user.password, (err, success)=>{
+      bcrypt.compare(user_data.password,user.password, (err, success)=> {
        
         if(success){
           const {id,email,type,role,firstName,lastName}=user;
@@ -60,6 +61,7 @@ class AuthController{
 
           msg='User is successfully logged in';
           let data={id,token,firstName,lastName,email};
+
           return response(res,200,msg,data);
           
         }
@@ -73,12 +75,9 @@ class AuthController{
       msg='Invalid Credentials';
       return response(res,401,msg);
     }
-    
         
        
   }
-
-    
 
 
 }
