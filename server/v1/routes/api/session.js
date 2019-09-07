@@ -1,17 +1,17 @@
 import express from 'express';
+import bodyParser from 'body-parser';
 import sessionValidation from '../../middleware/sessionValidation';
 import validate from '../../middleware/validate';
 import SessionController from '../../controllers/SessionController';
 import permissionMw from '../../middleware/permission';
-import bodyParser from 'body-parser';
 import AuthMw from '../../middleware/auth';
 
 const router = express.Router();
-const urlEncodedParser=bodyParser.urlencoded({extended:false});
-const {authorization,tokenVerify}=AuthMw;
-const {isMentor}=permissionMw;
+const urlEncodedParser = bodyParser.urlencoded({ extended: false });
+const { authorization, tokenVerify } = AuthMw;
+const { isMentor } = permissionMw;
 
-/* create session*/
+
 router.post('/sessions',
   urlEncodedParser,
   authorization,
@@ -20,28 +20,25 @@ router.post('/sessions',
   validate,
   SessionController.create);
 
-/* Get all mentorship session requests*/
+
 router.get('/sessions',
   authorization,
   tokenVerify,
   SessionController.view_sessions);
 
-/* accept session request*/
+
 router.patch('/sessions/:sessionId/accept',
   authorization,
   tokenVerify,
   isMentor,
   SessionController.acceptSession);
 
-/* reject session request*/
+
 router.patch('/sessions/:sessionId/reject',
   authorization,
   tokenVerify,
   isMentor,
   SessionController.rejectSession);
-
-
-
 
 
 export default router;

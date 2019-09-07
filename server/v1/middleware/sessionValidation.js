@@ -1,55 +1,48 @@
-import {check} from 'express-validator';
+import { check } from 'express-validator';
 
 
-const sessionValidation={
-  onCreate:[
+const sessionValidation = {
+  onCreate: [
     check('questions')
       .exists({ checkFalsy: true })
       .withMessage('Question is required.')
-      .isLength({min:10})
-      .withMessage('Question should have at least 10 characters')
-    ,
+      .isLength({ min: 10 })
+      .withMessage('Question should have at least 10 characters'),
     check('start_date')
       .exists({ checkFalsy: true })
-      .withMessage('Starting date is required.')
-      
-    ,
+      .withMessage('Starting date is required.'),
+
     check('end_date')
       .exists({ checkFalsy: true })
-      .withMessage('Ending date is required')
-      
-    ,
+      .withMessage('Ending date is required'),
+
     check('mentorId')
       .exists({ checkFalsy: true })
-      .withMessage('mentorId is required')
-      
-    ,
+      .withMessage('mentorId is required'),
+
 
   ],
-  onReview:[
+  onReview: [
     check('score')
       .exists({ checkFalsy: true })
       .withMessage('Score is required')
       .custom((value)=> {
-        value=parseInt(value);
-        if(value<0 || value>5){
+        if (parseInt(value) < 0 || parseInt(value) > 5) {
           throw new Error('The score must be between 0 and 5');
         }
         return true;
       })
       .isNumeric()
-      .withMessage('Score must be a number')
-      
-      
-    ,
+      .withMessage('Score must be a number'),
+
+
     check('remark')
       .exists({ checkFalsy: true })
       .withMessage('Remark is required.')
-      .isLength({min:10})
-      .withMessage('Remark should have at least 10 characters')
-      
-    ,
-  ]
+      .isLength({ min: 10 })
+      .withMessage('Remark should have at least 10 characters'),
+
+  ],
 };
 
 export default sessionValidation;

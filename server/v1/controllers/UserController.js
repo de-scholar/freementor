@@ -1,27 +1,24 @@
 import users from '../models/User';
 import GeneralHelper from '../helpers/general';
-const {response}=GeneralHelper;
+
+const { response } = GeneralHelper;
 
 
-class UserController{
+class UserController {
+  static mentors(req, res) {
+    const mentors = users.findWhere('type', 'mentor').get();
 
-  static mentors(req,res){
-    
-    let mentors=users.findWhere('type','mentor').get();
-
-    return response(res,200,'OK',mentors);
-    
+    return response(res, 200, 'OK', mentors);
   }
 
-  static mentor(req,res){
-    const {mentorId}=req.params;
-    const mentor=users.findMentor(mentorId);
-    
-    if(mentor!==undefined){
-      return response(res,200,'OK',mentor);
+  static mentor(req, res) {
+    const { mentorId } = req.params;
+    const mentor = users.findMentor(mentorId);
+
+    if (mentor !== undefined) {
+      return response(res, 200, 'OK', mentor);
     }
-    return response(res,400,'Mentor not found');
-    
+    return response(res, 400, 'Mentor not found');
   }
 }
 

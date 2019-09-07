@@ -1,7 +1,7 @@
 
 /**
  * Table :sessions
- * 
+ *
  * Property of our table
  * ---------------------
  * 1. id
@@ -13,24 +13,21 @@
 
 import Model from './model';
 
-class Review extends Model{
-  
-  constructor(){
+class Review extends Model {
+  constructor() {
     super();
-    this.known_attributes=[
+    this.known_attributes = [
       'id',
       'score',
       'remark',
       'sessionId',
-      'crated_at'
+      'crated_at',
     ];
   }
 
-  session(sessionId){
-    return this.findWhere('sessionId',sessionId).first();
+  session(sessionId) {
+    return this.findWhere('sessionId', sessionId).first();
   }
-
-
 }
 
 export default new Review();
