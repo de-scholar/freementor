@@ -21,7 +21,7 @@ class Review extends Model {
       'score',
       'remark',
       'sessionId',
-      'crated_at',
+      'created_at',
     ];
   }
 
