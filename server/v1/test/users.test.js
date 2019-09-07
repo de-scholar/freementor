@@ -4,7 +4,6 @@ import chaiHttp from 'chai-http';
 import server from '../../../index';
 import data from './data';
 
-
 should();
 use(chaiHttp);
 

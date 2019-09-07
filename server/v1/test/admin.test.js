@@ -21,7 +21,6 @@ describe('AdminController /PATCH user to admin', ()=> {
       .set('Content-type', 'application/x-www-form-urlencoded')
       .send(data.admin_test.user1)
       .then((res)=> {
-        Object.assign(res.body);
         user_admin1 = res.body.data;
       });
 
@@ -60,7 +59,9 @@ describe('AdminController /PATCH user to admin', ()=> {
       .set('Content-type', 'application/x-www-form-urlencoded')
       .set('token', user_admin_token)
       .end((err, res)=> {
-        Object.assign(user_admin1, res.body.data);
+        const { data: resp_data } = res.body;
+
+        user_admin1 = { ...user_admin1, resp_data };
         res.should.have.status(200);
         res.body.data.should.have.property('role').eql('admin');
         res.body.should.have.property('message').eql('Account changed to admin');

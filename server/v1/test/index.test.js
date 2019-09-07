@@ -3,7 +3,6 @@ import { should, use, request } from 'chai';
 import chaiHttp from 'chai-http';
 import server from '../../../index';
 
-
 should();
 use(chaiHttp);
 
