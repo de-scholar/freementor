@@ -5,8 +5,10 @@ import docs from '../swagger.json';
 import GeneralHelper from './v1/helpers/general';
 
 
+
 const app = express();
 const { response } = GeneralHelper;
+
 
 app.get('/', (req, res)=> response(res, 200, 'Welcome'));
 

@@ -31,8 +31,6 @@ class Session extends Model {
       'mentorId',
       'menteeId',
       'status',
-      'score',
-      'remark',
     ];
   }
 
