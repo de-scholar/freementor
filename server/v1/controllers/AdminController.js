@@ -1,46 +1,38 @@
-
 import users from '../models/User';
 import GeneralHelper from '../helpers/general';
-const {response}=GeneralHelper;
 
-class AdminController{
+const { response } = GeneralHelper;
 
-  static userToAdmin(req,res){
-    const {userId}=req.params;
-    
-    const dataToChange={column:'role',value:'admin'};
+class AdminController {
+  static userToAdmin(req, res) {
+    const { userId } = req.params;
 
-    return users.switchTo(userId,dataToChange,res);
-    
+    const dataToChange = { column: 'role', value: 'admin' };
+
+    return users.switchTo(userId, dataToChange, res);
   }
 
-  static adminToUser(req,res){
-    const {userId}=req.params;
-    
-    const dataToChange={column:'role',value:'user'};
+  static adminToUser(req, res) {
+    const { userId } = req.params;
 
-    return users.switchTo(userId,dataToChange,res);
+    const dataToChange = { column: 'role', value: 'user' };
+
+    return users.switchTo(userId, dataToChange, res);
   }
 
-  static userToMentor(req,res){
+  static userToMentor(req, res) {
+    const { userId } = req.params;
 
-    const {userId}=req.params;
-    
-    const dataToChange={column:'type',value:'mentor'};
+    const dataToChange = { column: 'type', value: 'mentor' };
 
-    return users.switchTo(userId,dataToChange,res);
-    
-
+    return users.switchTo(userId, dataToChange, res);
   }
 
-  static mentorToUser(req,res){
+  static mentorToUser(req, res) {
+    const { mentorId } = req.params;
+    const dataToChange = { column: 'type', value: 'user' };
 
-    const {mentorId}=req.params;
-    const dataToChange={column:'type',value:'user'};
-
-    return users.switchTo(mentorId,dataToChange,res);
-    
-
+    return users.switchTo(mentorId, dataToChange, res);
   }
 }
 

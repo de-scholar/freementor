@@ -1,11 +1,11 @@
 import express from 'express';
+import bodyParser from 'body-parser';
 import userValidation from '../../middleware/userValidation';
 import validate from '../../middleware/validate';
 import AuthController from '../../controllers/AuthController';
-import bodyParser from 'body-parser';
 
 const router = express.Router();
-const urlEncodedParser=bodyParser.urlencoded({extended:false});
+const urlEncodedParser = bodyParser.urlencoded({ extended: false });
 
 
 router.post('/auth/signup',

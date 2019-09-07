@@ -16,21 +16,19 @@
  * 10. address
  * 11. role
  * 12. created_at
- * 
+ *
  */
 
 import Model from './model';
 import GeneralHelper from '../helpers/general';
-const {response}=GeneralHelper;
+
+const { response } = GeneralHelper;
 
 
-
-
-class User extends Model{
-  
-  constructor(){
+class User extends Model {
+  constructor() {
     super();
-    this.known_attributes=[
+    this.known_attributes = [
       'id',
       'firstName',
       'lastName',
@@ -41,45 +39,36 @@ class User extends Model{
       'expertise',
       'type',
       'address',
-      'role'
-      
+      'role',
+
     ];
   }
 
- 
 
-  findMentor(mentorId){
-    const [first_user]=this.all().filter(({id,type})=>
-      id===parseInt(mentorId) && type==='mentor');
-      
+  findMentor(mentorId) {
+    const [first_user] = this.all().filter(({ id, type })=> id === parseInt(mentorId) && type === 'mentor');
+
     return first_user;
   }
 
-  switchTo(userId,dataToChange,res){
-    
-    const user=this.find(userId);
-    const {column,value}=dataToChange;
-    
+  switchTo(userId, dataToChange, res) {
+    const user = this.find(userId);
+    const { column, value } = dataToChange;
+
     let msg;
-    
-    if(user!==undefined){
-      const user_category=user[column];
-      msg=`Account changed to ${value}`;
-      const new_user=this.update(user.id,{[column]:value});
 
-      return response(res,200,msg,new_user);
-      
-    }
-    else{
-      msg='user with the sent id not found'; 
-      return response(res,400,msg);
+    if (user !== undefined) {
+      const user_category = user[column];
+
+      msg = `Account changed to ${value}`;
+      const new_user = this.update(user.id, { [column]: value });
+
+      return response(res, 200, msg, new_user);
     }
 
-    
+    msg = 'user with the sent id not found';
+    return response(res, 400, msg);
   }
-
-
-
 }
 
 export default new User();
