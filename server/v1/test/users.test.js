@@ -6,8 +6,6 @@ import data from './data';
 
 should();
 use(chaiHttp);
-
-
 let user_admin;
 let user_mentor;
 
