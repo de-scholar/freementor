@@ -13,7 +13,12 @@ router.post('/auth/signup',
   urlEncodedParser,
   userValidation.signup,
   validate,
-  dataExist.checkUser,
+  dataExist.checkUserEmail,
   AuthController.signUp);
+
+router.post('/auth/signin',
+  userValidation.signin,
+  validate,
+  AuthController.signIn);
 
 export default router;

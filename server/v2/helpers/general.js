@@ -2,10 +2,12 @@
 import dotenv from 'dotenv';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
+import dbHelper from './db_Helper';
 
 dotenv.config();
 
 const { AUTH_SECRET: secret, JWT_LIFE } = process.env;
+const { removeDataToHide } = dbHelper;
 
 class General {
   static generateToken(payload) {
@@ -39,8 +41,9 @@ class General {
   }
 
 
-  static response(res, status, msg, data = {}) {
+  static response(res, status, msg, data = {}, dataToRemove) {
     if (status === 200 || status === 201) {
+      if (dataToRemove) { removeDataToHide(data, dataToRemove); }
       return res.status(status).json({
         status,
         message: msg,
