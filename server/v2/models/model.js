@@ -30,7 +30,7 @@ class Model {
 
     const { rows: [created_data] } = await db.query(this.query);
 
-    return removeDataToHide(created_data, this.dataToHide);
+    return created_data;
   }
 
   async all() {
@@ -63,19 +63,7 @@ class Model {
     };
     const { rows } = await db.query(this.query);
 
-
-    this.data = rows;
-    return this;
-  }
-
-  get() {
-    return this.data;
-  }
-
-  first() {
-    const [first] = this.data;
-
-    return first;
+    return rows;
   }
 }
 

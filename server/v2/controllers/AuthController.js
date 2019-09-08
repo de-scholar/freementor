@@ -9,11 +9,9 @@ const {
 } = GeneralHelper;
 
 
-class AuthController {
-  constructor() {
-    this.msg = '';
-  }
+let msg = '';
 
+class AuthController {
   static async signUp(req, res, next) {
     const { body } = req;
 
@@ -31,9 +29,34 @@ class AuthController {
 
       const data = { token, ...created_user };
 
-      return response(res, 201, 'User created successfully', data);
+      msg = 'User created successfully';
+      return response(res, 201, msg, data, User.dataToHide);
     } catch (err) {
       return next(err);
+    }
+  }
+
+  static async signIn(req, res) {
+    const { body: { email, password: in_password } } = req;
+
+    const [user_found] = await User.findWhere('email', email);
+
+
+    if (user_found !== false) {
+      const passwordIsValid = bcrypt.compareSync(in_password, user_found.password);
+
+      if (!passwordIsValid) return response(res, 401, 'Invalid Credentials');
+      const token = generateToken({
+        id: user_found.id,
+        email: user_found.email,
+        type: user_found.type,
+        role: user_found.role,
+      });
+
+      msg = 'User is successfully logged in';
+      const data = { token, ...user_found };
+
+      return response(res, 200, msg, data, User.dataToHide);
     }
   }
 }
