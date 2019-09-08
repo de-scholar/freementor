@@ -61,6 +61,7 @@ class Model {
       text: `SELECT * FROM ${this.table} WHERE ${key}=$1 `,
       values: [value],
     };
+
     const { rows } = await db.query(this.query);
 
     return rows;
