@@ -47,7 +47,7 @@ class Model {
   async find(itemId) {
     this.query = {
       text: `SELECT * FROM ${this.table} WHERE id=$1 `,
-      values: [itemId],
+      values: [parseInt(itemId)],
     };
     const { rows: [first_user] } = await db.query(this.query);
 
@@ -65,6 +65,21 @@ class Model {
     const { rows } = await db.query(this.query);
 
     return rows;
+  }
+
+  async update(Id, data) {
+    const {
+      prepare_edit_columns,
+      values,
+    } = prepareData(data);
+
+    this.query = {
+      text: `UPDATE  ${this.table} SET ${prepare_edit_columns} WHERE id=$${values.length + 1} RETURNING*`,
+      values: [...values, parseInt(Id)],
+    };
+    const { rows: [update_item] } = await db.query(this.query);
+
+    return update_item;
   }
 }
 

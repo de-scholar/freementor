@@ -4,13 +4,15 @@ class DbHelper {
   static prepareData(data) {
     const keys = Object.keys(data);
     const prepare_columns = keys.toString();
-    const prepare_values = keys.map((col, index)=> `$${index + 1}`);
+    const prepare_values = keys.map((col, index)=> `$${index + 1}`).toString();
     const values = Object.values(data);
+    const prepare_edit_columns = keys.map((col, index)=> `${col}=$${index + 1}`).toString();
 
     return {
       keys,
       prepare_columns,
       prepare_values,
+      prepare_edit_columns,
       values,
     };
   }

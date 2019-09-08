@@ -46,6 +46,27 @@ class User extends Model {
 
     ];
   }
+
+  async switchTo(userId, data, res, next) {
+    try {
+      const user = await this.find(userId);
+
+      let msg;
+
+      if (user) {
+        const new_user = await this.update(user.id, data);
+        const [column] = Object.keys(data);
+
+        msg = `Account changed to ${new_user[column]}`;
+        return response(res, 200, msg, new_user);
+      }
+
+      msg = 'user with the sent id not found';
+      return response(res, 406, msg);
+    } catch (error) {
+      return next(error);
+    }
+  }
 }
 
 export default new User();

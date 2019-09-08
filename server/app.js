@@ -26,6 +26,9 @@ app.use(routers_V2);
 app.use('*', (req, res, next)=> response(res, 404, 'Page not found'));
 
 
-app.use((err, req, res, next)=> response(res, 500, err.message));
+app.use((err, req, res, next)=> {
+  console.log(err);
+  response(res, 500, err.message);
+});
 
 export default app;
