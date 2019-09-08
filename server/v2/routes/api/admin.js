@@ -21,4 +21,17 @@ router.patch('/admin-to/:userId/',
   AdminController.adminToUser);
 
 
+router.patch('/user/:userId',
+  authorization,
+  tokenVerify,
+  isAdmin,
+  AdminController.userToMentor);
+
+router.patch('/mentor/:userId',
+  authorization,
+  tokenVerify,
+  isAdmin,
+  AdminController.mentorToUser);
+
+
 export default router;
