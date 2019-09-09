@@ -27,7 +27,7 @@ app.use('*', (req, res, next)=> response(res, 404, 'Page not found'));
 
 
 app.use((err, req, res, next)=> {
-  console.log(err);
+  // console.log(err);
   response(res, 500, err.message);
 });
 

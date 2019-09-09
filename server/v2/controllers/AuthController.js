@@ -26,13 +26,14 @@ class AuthController {
       const token = generateToken({
         id: created_user.id,
         email: created_user.email,
-        is_admin: 'false',
+        is_admin: false,
         role: created_user.role,
       });
 
       
       msg = 'User created successfully';
-      return response(res, 201, msg, { token });
+      const data = { token , id:created_user.id};
+      return response(res, 201, msg, data);
     } catch (err) {
       return next(err);
     }
@@ -54,8 +55,8 @@ class AuthController {
       });
 
       msg = `Welcome ${user_found.lastname}`;
-      
-      return response(res, 200, msg,{ token }, User.dataToHide);
+      const data = { token , id:user_found.id, is_admin: user_found.is_admin};
+      return response(res, 200, msg, data , User.dataToHide);
     } catch (error) {
      
       return next(error);
