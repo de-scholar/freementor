@@ -55,7 +55,7 @@ class AuthController {
         is_admin: user_found.is_admin,
       });
 
-      msg = 'User is successfully logged in';
+      msg = `Welcome ${user_found.lastname}`;
       
       return response(res, 200, msg,{ token }, User.dataToHide);
     } catch (error) {
