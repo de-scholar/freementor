@@ -23,6 +23,18 @@ class SessionController {
       return next(e);
     }
   }
+
+  static async acceptSession(req, res, next) {
+    const { sessionId } = req.params;
+
+    try {
+      const update_session = await Session.update(sessionId, { status: 'accepted' });
+
+      return response(res, 200, 'OK', update_session);
+    } catch (e) {
+      return next(e);
+    }
+  }
 }
 
 export default SessionController;
