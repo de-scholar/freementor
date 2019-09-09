@@ -11,7 +11,7 @@ const router = express.Router();
 const urlEncodedParser = bodyParser.urlencoded({ extended: false });
 const { authorization, tokenVerify } = AuthMw;
 const { isMentor } = permissionMw;
-const { checkMentorExist } = dataExist;
+const { checkMentorExist, checkSessionExist } = dataExist;
 
 
 router.post('/sessions',
@@ -22,6 +22,13 @@ router.post('/sessions',
   validate,
   checkMentorExist,
   SessionController.create);
+
+router.patch('/sessions/:sessionId/accept',
+  authorization,
+  tokenVerify,
+  isMentor,
+  checkSessionExist,
+  SessionController.acceptSession);
 
 
 export default router;
