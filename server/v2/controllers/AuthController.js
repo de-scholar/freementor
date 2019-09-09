@@ -39,13 +39,11 @@ class AuthController {
   }
 
   static async signIn(req, res, next) {
-    const { body: { email, password: in_password } } = req;
-
-    const [user_found] = await User.findWhere('email', email);
-
+    const { body: { email, password: in_password }, user_found } = req;
 
     try {
       const passwordIsValid = bcrypt.compareSync(in_password, user_found.password);
+     
 
       if (!passwordIsValid) return response(res, 401, 'Invalid Credentials');
       const token = generateToken({
@@ -59,7 +57,7 @@ class AuthController {
       
       return response(res, 200, msg,{ token }, User.dataToHide);
     } catch (error) {
-      error.message = 'Invalid Credentials';
+     
       return next(error);
     }
   }

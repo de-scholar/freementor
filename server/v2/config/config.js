@@ -9,13 +9,15 @@ const {
   DB_NAME,
 } = process.env;
 
-
+const { NODE_ENV }=process.env;
+console.log(NODE_ENV);
 export default {
   dbConfig: {
     user: DB_USERNAME,
     host: DB_HOST,
-    database: DB_NAME,
+    database: NODE_ENV==="test"?"test_freementors":DB_NAME,
     password: DB_PASSWORD,
     port: DB_PORT,
   },
+  
 };

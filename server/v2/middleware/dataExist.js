@@ -15,6 +15,19 @@ export default {
       return next(error);
     }
   },
+  checkEmailSignin: async (req, res, next)=> {
+    try{
+      const [user] = await User.findWhere('email', req.body.email);
+      if(!user) return response(res, 401, 'Invalid Credentials');
+      else{ 
+        req.user_found = user;
+        return next();
+      }
+      
+    } catch (error) {
+      return next(error);
+    }
+  },
   checkMentorExist: async ({ body }, res, next)=> {
     const mentor_id = parseInt(body.mentor_id);
 
