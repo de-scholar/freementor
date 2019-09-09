@@ -14,7 +14,7 @@ CREATE TABLE users (
     is_admin BOOLEAN DEFAULT false,
     type VARCHAR(250) NOT NULL,
     password VARCHAR(255) NOT NULL,
-    created_at DATE DEFAULT NOW()
+    created_at TIMESTAMP DEFAULT NOW()
 );
 `;
 
@@ -28,7 +28,7 @@ CREATE TABLE sessions (
     start_date  DATE NOT NULL,
     end_date  DATE NOT NULL,
     status VARCHAR(50) DEFAULT 'pending',
-    created_at DATE DEFAULT NOW()
+    created_at TIMESTAMP DEFAULT NOW()
 );
 `;
 
@@ -39,7 +39,7 @@ CREATE TABLE reviews (
     session_id INTEGER NOT NULL,
     score INTEGER NOT NULL,
     remark TEXT NOT NULL,
-    created_at DATE DEFAULT NOW()
+    created_at TIMESTAMP DEFAULT NOW()
 );
 `;
 
