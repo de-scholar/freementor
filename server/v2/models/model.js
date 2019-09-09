@@ -8,9 +8,7 @@ const { prepareData, removeDataToHide } = DbHelper;
 
 class Model {
   constructor(table) {
-    this.data = [];
     this.query = {};
-    this.db = db;
   }
 
   async create(itemToCreate) {
@@ -67,6 +65,28 @@ class Model {
     return rows;
   }
 
+  async customQuery(addQuery, values) {
+    this.query = {
+      text: `SELECT * FROM ${this.table} ${addQuery} `,
+      values,
+    };
+
+    const { rows } = await db.query(this.query);
+
+    return rows;
+  }
+
+  async fullQuery(addQuery, values) {
+    this.query = {
+      text: addQuery,
+      values,
+    };
+
+    const { rows } = await db.query(this.query);
+
+    return rows;
+  }
+
   async update(Id, data) {
     const {
       prepare_edit_columns,
@@ -80,6 +100,16 @@ class Model {
     const { rows: [update_item] } = await db.query(this.query);
 
     return update_item;
+  }
+
+  async delete(item_id) {
+    this.query = {
+      text: `DELETE FROM  ${this.table} WHERE id=$1`,
+      values: [item_id],
+    };
+
+    await db.query(this.query);
+    return true;
   }
 }
 
