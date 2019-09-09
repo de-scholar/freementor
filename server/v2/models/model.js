@@ -88,6 +88,7 @@ class Model {
   }
 
   async update(Id, data) {
+    
     const {
       prepare_edit_columns,
       values,

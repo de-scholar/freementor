@@ -1,5 +1,5 @@
 
-import { check } from 'express-validator';
+import { check, body } from 'express-validator';
 
 const userValidation = {
   signup: [

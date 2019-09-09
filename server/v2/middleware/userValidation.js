@@ -25,7 +25,20 @@ const userValidation = {
       .exists({ checkFalsy: true })
       .withMessage('Password is required')
       .isLength({ min: 8, max: 15 })
-      .withMessage('Password must be between 8 and 15 characters long'),
+      .withMessage('Password must be between 8 and 15 characters long')
+      //.matches(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,}$/, "i")
+      .custom((value)=> {
+        console.log('check strong pass');
+        let format = /(?=.*\d)/;
+        if (!format.test(value))  {throw new Error('Password should contain at least one digit');}
+        format = /(?=.*[a-z])/;
+        if (!format.test(value))  {throw new Error('Password should contain at least one lower case');}
+        format = /(?=.*[A-Z])/;
+        if (!format.test(value))  throw new Error('Password should contain at least one upper case');
+        format = /(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]/;
+        if (!format.test(value)) throw new Error('Password should contain at least 1 character');
+        return true;
+      }),
 
     check('address')
       .exists({ checkFalsy: true })
