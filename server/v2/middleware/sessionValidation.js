@@ -16,7 +16,7 @@ const sessionValidation = {
       .exists({ checkFalsy: true })
       .withMessage('Ending date is required'),
 
-    check('mentorId')
+    check('mentor_id')
       .exists({ checkFalsy: true })
       .withMessage('mentorId is required'),
 
