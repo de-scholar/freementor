@@ -3,7 +3,7 @@ import { should, use, request } from 'chai';
 import chaiHttp from 'chai-http';
 import server from '../../../index';
 import data from './data';
-import migrate_tables from '../models/db/tables_migration';
+
 
 should();
 use(chaiHttp);
@@ -17,12 +17,6 @@ let { user1,
 describe('AuthController', ()=> {
 
 
-
-
-  before((done)=>{
-     migrate_tables(done);
-     
-  })
 
   it(('Should signup a user'), (done)=> {
     request(server).post('/api/v2/auth/signup')

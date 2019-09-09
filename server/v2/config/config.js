@@ -10,7 +10,7 @@ const {
 } = process.env;
 
 const { NODE_ENV }=process.env;
-console.log(NODE_ENV);
+
 export default {
   dbConfig: {
     user: DB_USERNAME,

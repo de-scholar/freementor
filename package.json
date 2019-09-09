@@ -9,8 +9,8 @@
     "test": "NODE_ENV=test nyc mocha --exit --timeout 150000 --require @babel/register --require babel-polyfill ./server/**/*.test.js",
     "test_ch1": "mocha --exit --timeout 5000 --require @babel/register --require babel-polyfill ./server/**/*.test.js",
     "coverage": "nyc --reporter=lcov --reporter=text-lcov npm test | coveralls",
-    "migrate_tables": "NODE_ENV=dev babel-node ./server/v2/models/table_generator.js",
-    "migrate_tables_test": "NODE_ENV=test babel-node ./server/v2/models/table_generator.js"
+    "migrate": "NODE_ENV=dev babel-node ./server/v2/models/table_generator.js",
+    "migrate_test": "NODE_ENV=test babel-node ./server/v2/models/table_generator.js"
   },
   "repository": {
     "type": "git",
