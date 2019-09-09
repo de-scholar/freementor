@@ -35,6 +35,18 @@ class SessionController {
       return next(e);
     }
   }
+
+  static async rejectSession(req, res) {
+    const { sessionId } = req.params;
+
+    try {
+      const update_session = await Session.update(sessionId, { status: 'rejected' });
+
+      return response(res, 200, 'OK', update_session);
+    } catch (e) {
+      return next(e);
+    }
+  }
 }
 
 export default SessionController;
