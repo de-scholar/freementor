@@ -7,7 +7,8 @@
     "start": "babel-node index.js",
     "dev": "nodemon --exec babel-node  ./index.js",
     "test": "mocha --exit --timeout 5000 --require @babel/register --require babel-polyfill ./server/**/*.test.js",
-    "coverage": "nyc --reporter=lcov --reporter=text-lcov npm test | coveralls"
+    "coverage": "nyc --reporter=lcov --reporter=text-lcov npm test | coveralls",
+    "table_generator": "babel-node ./server/v2/models/table_generator.js"
   },
   "repository": {
     "type": "git",
