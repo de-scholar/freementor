@@ -5,9 +5,9 @@ const { response } = GeneralHelper;
 
 class Admin {
   static isAdmin(req, res, next) {
-    const { auth_user: { role } } = req;
+    const { auth_user: { is_admin } } = req;
 
-    if (role === 'admin') {
+    if (is_admin === 'true') {
       return next();
     }
     return response(res, 403, 'Access forbiden,reserved for admin');

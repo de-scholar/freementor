@@ -14,7 +14,7 @@
  * 8. expertise
  * 9. type :normal/mentor/admin;
  * 10. address
- * 11. role
+ * 11. is_admin
  * 12. created_at
  *
  */
@@ -42,7 +42,7 @@ class User extends Model {
       'expertise',
       'type',
       'address',
-      'role',
+      'is_admin',
 
     ];
   }
@@ -50,15 +50,16 @@ class User extends Model {
   async switchTo(userId, data, res, next) {
     try {
       const user = await this.find(userId);
-
+  
       let msg;
-
+      
       if (user) {
+       
         const new_user = await this.update(user.id, data);
         const [column] = Object.keys(data);
 
         msg = `Account changed to ${new_user[column]}`;
-        return response(res, 200, msg, new_user);
+        return response(res, 200, msg,{[column]:new_user[column] });
       }
 
       msg = 'user with the sent id not found';

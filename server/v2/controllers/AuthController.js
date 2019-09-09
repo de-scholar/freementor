@@ -18,7 +18,7 @@ class AuthController {
 
     body.password = hashPassword(req.body.password);
     body.type = 'user';
-    body.role = 'user';
+
     try {
       const created_user = await User.create(body);
 
@@ -26,14 +26,13 @@ class AuthController {
       const token = generateToken({
         id: created_user.id,
         email: created_user.email,
-        type: created_user.type,
+        is_admin: 'false',
         role: created_user.role,
       });
 
-      const data = { token, ...created_user };
-
+      
       msg = 'User created successfully';
-      return response(res, 201, msg, data, [...User.dataToHide, 'nb_all']);
+      return response(res, 201, msg, { token });
     } catch (err) {
       return next(err);
     }
@@ -53,13 +52,12 @@ class AuthController {
         id: user_found.id,
         email: user_found.email,
         type: user_found.type,
-        role: user_found.role,
+        is_admin: user_found.is_admin,
       });
 
       msg = 'User is successfully logged in';
-      const data = { token, ...user_found };
-
-      return response(res, 200, msg, data, User.dataToHide);
+      
+      return response(res, 200, msg,{ token }, User.dataToHide);
     } catch (error) {
       error.message = 'Invalid Credentials';
       return next(error);

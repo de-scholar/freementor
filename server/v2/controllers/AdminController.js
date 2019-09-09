@@ -7,13 +7,13 @@ class AdminController {
   static userToAdmin(req, res, next) {
     const { userId } = req.params;
 
-    return User.switchTo(userId, { role: 'admin' }, res, next);
+    return User.switchTo(userId, { is_admin: true }, res, next);
   }
 
   static adminToUser(req, res, next) {
     const { userId } = req.params;
 
-    return User.switchTo(userId, { role: 'user' }, res, next);
+    return User.switchTo(userId, { is_admin: false }, res, next);
   }
 
   static userToMentor(req, res, next) {

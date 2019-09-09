@@ -2,6 +2,7 @@
 
 class DbHelper {
   static prepareData(data) {
+    
     const keys = Object.keys(data);
     const prepare_columns = keys.toString();
     const prepare_values = keys.map((col, index)=> `$${index + 1}`).toString();
