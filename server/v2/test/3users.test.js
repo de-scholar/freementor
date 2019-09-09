@@ -121,7 +121,6 @@ describe('UserController /GET all mentors', ()=> {
       .set('Content-type', 'application/x-www-form-urlencoded')
       .set('token', token)
       .end((err, res)=> {
-        
         res.should.have.status(412);
         res.body.error.should.be.an('string').eql('Mentor not found');
         done();
