@@ -2,7 +2,8 @@ import { should, use, request } from 'chai';
 import chaiHttp from 'chai-http';
 import server from '../../../index';
 import data from './mockData';
-const { other_token:{ wrong_token }, sessions } = data;
+
+const { other_token: { wrong_token }, sessions } = data;
 
 should();
 use(chaiHttp);
@@ -26,7 +27,7 @@ let unconcern_mentor;
 describe('SessionController /POST sessions', ()=> {
   before((done)=> {
     request(server).post('/api/v2/auth/signin')
-      
+
       .set('Content-type', 'application/x-www-form-urlencoded')
       .send(user2)
       .then((res)=> {
@@ -34,7 +35,7 @@ describe('SessionController /POST sessions', ()=> {
       });
 
     request(server).post('/api/v2/auth/signin')
-      
+
       .set('Content-type', 'application/x-www-form-urlencoded')
       .send(user1)
       .then((res)=> {
@@ -42,7 +43,7 @@ describe('SessionController /POST sessions', ()=> {
       });
 
     request(server).post('/api/v2/auth/signin')
-      
+
       .set('Content-type', 'application/x-www-form-urlencoded')
       .send(user3)
       .then((res)=> {
@@ -51,7 +52,7 @@ describe('SessionController /POST sessions', ()=> {
 
 
     request(server).post('/api/v2/auth/signin')
-      
+
       .set('Content-type', 'application/x-www-form-urlencoded')
       .send(user4)
       .then((res)=> {
@@ -59,7 +60,7 @@ describe('SessionController /POST sessions', ()=> {
       });
 
     request(server).post('/api/v2/auth/signup')
-      
+
       .set('Content-type', 'application/x-www-form-urlencoded')
       .send(user5)
       .then((res)=> {
@@ -71,7 +72,7 @@ describe('SessionController /POST sessions', ()=> {
 
   it('Should create a mentorship session', (done)=> {
     request(server).post('/api/v2/sessions')
-      
+
       .set('Content-type', 'application/x-www-form-urlencoded')
       .set('token', user_mentee.token)
       .send(sessions.data(user_mentor.id))
@@ -86,7 +87,7 @@ describe('SessionController /POST sessions', ()=> {
 
   it('Should return 412 code status if the mentorId is not found', (done)=> {
     request(server).post('/api/v2/sessions')
-      
+
       .set('Content-type', 'application/x-www-form-urlencoded')
       .set('token', user_mentee.token)
       .send(sessions.data(40))
@@ -100,7 +101,7 @@ describe('SessionController /POST sessions', ()=> {
 
   it('Should return 400 code status when the recorded input are invalid', (done)=> {
     request(server).post('/api/v2/sessions')
-      
+
       .set('Content-type', 'application/x-www-form-urlencoded')
       .set('token', user_mentee.token)
       .send(sessions.invalid_datadata(user_mentor.id))
@@ -114,7 +115,7 @@ describe('SessionController /POST sessions', ()=> {
 
   it('Should return status 401 if the token has been not sent', (done)=> {
     request(server).post('/api/v2/sessions')
-      
+
       .set('Content-type', 'application/x-www-form-urlencoded')
       .end((err, res)=> {
         res.should.have.status(401);
@@ -126,7 +127,7 @@ describe('SessionController /POST sessions', ()=> {
 
   it('Should verify invalid token', (done)=> {
     request(server).post('/api/v2/sessions')
-      
+
       .set('Content-type', 'application/x-www-form-urlencoded')
       .set('token', wrong_token)
       .end((err, res)=> {
@@ -139,7 +140,7 @@ describe('SessionController /POST sessions', ()=> {
 
   it('Should verify malformed token', (done)=> {
     request(server).post('/api/v2/sessions')
-      
+
       .set('Content-type', 'application/x-www-form-urlencoded')
       .set('token', 'badToken')
       .end((err, res)=> {
@@ -154,7 +155,7 @@ describe('SessionController /POST sessions', ()=> {
 describe('SessionController /PATCH: accept session', ()=> {
   before((done)=> {
     request(server).patch(`/api/v2/user/${unconcern_mentor.id}`)
-      
+
       .set('Content-type', 'application/x-www-form-urlencoded')
       .set('token', user_admin.token)
       .then((res)=> {
@@ -165,7 +166,7 @@ describe('SessionController /PATCH: accept session', ()=> {
 
   it(('Should login the unconcern mentor to update his payload in jwt'), (done)=> {
     request(server).post('/api/v2/auth/signin')
-      
+
       .set('Content-type', 'application/x-www-form-urlencoded')
       .send(unconcern_mentor)
       .end((err, res)=> {
@@ -177,7 +178,7 @@ describe('SessionController /PATCH: accept session', ()=> {
 
   it('Should return a status code 200 when mentor accept a session', (done)=> {
     request(server).patch(`/api/v2/sessions/${created_session.id}/accept`)
-      
+
       .set('Content-type', 'application/x-www-form-urlencoded')
       .set('token', user_mentor.token)
       .end((err, res)=> {
@@ -194,7 +195,7 @@ describe('SessionController /PATCH: accept session', ()=> {
 
   it('Should return a status code 400 when session with sent sessionId is not found', (done)=> {
     request(server).patch('/api/v2/sessions/312/accept')
-      
+
       .set('Content-type', 'application/x-www-form-urlencoded')
       .set('token', user_mentor.token)
       .end((err, res)=> {
@@ -208,7 +209,7 @@ describe('SessionController /PATCH: accept session', ()=> {
 
   it('Should return a status code 400 when an unconcern mentor want to accept a mentorship request', (done)=> {
     request(server).patch(`/api/v2/sessions/${created_session.id}/accept`)
-      
+
       .set('Content-type', 'application/x-www-form-urlencoded')
       .set('token', unconcern_mentor.token)
       .end((err, res)=> {
@@ -222,7 +223,7 @@ describe('SessionController /PATCH: accept session', ()=> {
 
   it('Should return a status code 400 when a mentor is trying to repeat the same operation', (done)=> {
     request(server).patch(`/api/v2/sessions/${created_session.id}/accept`)
-      
+
       .set('Content-type', 'application/x-www-form-urlencoded')
       .set('token', user_mentor.token)
       .end((err, res)=> {
@@ -237,7 +238,7 @@ describe('SessionController /PATCH: accept session', ()=> {
 
   it('Should return a status code 403 when an auth user is not a mentor', (done)=> {
     request(server).patch(`/api/v2/sessions/${created_session.id}/accept`)
-      
+
       .set('Content-type', 'application/x-www-form-urlencoded')
       .set('token', user_3.token)
       .end((err, res)=> {
@@ -252,7 +253,7 @@ describe('SessionController /PATCH: accept session', ()=> {
 
   it('Should return status 401 if the token has been not sent', (done)=> {
     request(server).patch(`/api/v2/sessions/${created_session.id}/accept`)
-      
+
       .set('Content-type', 'application/x-www-form-urlencoded')
       .end((err, res)=> {
         res.should.have.status(401);
@@ -264,7 +265,7 @@ describe('SessionController /PATCH: accept session', ()=> {
 
   it('Should verify invalid token', (done)=> {
     request(server).patch(`/api/v2/sessions/${created_session.id}/accept`)
-      
+
       .set('Content-type', 'application/x-www-form-urlencoded')
       .set('token', wrong_token)
       .end((err, res)=> {
@@ -277,7 +278,7 @@ describe('SessionController /PATCH: accept session', ()=> {
 
   it('Should verify malformed token', (done)=> {
     request(server).patch(`/api/v2/sessions/${created_session.id}/accept`)
-      
+
       .set('Content-type', 'application/x-www-form-urlencoded')
       .set('token', 'badToken')
       .end((err, res)=> {
@@ -292,7 +293,7 @@ describe('SessionController /PATCH: accept session', ()=> {
 describe('SessionController /PATCH reject session', ()=> {
   before((done)=> {
     request(server).post('/api/v2/sessions')
-      
+
       .set('Content-type', 'application/x-www-form-urlencoded')
       .set('token', user_mentee.token)
       .send(sessions.reject_session(user_mentor.id))
@@ -305,7 +306,7 @@ describe('SessionController /PATCH reject session', ()=> {
 
   it('Should return a status code 200 when mentor reject a session', (done)=> {
     request(server).patch(`/api/v2/sessions/${created_session.id}/reject`)
-      
+
       .set('Content-type', 'application/x-www-form-urlencoded')
       .set('token', user_mentor.token)
       .end((err, res)=> {
@@ -322,7 +323,7 @@ describe('SessionController /PATCH reject session', ()=> {
 
   it('Should return a status code 400 when session with sent sessionId is not found', (done)=> {
     request(server).patch('/api/v2/sessions/32/reject')
-      
+
       .set('Content-type', 'application/x-www-form-urlencoded')
       .set('token', user_mentor.token)
       .end((err, res)=> {
@@ -336,7 +337,7 @@ describe('SessionController /PATCH reject session', ()=> {
 
   it('Should return a status code 400 when an unconcern mentor want to reject a mentorship request', (done)=> {
     request(server).patch(`/api/v2/sessions/${created_session.id}/reject`)
-      
+
       .set('Content-type', 'application/x-www-form-urlencoded')
       .set('token', unconcern_mentor.token)
       .end((err, res)=> {
@@ -350,7 +351,7 @@ describe('SessionController /PATCH reject session', ()=> {
 
   it('Should return a status code 400 when a mentor is trying to repeat the same operation', (done)=> {
     request(server).patch(`/api/v2/sessions/${created_session.id}/reject`)
-      
+
       .set('Content-type', 'application/x-www-form-urlencoded')
       .set('token', user_mentor.token)
       .end((err, res)=> {
@@ -365,7 +366,7 @@ describe('SessionController /PATCH reject session', ()=> {
 
   it('Should return a status code 403 when an auth user is not a mentor', (done)=> {
     request(server).patch(`/api/v2/sessions/${created_session.id}/reject`)
-      
+
       .set('Content-type', 'application/x-www-form-urlencoded')
       .set('token', user_3.token)
       .end((err, res)=> {
@@ -380,7 +381,7 @@ describe('SessionController /PATCH reject session', ()=> {
 
   it('Should return status 401 if the token has been not sent', (done)=> {
     request(server).patch(`/api/v2/sessions/${created_session.id}/reject`)
-      
+
       .set('Content-type', 'application/x-www-form-urlencoded')
       .end((err, res)=> {
         res.should.have.status(401);
@@ -392,7 +393,7 @@ describe('SessionController /PATCH reject session', ()=> {
 
   it('Should verify invalid token', (done)=> {
     request(server).patch(`/api/v2/sessions/${created_session.id}/reject`)
-      
+
       .set('Content-type', 'application/x-www-form-urlencoded')
       .set('token', wrong_token)
       .end((err, res)=> {
@@ -405,7 +406,7 @@ describe('SessionController /PATCH reject session', ()=> {
 
   it('Should verify malformed token', (done)=> {
     request(server).patch(`/api/v2/sessions/${created_session.id}/reject`)
-      
+
       .set('Content-type', 'application/x-www-form-urlencoded')
       .set('token', 'badToken')
       .end((err, res)=> {

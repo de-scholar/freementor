@@ -7,11 +7,15 @@ import dbHelper from './db_Helper';
 dotenv.config();
 
 const { AUTH_SECRET: secret, JWT_LIFE, NODE_ENV } = process.env;
-const { removeDataToHide, arrange_date } = dbHelper;
+const { removeDataToHide, arrange_date, change_attribute } = dbHelper;
 
 class General {
   static arrange_date(data, toFormat) {
     return arrange_date(data, toFormat);
+  }
+
+  static change_attribute(data, attributes) {
+    return change_attribute(data, attributes);
   }
 
   static generateToken(payload) {

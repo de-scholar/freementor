@@ -48,6 +48,38 @@ class DbHelper {
     return data;
   }
 
+  static change_forArray(data, attributes) {
+    return data.map((item)=> {
+      Object.keys(attributes).map((attrToReplace)=> {
+        if (item[attrToReplace]) {
+          const replaceWith = attributes[attrToReplace];
+
+          item[replaceWith] = item[attrToReplace];
+        }
+        return attrToReplace;
+      });
+      return item;
+    });
+  }
+
+  static change_attribute(data, attributes) {
+    if (!data) return data;
+
+    if (DbHelper.isArray(data)) {
+      return DbHelper.change_forArray(data, attributes);
+    }
+
+    Object.keys(attributes).map((attrToReplace)=> {
+      if (data[attrToReplace]) {
+        const replaceWith = attributes[attrToReplace];
+
+        data[replaceWith] = data[attrToReplace];
+      }
+      return attrToReplace;
+    });
+    return data;
+  }
+
   static removeDataToHide(data, toHide) {
     if (toHide.length === 0) return data;
 

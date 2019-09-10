@@ -21,6 +21,9 @@ class Session extends Model {
   constructor() {
     super();
     this.table = 'sessions';
+    this.attributes_to_change = {
+      id: 'session_id',
+    };
     this.known_attributes = [
       'id',
       'questions',

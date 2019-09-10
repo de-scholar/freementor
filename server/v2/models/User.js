@@ -50,16 +50,15 @@ class User extends Model {
   async switchTo(userId, data, res, next) {
     try {
       const user = await this.find(userId);
-  
+
       let msg;
-      
+
       if (user) {
-       
         const new_user = await this.update(user.id, data);
         const [column] = Object.keys(data);
-        
-        msg = `Account changed to ${column === 'is_admin'? new_user[column]?'admin':'user' :new_user[column]}`;
-        return response(res, 200, msg,{[column]:new_user[column] });
+
+        msg = `Account changed to ${column === 'is_admin' ? new_user[column] ? 'admin':'user' :new_user[column]}`;
+        return response(res, 200, msg, { [column]: new_user[column] });
       }
 
       msg = 'user with the sent id not found';
