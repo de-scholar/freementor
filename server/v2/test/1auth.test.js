@@ -2,7 +2,7 @@
 import { should, use, request } from 'chai';
 import chaiHttp from 'chai-http';
 import server from '../../../index';
-import data from './data';
+import data from './mockData';
 
 
 should();
@@ -11,13 +11,15 @@ let {
   user1,
   user2,
   wrong_user_info,
+  wrong_login_email,
+  wrong_login_password,
 } = data.users;
 
 
 describe('AuthController', ()=> {
   it(('Should signup a user'), (done)=> {
     request(server).post('/api/v2/auth/signup')
-      .set('Content-type', 'application/json')
+
       .set('Content-type', 'application/x-www-form-urlencoded')
       .send(user1)
       .end((err, res)=> {
@@ -31,7 +33,7 @@ describe('AuthController', ()=> {
 
   it(('Should return a status code 400 when user with email already exist'), (done)=> {
     request(server).post('/api/v2/auth/signup')
-      .set('Content-type', 'application/json')
+
       .set('Content-type', 'application/x-www-form-urlencoded')
       .send(user1)
       .end((err, res)=> {
@@ -43,18 +45,10 @@ describe('AuthController', ()=> {
 
 
   it('Should remove unexpected input data before storing them then return status code 201', (done)=> {
-    const input_over_load = {
-      ...user2,
-      ...{
-        unexpected1: 'unexpected1',
-        unexpected2: 'unexpected2',
-      },
-    };
-
     request(server).post('/api/v2/auth/signup')
-      .set('Content-type', 'application/json')
+
       .set('Content-type', 'application/x-www-form-urlencoded')
-      .send(input_over_load)
+      .send(user2)
       .end((err, res)=> {
         res.should.have.status(201);
         res.body.data.should.be.an('object');
@@ -65,7 +59,7 @@ describe('AuthController', ()=> {
 
   it(('Should return an object with status 400 when a user signs up without required credentials'), (done)=> {
     request(server).post('/api/v2/auth/signup')
-      .set('Content-type', 'application/json')
+
       .set('Content-type', 'application/x-www-form-urlencoded')
       .send(wrong_user_info)
       .end((err, res)=> {
@@ -78,15 +72,10 @@ describe('AuthController', ()=> {
 
 
   it(('Should login a user and return an object with user token'), (done)=> {
-    const existingUser = {
-      email: user1.email,
-      password: user1.password,
-    };
-
     request(server).post('/api/v2/auth/signin')
-      .set('Content-type', 'application/json')
+
       .set('Content-type', 'application/x-www-form-urlencoded')
-      .send(existingUser)
+      .send(user1)
       .end((err, res)=> {
         const { token } = res.body.data;
 
@@ -100,15 +89,10 @@ describe('AuthController', ()=> {
 
 
   it(('Should return an error with status 401 for a user login with wrong email'), (done)=> {
-    const user_with_WrongEmail = {
-      email: 'ko45o@gmail.com',
-      password: '12345678',
-    };
-
     request(server).post('/api/v2/auth/signin')
-      .set('Content-type', 'application/json')
+
       .set('Content-type', 'application/x-www-form-urlencoded')
-      .send(user_with_WrongEmail)
+      .send(wrong_login_email)
       .end((err, res)=> {
         res.should.have.status(401);
         res.body.should.have.property('error');
@@ -119,15 +103,10 @@ describe('AuthController', ()=> {
 
 
   it(('Should return an error with status 401 for a user login with wrong password'), (done)=> {
-    const user_with_WrongEmail = {
-      email: 'd1@gmail.com',
-      password: '45678',
-    };
-
     request(server).post('/api/v2/auth/signin')
-      .set('Content-type', 'application/json')
+
       .set('Content-type', 'application/x-www-form-urlencoded')
-      .send(user_with_WrongEmail)
+      .send(wrong_login_password)
       .end((err, res)=> {
         res.should.have.status(401);
         res.body.should.have.property('error');

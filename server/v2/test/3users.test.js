@@ -2,7 +2,7 @@
 import { should, use, request } from 'chai';
 import chaiHttp from 'chai-http';
 import server from '../../../index';
-import data from './data';
+import data from './mockData';
 
 should();
 use(chaiHttp);
@@ -11,6 +11,7 @@ let {
   user2,
   user3,
 } = data.users;
+const { wrong_token } = data.other_token;
 
 let user_admin;
 let user_mentor;
@@ -38,12 +39,10 @@ describe('UserController /GET all mentors', ()=> {
 
 
   it('Should return an array containing object of all mentors', (done)=> {
-    const { token } = user_mentor;
-
     request(server).get('/api/v2/mentors')
       .set('Content-type', 'application/json')
       .set('Content-type', 'application/x-www-form-urlencoded')
-      .set('token', token)
+      .set('token', user_mentor.token)
       .end((err, res)=> {
         res.should.have.status(200);
         res.body.data.should.be.an('array');
@@ -65,12 +64,10 @@ describe('UserController /GET all mentors', ()=> {
 
 
   it('Should verify invalid token', (done)=> {
-    const wrongToken = 'ciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZmlyc3ROYW1lIjoicHJvZG8iLCJsYXN0TmFtZSI6Imtha2EiLCJlbWFpbCI6InBAZ21haWwuY29tIiwicGFzc3dvcmQiOiIkMmIkMTAkVFcyYmxUWnYzZ1FiNldNRXJZSmtULi5YSUhrendnZW5GWm1NTVlXVjZwaFRFd1dGUjhqbk8iLCJhZGRyZXNzIjoiYWRkcmVzcyIsImJpbyI6ImJpbyIsIm9jY3VwYXRpb24iOiJvY2N1cCIsImV4cGVydGlzZSI6ImV4cHJ0IiwidHlwZSI6Im5vcm1hbCIsImlhdCI6MTU2NjQ2NjQyNiwiZXhwIjoxNTY2ODEyMDI2fQ.hBkHlelgfCp1qnRVhgvCPFcm16camwv0mZNxFGhHkmw';
-
     request(server).get('/api/v2/mentors')
       .set('Content-type', 'application/json')
       .set('Content-type', 'application/x-www-form-urlencoded')
-      .set('token', wrongToken)
+      .set('token', wrong_token)
       .end((err, res)=> {
         res.body.status.should.be.a('number').eql(500);
         res.body.error.should.be.a('string').eql('invalid token');
@@ -97,12 +94,10 @@ describe('UserController /GET all mentors', ()=> {
 
 describe('UserController /GET specific mentor', ()=> {
   it('Should return an object of a specific mentor', (done)=> {
-    const { token, id: mentorId } = user_mentor;
-
-    request(server).get(`/api/v2/mentors/${mentorId}`)
+    request(server).get(`/api/v2/mentors/${user_mentor.id}`)
       .set('Content-type', 'application/json')
       .set('Content-type', 'application/x-www-form-urlencoded')
-      .set('token', token)
+      .set('token', user_mentor.token)
       .end((err, res)=> {
         res.should.have.status(200);
         res.body.data.should.be.an('object');
@@ -111,13 +106,10 @@ describe('UserController /GET specific mentor', ()=> {
   });
 
   it('Should return a status code 412 if the mentor was not found', (done)=> {
-    const { token } = user_mentor;
-    const wrong_mentor_id = 467346874;
-
-    request(server).get(`/api/v2/mentors/${wrong_mentor_id}`)
+    request(server).get(`/api/v2/mentors/467346874`)
       .set('Content-type', 'application/json')
       .set('Content-type', 'application/x-www-form-urlencoded')
-      .set('token', token)
+      .set('token', user_mentor.token)
       .end((err, res)=> {
         res.should.have.status(412);
         res.body.error.should.be.an('string').eql('Mentor not found');
@@ -127,7 +119,7 @@ describe('UserController /GET specific mentor', ()=> {
 
 
   it('Should return status 401 if the token has been not sent', (done)=> {
-    request(server).get('/api/v2/mentors')
+    request(server).get(`/api/v2/mentors/${user_mentor.id}`)
       .set('Content-type', 'application/json')
       .set('Content-type', 'application/x-www-form-urlencoded')
       .end((err, res)=> {
@@ -139,12 +131,10 @@ describe('UserController /GET specific mentor', ()=> {
 
 
   it('Should verify invalid token', (done)=> {
-    const wrongToken = 'ciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZmlyc3ROYW1lIjoicHJvZG8iLCJsYXN0TmFtZSI6Imtha2EiLCJlbWFpbCI6InBAZ21haWwuY29tIiwicGFzc3dvcmQiOiIkMmIkMTAkVFcyYmxUWnYzZ1FiNldNRXJZSmtULi5YSUhrendnZW5GWm1NTVlXVjZwaFRFd1dGUjhqbk8iLCJhZGRyZXNzIjoiYWRkcmVzcyIsImJpbyI6ImJpbyIsIm9jY3VwYXRpb24iOiJvY2N1cCIsImV4cGVydGlzZSI6ImV4cHJ0IiwidHlwZSI6Im5vcm1hbCIsImlhdCI6MTU2NjQ2NjQyNiwiZXhwIjoxNTY2ODEyMDI2fQ.hBkHlelgfCp1qnRVhgvCPFcm16camwv0mZNxFGhHkmw';
-
     request(server).get('/api/v2/mentors')
       .set('Content-type', 'application/json')
       .set('Content-type', 'application/x-www-form-urlencoded')
-      .set('token', wrongToken)
+      .set('token', wrong_token)
       .end((err, res)=> {
         res.body.status.should.be.a('number').eql(500);
         res.body.error.should.be.a('string').eql('invalid token');
@@ -154,12 +144,10 @@ describe('UserController /GET specific mentor', ()=> {
 
 
   it('Should verify malformed token', (done)=> {
-    const malformed_token = 'badToken';
-
     request(server).get('/api/v2/mentors')
       .set('Content-type', 'application/json')
       .set('Content-type', 'application/x-www-form-urlencoded')
-      .set('token', malformed_token)
+      .set('token', 'badToken')
       .end((err, res)=> {
         res.body.status.should.be.a('number').eql(500);
         res.body.error.should.be.a('string').eql('jwt malformed');

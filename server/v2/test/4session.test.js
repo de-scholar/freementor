@@ -1,7 +1,8 @@
 import { should, use, request } from 'chai';
 import chaiHttp from 'chai-http';
 import server from '../../../index';
-import data from './data';
+import data from './mockData';
+const { other_token:{ wrong_token }, sessions } = data;
 
 should();
 use(chaiHttp);
@@ -25,7 +26,7 @@ let unconcern_mentor;
 describe('SessionController /POST sessions', ()=> {
   before((done)=> {
     request(server).post('/api/v2/auth/signin')
-      .set('Content-type', 'application/json')
+      
       .set('Content-type', 'application/x-www-form-urlencoded')
       .send(user2)
       .then((res)=> {
@@ -33,7 +34,7 @@ describe('SessionController /POST sessions', ()=> {
       });
 
     request(server).post('/api/v2/auth/signin')
-      .set('Content-type', 'application/json')
+      
       .set('Content-type', 'application/x-www-form-urlencoded')
       .send(user1)
       .then((res)=> {
@@ -41,7 +42,7 @@ describe('SessionController /POST sessions', ()=> {
       });
 
     request(server).post('/api/v2/auth/signin')
-      .set('Content-type', 'application/json')
+      
       .set('Content-type', 'application/x-www-form-urlencoded')
       .send(user3)
       .then((res)=> {
@@ -50,7 +51,7 @@ describe('SessionController /POST sessions', ()=> {
 
 
     request(server).post('/api/v2/auth/signin')
-      .set('Content-type', 'application/json')
+      
       .set('Content-type', 'application/x-www-form-urlencoded')
       .send(user4)
       .then((res)=> {
@@ -58,7 +59,7 @@ describe('SessionController /POST sessions', ()=> {
       });
 
     request(server).post('/api/v2/auth/signup')
-      .set('Content-type', 'application/json')
+      
       .set('Content-type', 'application/x-www-form-urlencoded')
       .send(user5)
       .then((res)=> {
@@ -69,21 +70,11 @@ describe('SessionController /POST sessions', ()=> {
 
 
   it('Should create a mentorship session', (done)=> {
-    const { id: mentor_id } = user_mentor;
-    const { token: mentee_token } = user_mentee;
-    const defaultSession = {
-      questions: 'questions here',
-      mentor_id,
-      start_date: '12/12/2019',
-      end_date: '20/03/2020',
-
-    };
-
     request(server).post('/api/v2/sessions')
-      .set('Content-type', 'application/json')
+      
       .set('Content-type', 'application/x-www-form-urlencoded')
-      .set('token', mentee_token)
-      .send(defaultSession)
+      .set('token', user_mentee.token)
+      .send(sessions.data(user_mentor.id))
       .end((err, res)=> {
         created_session = res.body.data;
         res.should.have.status(200);
@@ -94,20 +85,11 @@ describe('SessionController /POST sessions', ()=> {
 
 
   it('Should return 412 code status if the mentorId is not found', (done)=> {
-    const { token: mentee_token } = user_mentee;
-    const defaultSession = {
-      questions: 'questions here',
-      mentor_id: 40,
-      start_date: '12/12/2019',
-      end_date: '20/03/2020',
-
-    };
-
     request(server).post('/api/v2/sessions')
-      .set('Content-type', 'application/json')
+      
       .set('Content-type', 'application/x-www-form-urlencoded')
-      .set('token', mentee_token)
-      .send(defaultSession)
+      .set('token', user_mentee.token)
+      .send(sessions.data(40))
       .end((err, res)=> {
         res.should.have.status(412);
         res.body.error.should.be.a('string').eql('Mentor not found');
@@ -117,21 +99,11 @@ describe('SessionController /POST sessions', ()=> {
 
 
   it('Should return 400 code status when the recorded input are invalid', (done)=> {
-    const { id: mentorId } = user_mentor;
-    const { token: mentee_token } = user_mentee;
-    const defaultSession = {
-      questions: 'questions here',
-      mentorI: mentorId,
-      start_date: '12/12/2019',
-      end_date: '20/03/2020',
-
-    };
-
     request(server).post('/api/v2/sessions')
-      .set('Content-type', 'application/json')
+      
       .set('Content-type', 'application/x-www-form-urlencoded')
-      .set('token', mentee_token)
-      .send(defaultSession)
+      .set('token', user_mentee.token)
+      .send(sessions.invalid_datadata(user_mentor.id))
       .end((err, res)=> {
         res.should.have.status(400);
         res.body.error.should.have.be.an('object');
@@ -142,7 +114,7 @@ describe('SessionController /POST sessions', ()=> {
 
   it('Should return status 401 if the token has been not sent', (done)=> {
     request(server).post('/api/v2/sessions')
-      .set('Content-type', 'application/json')
+      
       .set('Content-type', 'application/x-www-form-urlencoded')
       .end((err, res)=> {
         res.should.have.status(401);
@@ -153,12 +125,10 @@ describe('SessionController /POST sessions', ()=> {
 
 
   it('Should verify invalid token', (done)=> {
-    const wrongToken = 'ciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZmlyc3ROYW1lIjoicHJvZG8iLCJsYXN0TmFtZSI6Imtha2EiLCJlbWFpbCI6InBAZ21haWwuY29tIiwicGFzc3dvcmQiOiIkMmIkMTAkVFcyYmxUWnYzZ1FiNldNRXJZSmtULi5YSUhrendnZW5GWm1NTVlXVjZwaFRFd1dGUjhqbk8iLCJhZGRyZXNzIjoiYWRkcmVzcyIsImJpbyI6ImJpbyIsIm9jY3VwYXRpb24iOiJvY2N1cCIsImV4cGVydGlzZSI6ImV4cHJ0IiwidHlwZSI6Im5vcm1hbCIsImlhdCI6MTU2NjQ2NjQyNiwiZXhwIjoxNTY2ODEyMDI2fQ.hBkHlelgfCp1qnRVhgvCPFcm16camwv0mZNxFGhHkmw';
-
     request(server).post('/api/v2/sessions')
-      .set('Content-type', 'application/json')
+      
       .set('Content-type', 'application/x-www-form-urlencoded')
-      .set('token', wrongToken)
+      .set('token', wrong_token)
       .end((err, res)=> {
         res.body.status.should.be.a('number').eql(500);
         res.body.error.should.be.a('string').eql('invalid token');
@@ -168,12 +138,10 @@ describe('SessionController /POST sessions', ()=> {
 
 
   it('Should verify malformed token', (done)=> {
-    const malformed_token = 'badToken';
-
     request(server).post('/api/v2/sessions')
-      .set('Content-type', 'application/json')
+      
       .set('Content-type', 'application/x-www-form-urlencoded')
-      .set('token', malformed_token)
+      .set('token', 'badToken')
       .end((err, res)=> {
         res.body.status.should.be.a('number').eql(500);
         res.body.error.should.be.a('string').eql('jwt malformed');
@@ -185,13 +153,10 @@ describe('SessionController /POST sessions', ()=> {
 
 describe('SessionController /PATCH: accept session', ()=> {
   before((done)=> {
-    const { id: normal_user_id } = unconcern_mentor;
-    const { token: user_admin_token } = user_admin;
-
-    request(server).patch(`/api/v2/user/${normal_user_id}`)
-      .set('Content-type', 'application/json')
+    request(server).patch(`/api/v2/user/${unconcern_mentor.id}`)
+      
       .set('Content-type', 'application/x-www-form-urlencoded')
-      .set('token', user_admin_token)
+      .set('token', user_admin.token)
       .then((res)=> {
         unconcern_mentor = { ...unconcern_mentor, ...res.body.data };
         done();
@@ -199,15 +164,10 @@ describe('SessionController /PATCH: accept session', ()=> {
   });
 
   it(('Should login the unconcern mentor to update his payload in jwt'), (done)=> {
-    const unconcern_mentor_credential = {
-      email: unconcern_mentor.email,
-      password: unconcern_mentor.password,
-    };
-
     request(server).post('/api/v2/auth/signin')
-      .set('Content-type', 'application/json')
+      
       .set('Content-type', 'application/x-www-form-urlencoded')
-      .send(unconcern_mentor_credential)
+      .send(unconcern_mentor)
       .end((err, res)=> {
         unconcern_mentor = { ...unconcern_mentor, ...res.body.data };
         done();
@@ -216,14 +176,10 @@ describe('SessionController /PATCH: accept session', ()=> {
 
 
   it('Should return a status code 200 when mentor accept a session', (done)=> {
-    const { id: sessionId } = created_session;
-    const { token: mentorToken } = user_mentor;
-
-
-    request(server).patch(`/api/v2/sessions/${sessionId}/accept`)
-      .set('Content-type', 'application/json')
+    request(server).patch(`/api/v2/sessions/${created_session.id}/accept`)
+      
       .set('Content-type', 'application/x-www-form-urlencoded')
-      .set('token', mentorToken)
+      .set('token', user_mentor.token)
       .end((err, res)=> {
         const { status } = res.body.data;
 
@@ -237,13 +193,10 @@ describe('SessionController /PATCH: accept session', ()=> {
 
 
   it('Should return a status code 400 when session with sent sessionId is not found', (done)=> {
-    const wrong_sessionId = 312;
-    const { token: mentorToken } = user_mentor;
-
-    request(server).patch(`/api/v2/sessions/${wrong_sessionId}/accept`)
-      .set('Content-type', 'application/json')
+    request(server).patch('/api/v2/sessions/312/accept')
+      
       .set('Content-type', 'application/x-www-form-urlencoded')
-      .set('token', mentorToken)
+      .set('token', user_mentor.token)
       .end((err, res)=> {
         res.should.have.status(400);
         res.body.error.should.be.a('string').eql('Session not found,create sessions');
@@ -254,13 +207,10 @@ describe('SessionController /PATCH: accept session', ()=> {
 
 
   it('Should return a status code 400 when an unconcern mentor want to accept a mentorship request', (done)=> {
-    const { id: sessionId } = created_session;
-    const { token: token_otherMentor } = unconcern_mentor;
-
-    request(server).patch(`/api/v2/sessions/${sessionId}/accept`)
-      .set('Content-type', 'application/json')
+    request(server).patch(`/api/v2/sessions/${created_session.id}/accept`)
+      
       .set('Content-type', 'application/x-www-form-urlencoded')
-      .set('token', token_otherMentor)
+      .set('token', unconcern_mentor.token)
       .end((err, res)=> {
         res.should.have.status(400);
         res.body.error.should.be.a('string').eql('Session does not concern you');
@@ -271,13 +221,10 @@ describe('SessionController /PATCH: accept session', ()=> {
 
 
   it('Should return a status code 400 when a mentor is trying to repeat the same operation', (done)=> {
-    const { id: sessionId } = created_session;
-    const { token: mentorToken } = user_mentor;
-
-    request(server).patch(`/api/v2/sessions/${sessionId}/accept`)
-      .set('Content-type', 'application/json')
+    request(server).patch(`/api/v2/sessions/${created_session.id}/accept`)
+      
       .set('Content-type', 'application/x-www-form-urlencoded')
-      .set('token', mentorToken)
+      .set('token', user_mentor.token)
       .end((err, res)=> {
         res.should.have.status(400);
         res.body.error.should.be.a('string')
@@ -289,13 +236,10 @@ describe('SessionController /PATCH: accept session', ()=> {
 
 
   it('Should return a status code 403 when an auth user is not a mentor', (done)=> {
-    const { id: sessionId } = created_session;
-    const { token: normal_userToken } = user_3;
-
-    request(server).patch(`/api/v2/sessions/${sessionId}/accept`)
-      .set('Content-type', 'application/json')
+    request(server).patch(`/api/v2/sessions/${created_session.id}/accept`)
+      
       .set('Content-type', 'application/x-www-form-urlencoded')
-      .set('token', normal_userToken)
+      .set('token', user_3.token)
       .end((err, res)=> {
         res.should.have.status(403);
         res.body.error.should.be.a('string')
@@ -307,10 +251,8 @@ describe('SessionController /PATCH: accept session', ()=> {
 
 
   it('Should return status 401 if the token has been not sent', (done)=> {
-    const { id: sessionId } = created_session;
-
-    request(server).patch(`/api/v2/sessions/${sessionId}/accept`)
-      .set('Content-type', 'application/json')
+    request(server).patch(`/api/v2/sessions/${created_session.id}/accept`)
+      
       .set('Content-type', 'application/x-www-form-urlencoded')
       .end((err, res)=> {
         res.should.have.status(401);
@@ -321,13 +263,10 @@ describe('SessionController /PATCH: accept session', ()=> {
 
 
   it('Should verify invalid token', (done)=> {
-    const wrongToken = 'ciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZmlyc3ROYW1lIjoicHJvZG8iLCJsYXN0TmFtZSI6Imtha2EiLCJlbWFpbCI6InBAZ21haWwuY29tIiwicGFzc3dvcmQiOiIkMmIkMTAkVFcyYmxUWnYzZ1FiNldNRXJZSmtULi5YSUhrendnZW5GWm1NTVlXVjZwaFRFd1dGUjhqbk8iLCJhZGRyZXNzIjoiYWRkcmVzcyIsImJpbyI6ImJpbyIsIm9jY3VwYXRpb24iOiJvY2N1cCIsImV4cGVydGlzZSI6ImV4cHJ0IiwidHlwZSI6Im5vcm1hbCIsImlhdCI6MTU2NjQ2NjQyNiwiZXhwIjoxNTY2ODEyMDI2fQ.hBkHlelgfCp1qnRVhgvCPFcm16camwv0mZNxFGhHkmw';
-    const { id: sessionId } = created_session;
-
-    request(server).patch(`/api/v2/sessions/${sessionId}/accept`)
-      .set('Content-type', 'application/json')
+    request(server).patch(`/api/v2/sessions/${created_session.id}/accept`)
+      
       .set('Content-type', 'application/x-www-form-urlencoded')
-      .set('token', wrongToken)
+      .set('token', wrong_token)
       .end((err, res)=> {
         res.body.status.should.be.a('number').eql(500);
         res.body.error.should.be.a('string').eql('invalid token');
@@ -337,13 +276,10 @@ describe('SessionController /PATCH: accept session', ()=> {
 
 
   it('Should verify malformed token', (done)=> {
-    const malformed_token = 'badToken';
-    const { id: sessionId } = created_session;
-
-    request(server).patch(`/api/v2/sessions/${sessionId}/accept`)
-      .set('Content-type', 'application/json')
+    request(server).patch(`/api/v2/sessions/${created_session.id}/accept`)
+      
       .set('Content-type', 'application/x-www-form-urlencoded')
-      .set('token', malformed_token)
+      .set('token', 'badToken')
       .end((err, res)=> {
         res.body.status.should.be.a('number').eql(500);
         res.body.error.should.be.a('string').eql('jwt malformed');
@@ -355,21 +291,11 @@ describe('SessionController /PATCH: accept session', ()=> {
 
 describe('SessionController /PATCH reject session', ()=> {
   before((done)=> {
-    const { id: mentor_id } = user_mentor;
-    const { token: mentee_token } = user_mentee;
-    const defaultSession = {
-      questions: 'questions2 here',
-      mentor_id,
-      start_date: '12/12/2019',
-      end_date: '20/03/2020',
-
-    };
-
     request(server).post('/api/v2/sessions')
-      .set('Content-type', 'application/json')
+      
       .set('Content-type', 'application/x-www-form-urlencoded')
-      .set('token', mentee_token)
-      .send(defaultSession)
+      .set('token', user_mentee.token)
+      .send(sessions.reject_session(user_mentor.id))
       .then((res)=> {
         created_session = res.body.data;
         done();
@@ -378,13 +304,10 @@ describe('SessionController /PATCH reject session', ()=> {
 
 
   it('Should return a status code 200 when mentor reject a session', (done)=> {
-    const { id: sessionId } = created_session;
-    const { token: mentorToken } = user_mentor;
-
-    request(server).patch(`/api/v2/sessions/${sessionId}/reject`)
-      .set('Content-type', 'application/json')
+    request(server).patch(`/api/v2/sessions/${created_session.id}/reject`)
+      
       .set('Content-type', 'application/x-www-form-urlencoded')
-      .set('token', mentorToken)
+      .set('token', user_mentor.token)
       .end((err, res)=> {
         const { status } = res.body.data;
 
@@ -398,13 +321,10 @@ describe('SessionController /PATCH reject session', ()=> {
 
 
   it('Should return a status code 400 when session with sent sessionId is not found', (done)=> {
-    const wrong_sessionId = 312;
-    const { token: mentorToken } = user_mentor;
-
-    request(server).patch(`/api/v2/sessions/${wrong_sessionId}/reject`)
-      .set('Content-type', 'application/json')
+    request(server).patch('/api/v2/sessions/32/reject')
+      
       .set('Content-type', 'application/x-www-form-urlencoded')
-      .set('token', mentorToken)
+      .set('token', user_mentor.token)
       .end((err, res)=> {
         res.should.have.status(400);
         res.body.error.should.be.a('string').eql('Session not found,create sessions');
@@ -415,13 +335,10 @@ describe('SessionController /PATCH reject session', ()=> {
 
 
   it('Should return a status code 400 when an unconcern mentor want to reject a mentorship request', (done)=> {
-    const { id: sessionId } = created_session;
-    const { token: token_otherMentor } = unconcern_mentor;
-
-    request(server).patch(`/api/v2/sessions/${sessionId}/reject`)
-      .set('Content-type', 'application/json')
+    request(server).patch(`/api/v2/sessions/${created_session.id}/reject`)
+      
       .set('Content-type', 'application/x-www-form-urlencoded')
-      .set('token', token_otherMentor)
+      .set('token', unconcern_mentor.token)
       .end((err, res)=> {
         res.should.have.status(400);
         res.body.error.should.be.a('string').eql('Session does not concern you');
@@ -432,13 +349,10 @@ describe('SessionController /PATCH reject session', ()=> {
 
 
   it('Should return a status code 400 when a mentor is trying to repeat the same operation', (done)=> {
-    const { id: sessionId } = created_session;
-    const { token: mentorToken } = user_mentor;
-
-    request(server).patch(`/api/v2/sessions/${sessionId}/reject`)
-      .set('Content-type', 'application/json')
+    request(server).patch(`/api/v2/sessions/${created_session.id}/reject`)
+      
       .set('Content-type', 'application/x-www-form-urlencoded')
-      .set('token', mentorToken)
+      .set('token', user_mentor.token)
       .end((err, res)=> {
         res.should.have.status(400);
         res.body.error.should.be.a('string')
@@ -450,14 +364,10 @@ describe('SessionController /PATCH reject session', ()=> {
 
 
   it('Should return a status code 403 when an auth user is not a mentor', (done)=> {
-    const { id: sessionId } = created_session;
-
-    const { token: normal_userToken } = user_3;
-
-    request(server).patch(`/api/v2/sessions/${sessionId}/reject`)
-      .set('Content-type', 'application/json')
+    request(server).patch(`/api/v2/sessions/${created_session.id}/reject`)
+      
       .set('Content-type', 'application/x-www-form-urlencoded')
-      .set('token', normal_userToken)
+      .set('token', user_3.token)
       .end((err, res)=> {
         res.should.have.status(403);
         res.body.error.should.be.a('string')
@@ -469,10 +379,8 @@ describe('SessionController /PATCH reject session', ()=> {
 
 
   it('Should return status 401 if the token has been not sent', (done)=> {
-    const { id: sessionId } = created_session;
-
-    request(server).patch(`/api/v2/sessions/${sessionId}/reject`)
-      .set('Content-type', 'application/json')
+    request(server).patch(`/api/v2/sessions/${created_session.id}/reject`)
+      
       .set('Content-type', 'application/x-www-form-urlencoded')
       .end((err, res)=> {
         res.should.have.status(401);
@@ -483,13 +391,10 @@ describe('SessionController /PATCH reject session', ()=> {
 
 
   it('Should verify invalid token', (done)=> {
-    const wrongToken = 'ciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZmlyc3ROYW1lIjoicHJvZG8iLCJsYXN0TmFtZSI6Imtha2EiLCJlbWFpbCI6InBAZ21haWwuY29tIiwicGFzc3dvcmQiOiIkMmIkMTAkVFcyYmxUWnYzZ1FiNldNRXJZSmtULi5YSUhrendnZW5GWm1NTVlXVjZwaFRFd1dGUjhqbk8iLCJhZGRyZXNzIjoiYWRkcmVzcyIsImJpbyI6ImJpbyIsIm9jY3VwYXRpb24iOiJvY2N1cCIsImV4cGVydGlzZSI6ImV4cHJ0IiwidHlwZSI6Im5vcm1hbCIsImlhdCI6MTU2NjQ2NjQyNiwiZXhwIjoxNTY2ODEyMDI2fQ.hBkHlelgfCp1qnRVhgvCPFcm16camwv0mZNxFGhHkmw';
-    const { id: sessionId } = created_session;
-
-    request(server).patch(`/api/v2/sessions/${sessionId}/reject`)
-      .set('Content-type', 'application/json')
+    request(server).patch(`/api/v2/sessions/${created_session.id}/reject`)
+      
       .set('Content-type', 'application/x-www-form-urlencoded')
-      .set('token', wrongToken)
+      .set('token', wrong_token)
       .end((err, res)=> {
         res.body.status.should.be.a('number').eql(500);
         res.body.error.should.be.a('string').eql('invalid token');
@@ -499,13 +404,10 @@ describe('SessionController /PATCH reject session', ()=> {
 
 
   it('Should verify malformed token', (done)=> {
-    const malformed_token = 'badToken';
-    const { id: sessionId } = created_session;
-
-    request(server).patch(`/api/v2/sessions/${sessionId}/reject`)
-      .set('Content-type', 'application/json')
+    request(server).patch(`/api/v2/sessions/${created_session.id}/reject`)
+      
       .set('Content-type', 'application/x-www-form-urlencoded')
-      .set('token', malformed_token)
+      .set('token', 'badToken')
       .end((err, res)=> {
         res.body.status.should.be.a('number').eql(500);
         res.body.error.should.be.a('string').eql('jwt malformed');
