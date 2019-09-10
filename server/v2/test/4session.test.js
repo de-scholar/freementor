@@ -89,7 +89,7 @@ describe('SessionController /POST sessions', ()=> {
       .set('token', mentee_token)
       .send(defaultSession)
       .end((err, res)=> {
-
+        console.log(res.body);
         created_session = res.body.data;
         res.should.have.status(200);
         res.body.data.should.have.property('status').eql('pending');
