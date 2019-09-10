@@ -2,7 +2,7 @@ import User from '../models/User';
 import Session from '../models/Session';
 import GeneralHelper from '../helpers/general';
 
-const { response } = GeneralHelper;
+const { response, toTimeStamp } = GeneralHelper;
 
 class SessionController {
   static async create(req, res, next) {
@@ -14,6 +14,7 @@ class SessionController {
 
       body.status = 'pending';
       const { mentor_id } = body;
+      
       const session = await Session.create({ ...body, mentee_id, mentor_id });
 
       session.menteeEmail = email;
