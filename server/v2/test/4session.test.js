@@ -416,3 +416,70 @@ describe('SessionController /PATCH reject session', ()=> {
       });
   });
 });
+
+describe('SessionController /GET sessions', ()=> {
+  it('Should return an array of received mentorship sessions if the auth user is a mentor', (done)=> {
+    request(server).get('/api/v2/sessions')
+      .set('Content-type', 'application/json')
+      .set('Content-type', 'application/x-www-form-urlencoded')
+      .set('token', user_mentor.token)
+      .end((err, res)=> {
+        res.should.have.status(200);
+        res.body.data.should.be.an('array');
+
+        done();
+      });
+  });
+
+
+  it('Should return an array of sent mentorship sessions if the auth user is a mentee', (done)=> {
+    request(server).get('/api/v2/sessions')
+      .set('Content-type', 'application/json')
+      .set('Content-type', 'application/x-www-form-urlencoded')
+      .set('token', user_mentee.token)
+      .end((err, res)=> {
+        res.should.have.status(200);
+        res.body.data.should.be.an('array');
+        done();
+      });
+  });
+
+
+  it('Should return status 401 if the token has been not sent', (done)=> {
+    request(server).get('/api/v2/sessions')
+      .set('Content-type', 'application/json')
+      .set('Content-type', 'application/x-www-form-urlencoded')
+      .end((err, res)=> {
+        res.should.have.status(401);
+        res.body.should.have.property('error').eql('Anauthorized,please login first');
+        done();
+      });
+  });
+
+
+  it('Should verify invalid token', (done)=> {
+    request(server).get('/api/v2/sessions')
+      .set('Content-type', 'application/json')
+      .set('Content-type', 'application/x-www-form-urlencoded')
+      .set('token', wrong_token)
+      .end((err, res)=> {
+        res.body.status.should.be.a('number').eql(500);
+        res.body.error.should.be.a('string').eql('invalid token');
+        done();
+      });
+  });
+
+
+  it('Should verify malformed token', (done)=> {
+    request(server).get('/api/v2/sessions')
+      .set('Content-type', 'application/json')
+      .set('Content-type', 'application/x-www-form-urlencoded')
+      .set('token', 'badToken')
+      .end((err, res)=> {
+        res.body.status.should.be.a('number').eql(500);
+        res.body.error.should.be.a('string').eql('jwt malformed');
+        done();
+      });
+  });
+});
+
