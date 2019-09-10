@@ -106,7 +106,7 @@ describe('UserController /GET specific mentor', ()=> {
   });
 
   it('Should return a status code 412 if the mentor was not found', (done)=> {
-    request(server).get(`/api/v2/mentors/467346874`)
+    request(server).get('/api/v2/mentors/467346874')
       .set('Content-type', 'application/json')
       .set('Content-type', 'application/x-www-form-urlencoded')
       .set('token', user_mentor.token)

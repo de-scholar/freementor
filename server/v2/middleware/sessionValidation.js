@@ -8,13 +8,9 @@ const sessionValidation = {
       .withMessage('Question is required.')
       .isLength({ min: 10 })
       .withMessage('Question should have at least 10 characters'),
-    check('start_date')
+    check('date')
       .exists({ checkFalsy: true })
       .withMessage('Starting date is required.'),
-
-    check('end_date')
-      .exists({ checkFalsy: true })
-      .withMessage('Ending date is required'),
 
     check('mentor_id')
       .exists({ checkFalsy: true })

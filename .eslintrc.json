@@ -19,6 +19,7 @@
        "no-unused-vars": 0,
        "radix": 0,
        "prefer-const": "off",
+       "no-param-reassign":"off",
        "no-undef": 0,
        "indent": ["error", 2],
        "arrow-spacing": ["error", { "before": false, "after": true }],
@@ -26,7 +27,6 @@
        "quotes": [2, "single", { "avoidEscape": true }],
        "no-multiple-empty-lines": [2, {"max": 2}],
        "camelcase": "off",
-       "no-param-reassign": [2, { "props": false }],
        "no-underscore-dangle": "off",
        "class-methods-use-this":"off",
        "padding-line-between-statements": [

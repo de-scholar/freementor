@@ -11,6 +11,7 @@ const {
 
 
 let msg = '';
+const { NODE_ENV } = process.env;
 
 class AuthController {
   static async signUp(req, res, next) {
@@ -30,9 +31,9 @@ class AuthController {
         role: created_user.role,
       });
 
-      
       msg = 'User created successfully';
-      const data = { token , id:created_user.id};
+      const data = { token };
+
       return response(res, 201, msg, data);
     } catch (err) {
       return next(err);
@@ -44,7 +45,7 @@ class AuthController {
 
     try {
       const passwordIsValid = bcrypt.compareSync(in_password, user_found.password);
-     
+
 
       if (!passwordIsValid) return response(res, 401, 'Invalid Credentials');
       const token = generateToken({
@@ -55,10 +56,11 @@ class AuthController {
       });
 
       msg = `Welcome ${user_found.lastname}`;
-      const data = { token , id:user_found.id, is_admin: user_found.is_admin};
-      return response(res, 200, msg, data , User.dataToHide);
+      const data = { token, id: user_found.id };
+
+      if (NODE_ENV !== 'test') { delete data.id; }
+      return response(res, 200, msg, data, User.dataToHide);
     } catch (error) {
-     
       return next(error);
     }
   }

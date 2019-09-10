@@ -189,7 +189,6 @@ describe('AdminController /PATCH admin to user', ()=> {
   });
 
   it('Should return a code status 400 if corresponding user of the  sent user id is not found', (done)=> {
-
     request(server).patch('/api/v2/admin-to/10001')
 
       .set('Content-type', 'application/x-www-form-urlencoded')
@@ -205,7 +204,7 @@ describe('AdminController /PATCH admin to user', ()=> {
     request(server).patch(`/api/v2/admin-to/${user_admin2.id}`)
 
       .set('Content-type', 'application/x-www-form-urlencoded')
-      .set('token',notAdmin_user.token)
+      .set('token', notAdmin_user.token)
       .end((err, res)=> {
         res.should.have.status(403);
         res.body.error.should.be.a('string').eql('Access forbiden,reserved for admin');
@@ -375,7 +374,7 @@ describe('AdminController /PATCH mentor to user', ()=> {
   });
 
 
-it('Should verify malformed token', (done)=> {
+  it('Should verify malformed token', (done)=> {
     request(server).patch(`/api/v2/user/${user_normal.id}`)
 
       .set('Content-type', 'application/x-www-form-urlencoded')
@@ -402,7 +401,7 @@ it('Should verify malformed token', (done)=> {
 
 
   it('Should return status:400 if the id of the mentor to be changed was not found', (done)=> {
-    request(server).patch(`/api/v2/mentor/450`)
+    request(server).patch('/api/v2/mentor/450')
 
       .set('Content-type', 'application/x-www-form-urlencoded')
       .set('token', user_admin1.token)

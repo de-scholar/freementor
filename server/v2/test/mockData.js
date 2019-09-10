@@ -11,6 +11,7 @@ export default {
       expertise: 'web development',
       occupation: 'software developer',
       address: 'kigali',
+      token:'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJ1c2VyMUBnbWFpbC5jb20iLCJpc19hZG1pbiI6ZmFsc2UsImlhdCI6MTU2ODEyMTg2NSwiZXhwIjoxNTk5Njc5NDY1fQ.fQYN5gAH3Jg_s4_-modlSqR41OPVlsK_KeM7dBJRMOE',
     },
     user2: {
       id: 2,
@@ -24,6 +25,7 @@ export default {
       address: 'kigali',
       unexpected1: 'unexpected1',
       unexpected2: 'unexpected2',
+
     },
     user3: {
       id: 3,
@@ -97,24 +99,21 @@ export default {
       return {
         questions: 'questions here',
         mentor_id,
-        start_date: '12/12/2019',
-        end_date: '20/03/2020',
+        date: '12/12/2019',
       };
     },
     invalid_datadata:(mentor_id)=>{
       return {
         question: 'questions here',
         mentor_id,
-        start_date: '12/12/2019',
-        end_date: '20/03/2020',
+        date: '12/12/2019',
       };
     },
     reject_session: (mentor_id)=> {
       return {
         questions: 'questions2 here',
         mentor_id,
-        start_date: '12/12/2019',
-        end_date: '20/03/2020',
+        date: '12/12/2019',
       };
     }
   }

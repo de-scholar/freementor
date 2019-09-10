@@ -1,8 +1,7 @@
-
+import moment from 'moment';
 
 class DbHelper {
   static prepareData(data) {
-    
     const keys = Object.keys(data);
     const prepare_columns = keys.toString();
     const prepare_values = keys.map((col, index)=> `$${index + 1}`).toString();
@@ -18,8 +17,35 @@ class DbHelper {
     };
   }
 
+  static format_date(date) {
+    return moment(date).format('DD/MM/YYYY');
+  }
+
   static isArray(value) {
     return value && typeof value === 'object' && value.constructor === Array;
+  }
+
+  static arrange_date(data, dateToFormat = ['created_at']) {
+    if (!data) return data;
+
+    if (DbHelper.isArray(data)) {
+      return data.map((item)=> {
+        dateToFormat.map((date)=> {
+          if (item[date]) {
+            item[date] = DbHelper.format_date(item[date]);
+          }
+          return date;
+        });
+        return item;
+      });
+    }
+    dateToFormat.map((item)=> {
+      if (data[item]) {
+        data[item] = DbHelper.format_date(data[item]);
+      }
+      return item;
+    });
+    return data;
   }
 
   static removeDataToHide(data, toHide) {

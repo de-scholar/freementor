@@ -24,8 +24,7 @@ class Session extends Model {
     this.known_attributes = [
       'id',
       'questions',
-      'start_date',
-      'end_date',
+      'date',
       'mentor_id',
       'mentee_id',
       'status',
