@@ -7,11 +7,12 @@ import data from './data';
 should();
 use(chaiHttp);
 
-let { user1,
-     user2, 
-     user3, 
-     user4,
-   } = data.users;
+const {
+  user1,
+  user2,
+  user3,
+  user4,
+} = data.users;
 
 
 let user_admin1;
@@ -21,17 +22,14 @@ let notAdmin_user;
 let created_mentor;
 
 
- describe('AdminController /PATCH user to admin', ()=> {
+describe('AdminController /PATCH user to admin', ()=> {
   before((done)=> {
     request(server).post('/api/v2/auth/signin')
       .set('Content-type', 'application/json')
       .set('Content-type', 'application/x-www-form-urlencoded')
       .send(user1)
       .then((res)=> {
-        const {data}= res.body;
-
-        user_admin1 = {...user1, ...data };
-
+        user_admin1 = { ...user1, ...res.body.data };
       });
 
     request(server).post('/api/v2/auth/signin')
@@ -39,8 +37,7 @@ let created_mentor;
       .set('Content-type', 'application/x-www-form-urlencoded')
       .send(user2)
       .then((res)=> {
-        const {data}= res.body;
-        user_admin2 = {...user1,...data};
+        user_admin2 = { ...user1, ...res.body.data };
       });
 
     request(server).post('/api/v2/auth/signup')
@@ -48,10 +45,7 @@ let created_mentor;
       .set('Content-type', 'application/x-www-form-urlencoded')
       .send(user3)
       .then((res)=> {
-
-         const {data}= res.body;
-        user_normal = {...user3,...data};
-
+        user_normal = { ...user3, ...res.body.data };
       });
 
     request(server).post('/api/v2/auth/signup')
@@ -59,24 +53,23 @@ let created_mentor;
       .set('Content-type', 'application/x-www-form-urlencoded')
       .send(user4)
       .then((res)=> {
-        const { data }= res.body;
-        notAdmin_user = {...user4,...data};
-        created_mentor=notAdmin_user;
+        notAdmin_user = { ...user4, ...res.body.data };
+        created_mentor = notAdmin_user;
         done();
       });
   });
 
 
   it('Should change a normal user to admin', (done)=> {
-   
     const { id: normal_user_id, token: user_admin_token } = user_admin1;
-   
+
     request(server).patch(`/api/v2/admin/${normal_user_id}`)
       .set('Content-type', 'application/json')
       .set('Content-type', 'application/x-www-form-urlencoded')
       .set('token', user_admin_token)
       .end((err, res)=> {
         const { data: resp_data } = res.body;
+
         user_admin1 = { ...user_admin1, resp_data };
         res.should.have.status(200);
         res.body.data.should.have.property('is_admin').eql(true);
@@ -97,7 +90,7 @@ let created_mentor;
       .set('Content-type', 'application/x-www-form-urlencoded')
       .send(user_admin_credential)
       .end((err, res)=> {
-        user_admin1={...user_admin1,...res.body.data};
+        user_admin1 = { ...user_admin1, ...res.body.data };
         res.should.have.status(200);
         res.body.data.should.have.property('token');
         done();
@@ -195,7 +188,7 @@ describe('AdminController /PATCH admin to user', ()=> {
       .set('Content-type', 'application/x-www-form-urlencoded')
       .send(user_admin_credential)
       .end((err, res)=> {
-        user_admin2={...user_admin2, ...res.body.data };
+        user_admin2 = { ...user_admin2, ...res.body.data };
         res.should.have.status(200);
         res.body.data.should.have.property('token');
 
@@ -213,8 +206,7 @@ describe('AdminController /PATCH admin to user', ()=> {
       .set('Content-type', 'application/x-www-form-urlencoded')
       .set('token', admin1_token)
       .end((err, res)=> {
-        
-        user_admin1= {...user_admin1,...res.body.data };
+        user_admin1 = { ...user_admin1, ...res.body.data };
         res.should.have.status(200);
         res.body.data.should.have.property('is_admin').eql(false);
         res.body.should.have.property('message').eql('Account changed to user');
@@ -240,7 +232,7 @@ describe('AdminController /PATCH admin to user', ()=> {
   it('Should return a code status 403 if the user who is doing the action is not an admin', (done)=> {
     const { token: No_admin_token } = notAdmin_user;
     const { id: admin2_id } = user_admin2;
-    
+
     request(server).patch(`/api/v2/admin-to/${admin2_id}`)
       .set('Content-type', 'application/json')
       .set('Content-type', 'application/x-www-form-urlencoded')
@@ -310,7 +302,7 @@ describe('AdminController /PATCH user to mentor', ()=> {
       .set('Content-type', 'application/x-www-form-urlencoded')
       .set('token', user_admin_token)
       .end((err, res)=> {
-        created_mentor = {...created_mentor, ...res.body.data};
+        created_mentor = { ...created_mentor, ...res.body.data };
         res.should.have.status(200);
         res.body.data.should.have.property('type').eql('mentor');
         res.body.should.have.property('message').eql('Account changed to mentor');
@@ -404,13 +396,12 @@ describe('AdminController /PATCH mentor to user', ()=> {
   it('Should change a mentor to normal user', (done)=> {
     const { id: mentor_user_id } = created_mentor;
     const { token: user_admin_token } = user_admin1;
-   
+
     request(server).patch(`/api/v2/mentor/${mentor_user_id}`)
       .set('Content-type', 'application/json')
       .set('Content-type', 'application/x-www-form-urlencoded')
       .set('token', user_admin_token)
       .end((err, res)=> {
-      
         res.should.have.status(200);
         res.body.data.should.have.property('type').eql('user');
         done();

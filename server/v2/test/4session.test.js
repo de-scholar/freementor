@@ -6,12 +6,13 @@ import data from './data';
 should();
 use(chaiHttp);
 
-let { user1,//normal user
-     user2, //admin
-     user3, //mentor
-     user4,//normal user
-     user5,
-   } = data.users;
+let {
+  user1, // normal user
+  user2, // admin
+  user3, // mentor
+  user4, // normal user
+  user5,
+} = data.users;
 
 let user_mentee;
 let user_mentor;
@@ -28,7 +29,7 @@ describe('SessionController /POST sessions', ()=> {
       .set('Content-type', 'application/x-www-form-urlencoded')
       .send(user2)
       .then((res)=> {
-        user_admin = {...user2,...res.body.data};
+        user_admin = { ...user2, ...res.body.data };
       });
 
     request(server).post('/api/v2/auth/signin')
@@ -36,7 +37,7 @@ describe('SessionController /POST sessions', ()=> {
       .set('Content-type', 'application/x-www-form-urlencoded')
       .send(user1)
       .then((res)=> {
-        user_mentee = {...user1,...res.body.data};
+        user_mentee = { ...user1, ...res.body.data };
       });
 
     request(server).post('/api/v2/auth/signin')
@@ -44,7 +45,7 @@ describe('SessionController /POST sessions', ()=> {
       .set('Content-type', 'application/x-www-form-urlencoded')
       .send(user3)
       .then((res)=> {
-        user_mentor = {...user2,...res.body.data};
+        user_mentor = { ...user2, ...res.body.data };
       });
 
 
@@ -53,8 +54,7 @@ describe('SessionController /POST sessions', ()=> {
       .set('Content-type', 'application/x-www-form-urlencoded')
       .send(user4)
       .then((res)=> {
-        user_3 = {...user4,...res.body.data};
-        
+        user_3 = { ...user4, ...res.body.data };
       });
 
     request(server).post('/api/v2/auth/signup')
@@ -62,17 +62,13 @@ describe('SessionController /POST sessions', ()=> {
       .set('Content-type', 'application/x-www-form-urlencoded')
       .send(user5)
       .then((res)=> {
-        unconcern_mentor = {...user5,...res.body.data};
+        unconcern_mentor = { ...user5, ...res.body.data };
         done();
       });
   });
 
 
-
-
-
   it('Should create a mentorship session', (done)=> {
-   
     const { id: mentor_id } = user_mentor;
     const { token: mentee_token } = user_mentee;
     const defaultSession = {
@@ -89,7 +85,6 @@ describe('SessionController /POST sessions', ()=> {
       .set('token', mentee_token)
       .send(defaultSession)
       .end((err, res)=> {
-        console.log(res.body);
         created_session = res.body.data;
         res.should.have.status(200);
         res.body.data.should.have.property('status').eql('pending');
@@ -188,12 +183,8 @@ describe('SessionController /POST sessions', ()=> {
 });
 
 
-
-
 describe('SessionController /PATCH: accept session', ()=> {
   before((done)=> {
-    
-
     const { id: normal_user_id } = unconcern_mentor;
     const { token: user_admin_token } = user_admin;
 
@@ -202,7 +193,7 @@ describe('SessionController /PATCH: accept session', ()=> {
       .set('Content-type', 'application/x-www-form-urlencoded')
       .set('token', user_admin_token)
       .then((res)=> {
-        unconcern_mentor={...unconcern_mentor,...res.body.data};
+        unconcern_mentor = { ...unconcern_mentor, ...res.body.data };
         done();
       });
   });
@@ -218,7 +209,7 @@ describe('SessionController /PATCH: accept session', ()=> {
       .set('Content-type', 'application/x-www-form-urlencoded')
       .send(unconcern_mentor_credential)
       .end((err, res)=> {
-        unconcern_mentor={...unconcern_mentor,...res.body.data};
+        unconcern_mentor = { ...unconcern_mentor, ...res.body.data };
         done();
       });
   });
@@ -235,7 +226,8 @@ describe('SessionController /PATCH: accept session', ()=> {
       .set('token', mentorToken)
       .end((err, res)=> {
         const { status } = res.body.data;
-        created_session={...created_session, status };
+
+        created_session = { ...created_session, status };
         res.should.have.status(200);
         res.body.data.should.have.property('status').eql('accepted');
 
@@ -297,10 +289,9 @@ describe('SessionController /PATCH: accept session', ()=> {
 
 
   it('Should return a status code 403 when an auth user is not a mentor', (done)=> {
-
     const { id: sessionId } = created_session;
     const { token: normal_userToken } = user_3;
-    
+
     request(server).patch(`/api/v2/sessions/${sessionId}/accept`)
       .set('Content-type', 'application/json')
       .set('Content-type', 'application/x-www-form-urlencoded')
@@ -359,7 +350,7 @@ describe('SessionController /PATCH: accept session', ()=> {
         done();
       });
   });
- });
+});
 
 
 describe('SessionController /PATCH reject session', ()=> {
@@ -521,4 +512,4 @@ describe('SessionController /PATCH reject session', ()=> {
         done();
       });
   });
- });
+});

@@ -14,7 +14,7 @@ class SessionController {
 
       body.status = 'pending';
       const { mentor_id } = body;
-      
+
       const session = await Session.create({ ...body, mentee_id, mentor_id });
 
       session.menteeEmail = email;

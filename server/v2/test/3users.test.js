@@ -7,8 +7,9 @@ import data from './data';
 should();
 use(chaiHttp);
 
-let { user2,
-      user3, 
+let {
+  user2,
+  user3,
 } = data.users;
 
 let user_admin;
@@ -21,7 +22,7 @@ describe('UserController /GET all mentors', ()=> {
       .set('Content-type', 'application/x-www-form-urlencoded')
       .send(user2)
       .then((res)=> {
-        user_admin = {...user2, ...res.body.data};
+        user_admin = { ...user2, ...res.body.data };
       });
 
     request(server).post('/api/v2/auth/signin')
@@ -29,19 +30,16 @@ describe('UserController /GET all mentors', ()=> {
       .set('Content-type', 'application/x-www-form-urlencoded')
       .send(user3)
       .then((res)=> {
-
-        user_mentor = {...user3, ...res.body.data};
+        user_mentor = { ...user3, ...res.body.data };
 
         done();
       });
   });
 
 
-
-
   it('Should return an array containing object of all mentors', (done)=> {
     const { token } = user_mentor;
-   
+
     request(server).get('/api/v2/mentors')
       .set('Content-type', 'application/json')
       .set('Content-type', 'application/x-www-form-urlencoded')
@@ -97,7 +95,7 @@ describe('UserController /GET all mentors', ()=> {
 });
 
 
- describe('UserController /GET specific mentor', ()=> {
+describe('UserController /GET specific mentor', ()=> {
   it('Should return an object of a specific mentor', (done)=> {
     const { token, id: mentorId } = user_mentor;
 

@@ -7,24 +7,20 @@ import data from './data';
 
 should();
 use(chaiHttp);
-let { user1,
-     user2, 
-     wrong_user_info, 
-   } = data.users;
-
+let {
+  user1,
+  user2,
+  wrong_user_info,
+} = data.users;
 
 
 describe('AuthController', ()=> {
-
-
-
   it(('Should signup a user'), (done)=> {
     request(server).post('/api/v2/auth/signup')
       .set('Content-type', 'application/json')
       .set('Content-type', 'application/x-www-form-urlencoded')
       .send(user1)
       .end((err, res)=> {
-        
         res.should.have.status(201);
         res.body.data.should.be.an('object');
         res.body.data.should.have.property('token');
@@ -68,14 +64,11 @@ describe('AuthController', ()=> {
 
 
   it(('Should return an object with status 400 when a user signs up without required credentials'), (done)=> {
-    
-    
     request(server).post('/api/v2/auth/signup')
       .set('Content-type', 'application/json')
       .set('Content-type', 'application/x-www-form-urlencoded')
       .send(wrong_user_info)
       .end((err, res)=> {
-       
         res.should.have.status(400);
         res.body.message.should.be.a('string').eql('Invalid input value');
         res.body.error.should.be.an('object');
@@ -95,8 +88,9 @@ describe('AuthController', ()=> {
       .set('Content-type', 'application/x-www-form-urlencoded')
       .send(existingUser)
       .end((err, res)=> {
-        const token=res.body.data.token;
-        user1={...user1,token}
+        const { token } = res.body.data;
+
+        user1 = { ...user1, token };
         res.should.have.status(200);
         res.body.data.should.be.an('object');
         res.body.data.should.have.property('token');
@@ -116,7 +110,6 @@ describe('AuthController', ()=> {
       .set('Content-type', 'application/x-www-form-urlencoded')
       .send(user_with_WrongEmail)
       .end((err, res)=> {
-        
         res.should.have.status(401);
         res.body.should.have.property('error');
         res.body.error.should.be.a('string').eql('Invalid Credentials');
