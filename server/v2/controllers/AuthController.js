@@ -26,26 +26,25 @@ class AuthController {
       const token = generateToken({
         id: created_user.id,
         email: created_user.email,
-        is_admin: 'false',
+        is_admin: false,
         role: created_user.role,
       });
 
       
       msg = 'User created successfully';
-      return response(res, 201, msg, { token });
+      const data = { token , id:created_user.id};
+      return response(res, 201, msg, data);
     } catch (err) {
       return next(err);
     }
   }
 
   static async signIn(req, res, next) {
-    const { body: { email, password: in_password } } = req;
-
-    const [user_found] = await User.findWhere('email', email);
-
+    const { body: { email, password: in_password }, user_found } = req;
 
     try {
       const passwordIsValid = bcrypt.compareSync(in_password, user_found.password);
+     
 
       if (!passwordIsValid) return response(res, 401, 'Invalid Credentials');
       const token = generateToken({
@@ -56,10 +55,10 @@ class AuthController {
       });
 
       msg = `Welcome ${user_found.lastname}`;
-      
-      return response(res, 200, msg,{ token }, User.dataToHide);
+      const data = { token , id:user_found.id, is_admin: user_found.is_admin};
+      return response(res, 200, msg, data , User.dataToHide);
     } catch (error) {
-      error.message = 'Invalid Credentials';
+     
       return next(error);
     }
   }

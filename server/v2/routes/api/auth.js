@@ -7,18 +7,19 @@ import AuthController from '../../controllers/AuthController';
 
 const router = express.Router();
 const urlEncodedParser = bodyParser.urlencoded({ extended: false });
-
+const { checkUserEmail, checkEmailSignin } = dataExist;
 
 router.post('/auth/signup',
   urlEncodedParser,
   userValidation.signup,
   validate,
-  dataExist.checkUserEmail,
+  checkUserEmail,
   AuthController.signUp);
 
 router.post('/auth/signin',
   userValidation.signin,
   validate,
+  checkEmailSignin,
   AuthController.signIn);
 
 export default router;

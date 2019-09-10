@@ -28,7 +28,7 @@ const userValidation = {
       .withMessage('Password must be between 8 and 15 characters long')
       //.matches(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,}$/, "i")
       .custom((value)=> {
-        console.log('check strong pass');
+        
         let format = /(?=.*\d)/;
         if (!format.test(value))  {throw new Error('Password should contain at least one digit');}
         format = /(?=.*[a-z])/;
