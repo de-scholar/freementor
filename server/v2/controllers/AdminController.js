@@ -6,7 +6,7 @@ const { response } = GeneralHelper;
 class AdminController {
   static userToAdmin(req, res, next) {
     const { userId } = req.params;
-   
+
     return User.switchTo(userId, { is_admin: true }, res, next);
   }
 

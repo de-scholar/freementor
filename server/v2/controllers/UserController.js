@@ -1,16 +1,18 @@
 import User from '../models/User';
 import GeneralHelper from '../helpers/general';
 
-const { response } = GeneralHelper;
+const { response, arrange_date } = GeneralHelper;
 
 const dataToHide = ['role', 'type'];
 
 class UserController {
   static async mentors(req, res, next) {
     try {
-      const mentors = await User.findWhere('type', 'mentor');
+      let mentors = await User.findWhere('type', 'mentor');
 
-      return response(res, 200, 'OK', mentors, [...User.dataToHide, ...dataToHide]);
+      mentors = arrange_date(mentors);
+
+      return response(res, 200, 'List of mentors', mentors, [...User.dataToHide, ...dataToHide]);
     } catch (error) {
       return next(error);
     }
@@ -20,10 +22,10 @@ class UserController {
     const { mentorId } = req.params;
 
     try {
-      const [mentor] = await User.customQuery('WHERE id=$1 AND type=$2', [mentorId, 'mentor']);
+      let [mentor] = await User.customQuery('WHERE id=$1 AND type=$2', [mentorId, 'mentor']);
 
-      if (mentor) return response(res, 200, 'OK', mentor, [...User.dataToHide, ...dataToHide]);
-
+      mentor = arrange_date(mentor);
+      if (mentor) return response(res, 200, 'A specific mentor', mentor, [...User.dataToHide, ...dataToHide]);
       return response(res, 412, 'Mentor not found');
     } catch (error) {
       return next(error);

@@ -6,12 +6,20 @@ import dbHelper from './db_Helper';
 
 dotenv.config();
 
-const { AUTH_SECRET: secret, JWT_LIFE } = process.env;
-const { removeDataToHide } = dbHelper;
+const { AUTH_SECRET: secret, JWT_LIFE, NODE_ENV } = process.env;
+const { removeDataToHide, arrange_date, change_attribute } = dbHelper;
 
 class General {
+  static arrange_date(data, toFormat) {
+    return arrange_date(data, toFormat);
+  }
+
+  static change_attribute(data, attributes) {
+    return change_attribute(data, attributes);
+  }
+
   static generateToken(payload) {
-    return jwt.sign(payload, secret, { expiresIn: JWT_LIFE });
+    return jwt.sign(payload, secret, { expiresIn: NODE_ENV === 'test' ? '1year' : JWT_LIFE });
   }
 
 
@@ -44,6 +52,7 @@ class General {
   static response(res, status, msg, data = {}, dataToRemove) {
     if (status === 200 || status === 201) {
       if (dataToRemove) { removeDataToHide(data, dataToRemove); }
+
       return res.status(status).json({
         status,
         message: msg,
@@ -57,8 +66,6 @@ class General {
       error: msg,
     });
   }
-
-
 }
 
 export default General;

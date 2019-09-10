@@ -2,7 +2,7 @@ import User from '../models/User';
 import Session from '../models/Session';
 import GeneralHelper from '../helpers/general';
 
-const { response, toTimeStamp } = GeneralHelper;
+const { response, arrange_date, change_attribute } = GeneralHelper;
 
 class SessionController {
   static async create(req, res, next) {
@@ -12,14 +12,13 @@ class SessionController {
         body,
       } = req;
 
-      body.status = 'pending';
       const { mentor_id } = body;
 
-      const session = await Session.create({ ...body, mentee_id, mentor_id });
+      let session = await Session.create({ ...body, mentee_id, mentor_id });
 
       session.menteeEmail = email;
-
-      return response(res, 200, 'OK', session);
+      session = change_attribute(session, Session.attributes_to_change);
+      return response(res, 200, 'Session created successfully', arrange_date(session));
     } catch (e) {
       return next(e);
     }
@@ -29,9 +28,10 @@ class SessionController {
     const { sessionId } = req.params;
 
     try {
-      const update_session = await Session.update(sessionId, { status: 'accepted' });
+      let update_session = await Session.update(sessionId, { status: 'accepted' });
 
-      return response(res, 200, 'OK', update_session);
+      update_session = change_attribute(update_session, Session.attributes_to_change);
+      return response(res, 200, 'Session accepted', arrange_date(update_session));
     } catch (e) {
       return next(e);
     }
@@ -41,9 +41,10 @@ class SessionController {
     const { sessionId } = req.params;
 
     try {
-      const update_session = await Session.update(sessionId, { status: 'rejected' });
+      let update_session = await Session.update(sessionId, { status: 'rejected' });
 
-      return response(res, 200, 'OK', update_session);
+      update_session = change_attribute(update_session, Session.attributes_to_change);
+      return response(res, 200, 'Session rejected', arrange_date(update_session));
     } catch (e) {
       return next(e);
     }
