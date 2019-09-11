@@ -37,5 +37,10 @@ router.patch('/sessions/:sessionId/reject',
   checkSessionExist,
   SessionController.rejectSession);
 
+router.get('/sessions',
+  authorization,
+  tokenVerify,
+  SessionController.view_sessions);
+
 
 export default router;

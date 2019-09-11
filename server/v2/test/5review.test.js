@@ -149,3 +149,78 @@ describe('ReviewController /POST review', ()=> {
   });
 });
 
+
+describe('ReviewController /DELETE review', ()=> {
+  it('Should return a code status 200 when an admin delete a session review', (done)=> {
+    request(server).delete(`/api/v2/sessions/${created_session.id}/review`)
+
+      .set('token', user_admin.token)
+      .end((err, res)=> {
+        res.should.have.status(200);
+        res.body.should.have.property('message').eql('Review successfully deleted');
+
+        done();
+      });
+  });
+
+
+  it('Should return status code 403 when the auth user is not an admin', (done)=> {
+    request(server).delete(`/api/v2/sessions/${created_session.id}/review`)
+
+      .set('token', user_mentee.token)
+      .end((err, res)=> {
+        res.should.have.status(403);
+        res.body.should.have.property('error').eql('Access forbiden,reserved for admin');
+
+        done();
+      });
+  });
+
+
+  it('Should return status code 400 when the mentorship session does not have a review', (done)=> {
+    request(server).delete('/api/v2/sessions/100000/review')
+
+      .set('token', user_admin.token)
+      .end((err, res)=> {
+        res.should.have.status(400);
+        res.body.should.have.property('error').eql('Review of the session not found');
+
+        done();
+      });
+  });
+
+
+  it('Should return status 401 if the token has been not sent', (done)=> {
+    request(server).delete(`/api/v2/sessions/${created_session.id}/review`)
+
+      .end((err, res)=> {
+        res.should.have.status(401);
+        res.body.error.should.be.a('string').eql('Anauthorized,please login first');
+        done();
+      });
+  });
+
+
+  it('Should verify invalid token', (done)=> {
+    request(server).delete(`/api/v2/sessions/${created_session.id}/review`)
+
+      .set('token', wrong_token)
+      .end((err, res)=> {
+        res.body.status.should.be.a('number').eql(500);
+        res.body.error.should.be.a('string').eql('invalid token');
+        done();
+      });
+  });
+
+
+  it('Should verify malformed token', (done)=> {
+    request(server).delete(`/api/v2/sessions/${created_session.id}/review`)
+
+      .set('token', 'badToken')
+      .end((err, res)=> {
+        res.body.status.should.be.a('number').eql(500);
+        res.body.error.should.be.a('string').eql('jwt malformed');
+        done();
+      });
+  });
+});

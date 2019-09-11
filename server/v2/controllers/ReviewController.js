@@ -1,6 +1,4 @@
 import Review from '../models/Review';
-import Session from '../models/Session';
-import User from '../models/User';
 import GeneralHelper from '../helpers/general';
 
 const { response, arrange_date, change_attribute } = GeneralHelper;
@@ -28,6 +26,17 @@ class ReviewController {
 
       review = change_attribute(review, Review.attributes_to_change);
       return response(res, 200, msg, arrange_date(review), ['mentee_lname', 'mentee_fname']);
+    } catch (e) {
+      return next(e);
+    }
+  }
+
+  static async delete(req, res, next) {
+    const { review_id } = req;
+
+    try {
+      await Review.delete(review_id);
+      return response(res, 200, 'Review successfully deleted');
     } catch (e) {
       return next(e);
     }
