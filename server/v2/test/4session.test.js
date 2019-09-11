@@ -99,14 +99,14 @@ describe('SessionController /POST sessions', ()=> {
   });
 
 
-  it('Should return 400 code status when the recorded input are invalid', (done)=> {
+  it('Should return 422 code status when the recorded input are invalid', (done)=> {
     request(server).post('/api/v2/sessions')
 
       .set('Content-type', 'application/x-www-form-urlencoded')
       .set('token', user_mentee.token)
       .send(sessions.invalid_datadata(user_mentor.id))
       .end((err, res)=> {
-        res.should.have.status(400);
+        res.should.have.status(422);
         res.body.error.should.have.be.an('object');
         done();
       });
@@ -193,13 +193,13 @@ describe('SessionController /PATCH: accept session', ()=> {
   });
 
 
-  it('Should return a status code 400 when session with sent sessionId is not found', (done)=> {
+  it('Should return a status code 412 when session with sent sessionId is not found', (done)=> {
     request(server).patch('/api/v2/sessions/312/accept')
 
       .set('Content-type', 'application/x-www-form-urlencoded')
       .set('token', user_mentor.token)
       .end((err, res)=> {
-        res.should.have.status(400);
+        res.should.have.status(412);
         res.body.error.should.be.a('string').eql('Session not found,create sessions');
 
         done();
@@ -221,13 +221,13 @@ describe('SessionController /PATCH: accept session', ()=> {
   });
 
 
-  it('Should return a status code 400 when a mentor is trying to repeat the same operation', (done)=> {
+  it('Should return a status code 409 when a mentor is trying to repeat the same operation', (done)=> {
     request(server).patch(`/api/v2/sessions/${created_session.id}/accept`)
 
       .set('Content-type', 'application/x-www-form-urlencoded')
       .set('token', user_mentor.token)
       .end((err, res)=> {
-        res.should.have.status(400);
+        res.should.have.status(409);
         res.body.error.should.be.a('string')
           .eql(`You can not do this operation : session status is ${created_session.status}`);
 
@@ -321,13 +321,13 @@ describe('SessionController /PATCH reject session', ()=> {
   });
 
 
-  it('Should return a status code 400 when session with sent sessionId is not found', (done)=> {
+  it('Should return a status code 412 when session with sent sessionId is not found', (done)=> {
     request(server).patch('/api/v2/sessions/32/reject')
 
       .set('Content-type', 'application/x-www-form-urlencoded')
       .set('token', user_mentor.token)
       .end((err, res)=> {
-        res.should.have.status(400);
+        res.should.have.status(412);
         res.body.error.should.be.a('string').eql('Session not found,create sessions');
 
         done();
@@ -349,13 +349,13 @@ describe('SessionController /PATCH reject session', ()=> {
   });
 
 
-  it('Should return a status code 400 when a mentor is trying to repeat the same operation', (done)=> {
+  it('Should return a status code 409 when a mentor is trying to repeat the same operation', (done)=> {
     request(server).patch(`/api/v2/sessions/${created_session.id}/reject`)
 
       .set('Content-type', 'application/x-www-form-urlencoded')
       .set('token', user_mentor.token)
       .end((err, res)=> {
-        res.should.have.status(400);
+        res.should.have.status(409);
         res.body.error.should.be.a('string')
           .eql(`You can not do this operation : session status is ${created_session.status}`);
 

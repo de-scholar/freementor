@@ -36,7 +36,7 @@ const userValidation = {
         format = /(?=.*[A-Z])/;
         if (!format.test(value))  throw new Error('Password should contain at least one upper case');
         format = /(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]/;
-        if (!format.test(value)) throw new Error('Password should contain at least 1 character');
+        if (!format.test(value)) throw new Error('Password should contain at least 1 special character');
         return true;
       }),
 

@@ -62,7 +62,7 @@ class User extends Model {
       }
 
       msg = 'user with the sent id not found';
-      return response(res, 400, msg);
+      return response(res, 412, msg);
     } catch (error) {
       return next(error);
     }

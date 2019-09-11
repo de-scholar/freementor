@@ -47,13 +47,13 @@ export default {
       const session = await Session.find(sessionId);
       let msg = 'Session not found,create sessions';
 
-      if (!session) return response(res, 400, msg);
+      if (!session) return response(res, 412, msg);
 
       msg = 'Session does not concern you';
       if (auth_user.id !== session.mentor_id) return response(res, 400, msg);
 
       msg = `You can not do this operation : session status is ${session.status}`;
-      if (session.status !== 'pending') return response(res, 400, msg);
+      if (session.status !== 'pending') return response(res, 409, msg);
 
       return next();
     } catch (error) {
@@ -67,11 +67,11 @@ export default {
     try {
       const session = await Session.find(sessionId);
 
-      if (!session) return response(res, 400, 'Session to review is not found');
+      if (!session) return response(res, 412, 'Session to review is not found');
 
       const [review] = await Review.findWhere('session_id', sessionId);
 
-      if (review) return response(res, 400, 'Session has another review');
+      if (review) return response(res, 409, 'You have already reviewed this session');
 
       return next();
     } catch (e) {
@@ -84,7 +84,7 @@ export default {
     try {
       const [review] = await Review.findWhere('session_id', sessionId);
 
-      if (!review) return response(res, 400, 'Review of the session not found');
+      if (!review) return response(res, 412, 'Review of the session not found');
       req.review_id = review.id;
       return next();
     } catch (e) {

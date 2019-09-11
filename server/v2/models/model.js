@@ -31,16 +31,6 @@ class Model {
     return created_data;
   }
 
-  async all() {
-    this.query = {
-      text: `SELECT * FROM ${this.table}`,
-      values: [],
-    };
-    const { rows } = await db.query(this.query);
-
-
-    return rows;
-  }
 
   async find(itemId) {
     this.query = {
