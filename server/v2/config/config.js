@@ -7,9 +7,9 @@ const {
   DB_USERNAME,
   DB_PASSWORD,
   DB_NAME,
+  NODE_ENV
 } = process.env;
 
-const { NODE_ENV }=process.env;
 
 export default {
   dbConfig: {

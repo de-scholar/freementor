@@ -1,6 +1,13 @@
 import pg, { Pool } from 'pg';
 import config from '../config/config';
 
-const db = new Pool(config.dbConfig);
+let connection = config.dbConfig;
+const { NODE_ENV, DATABASE_URL }=process.env;
+
+if(NODE_ENV === 'production'){
+	const  connection = {connectionString: DATABASE_URL};
+}
+const db = new Pool(connection);
+
 
 export default db;
