@@ -71,7 +71,7 @@ export default {
 
       const [review] = await Review.findWhere('session_id', sessionId);
 
-      if (review) return response(res, 400, 'Session has another review');
+      if (review) return response(res, 400, 'You have already reviewed this session');
 
       return next();
     } catch (e) {
