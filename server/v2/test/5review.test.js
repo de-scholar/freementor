@@ -90,7 +90,7 @@ describe('ReviewController /POST review', ()=> {
       .end((err, res)=> {
         res.should.have.status(400);
         res.should.have.status(400);
-        res.body.should.have.property('error').eql('You have already reviewed this session');
+        res.body.should.have.property('error').eql('Session has another review');
         done();
       });
   });
