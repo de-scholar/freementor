@@ -57,6 +57,7 @@ const migrate_tables= async (isDone)=>{
     if(isDone){isDone()}
 
     console.log('Tables well generated');
+    process.exit(0);
     return;
   } catch (error) {
     
