@@ -1,5 +1,6 @@
 import User from '../models/User';
 import Session from '../models/Session';
+import Review from '../models/Review';
 import GeneralHelper from '../helpers/general';
 
 const { response } = GeneralHelper;
@@ -9,21 +10,20 @@ export default {
     try {
       const [simuler_user] = await User.findWhere(User.uniqueAttr, body.email);
 
-      return simuler_user ? response(res, 409, 'Email already exist')
-        : next();
+      if (simuler_user) return response(res, 409, 'Email already exist');
+      return next();
     } catch (error) {
       return next(error);
     }
   },
   checkEmailSignin: async (req, res, next)=> {
-    try{
+    try {
       const [user] = await User.findWhere('email', req.body.email);
-      if(!user) return response(res, 401, 'Invalid Credentials');
-      else{ 
-        req.user_found = user;
-        return next();
-      }
-      
+
+      if (!user) return response(res, 401, 'Invalid Credentials');
+
+      req.user_found = user;
+      return next();
     } catch (error) {
       return next(error);
     }
@@ -60,4 +60,23 @@ export default {
       return next(error);
     }
   },
+
+  checkSessionReviewOnCreate: async (req, res, next)=> {
+    const { params: { sessionId } } = req;
+
+    try {
+      const session = await Session.find(sessionId);
+
+      if (!session) return response(res, 400, 'Session to review is not found');
+
+      const [review] = await Review.findWhere('session_id', sessionId);
+
+      if (review) return response(res, 400, 'Session has another review');
+
+      return next();
+    } catch (e) {
+      return next(e);
+    }
+  },
+
 };

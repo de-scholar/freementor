@@ -11,7 +11,7 @@ export default {
       expertise: 'web development',
       occupation: 'software developer',
       address: 'kigali',
-      token:'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJ1c2VyMUBnbWFpbC5jb20iLCJpc19hZG1pbiI6ZmFsc2UsImlhdCI6MTU2ODEyMTg2NSwiZXhwIjoxNTk5Njc5NDY1fQ.fQYN5gAH3Jg_s4_-modlSqR41OPVlsK_KeM7dBJRMOE',
+      token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJ1c2VyMUBnbWFpbC5jb20iLCJpc19hZG1pbiI6ZmFsc2UsImlhdCI6MTU2ODEyMTg2NSwiZXhwIjoxNTk5Njc5NDY1fQ.fQYN5gAH3Jg_s4_-modlSqR41OPVlsK_KeM7dBJRMOE',
     },
     user2: {
       id: 2,
@@ -79,7 +79,7 @@ export default {
       password: '45678',
     },
   },
-  review_auth: {
+  reviews: {
 
     score_info: {
       score: 3,
@@ -87,7 +87,7 @@ export default {
     },
     wrong_score_info: {
       score: 36,
-      remark: 'Every thing was good, but and then ,so i conclude',
+      remarks: '',
 
     },
   },
@@ -95,28 +95,24 @@ export default {
     wrong_token: 'ciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZmlyc3ROYW1lIjoicHJvZG8iLCJsYXN0TmFtZSI6Imtha2EiLCJlbWFpbCI6InBAZ21haWwuY29tIiwicGFzc3dvcmQiOiIkMmIkMTAkVFcyYmxUWnYzZ1FiNldNRXJZSmtULi5YSUhrendnZW5GWm1NTVlXVjZwaFRFd1dGUjhqbk8iLCJhZGRyZXNzIjoiYWRkcmVzcyIsImJpbyI6ImJpbyIsIm9jY3VwYXRpb24iOiJvY2N1cCIsImV4cGVydGlzZSI6ImV4cHJ0IiwidHlwZSI6Im5vcm1hbCIsImlhdCI6MTU2NjQ2NjQyNiwiZXhwIjoxNTY2ODEyMDI2fQ.hBkHlelgfCp1qnRVhgvCPFcm16camwv0mZNxFGhHkmw',
   },
   sessions: {
-    data:(mentor_id)=>{
-      return {
-        questions: 'questions here',
-        mentor_id,
-        date: '12/12/2019',
-      };
-    },
-    invalid_datadata:(mentor_id)=>{
-      return {
-        question: 'questions here',
-        mentor_id,
-        date: '12/12/2019',
-      };
-    },
-    reject_session: (mentor_id)=> {
-      return {
-        questions: 'questions2 here',
-        mentor_id,
-        date: '12/12/2019',
-      };
-    }
-  }
+    data: (mentor_id)=> ({
+      id:1,
+      questions: 'questions here',
+      mentor_id,
+      date: '12/12/2019',
+    }),
+    invalid_datadata: (mentor_id)=> ({
+      question: 'questions here',
+      mentor_id,
+      date: '12/12/2019',
+    }),
+    reject_session: (mentor_id)=> ({
+      id:2,
+      questions: 'questions2 here',
+      mentor_id,
+      date: '12/12/2019',
+    }),
+  },
 
 
 };

@@ -5,8 +5,9 @@ let connection = config.dbConfig;
 const { NODE_ENV, DATABASE_URL }=process.env;
 
 if(NODE_ENV === 'production'){
-	const  connection = {connectionString: DATABASE_URL};
+  const  connection = {connectionString: DATABASE_URL};
 }
+
 const db = new Pool(connection);
 
 
