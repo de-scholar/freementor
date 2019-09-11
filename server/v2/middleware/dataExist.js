@@ -78,5 +78,17 @@ export default {
       return next(e);
     }
   },
+  checkSessionReviewOnDelete: async (req, res, next)=> {
+    const { sessionId } = req.params;
 
+    try {
+      const [review] = await Review.findWhere('session_id', sessionId);
+
+      if (!review) return response(res, 400, 'Review of the session not found');
+      req.review_id = review.id;
+      return next();
+    } catch (e) {
+      return next(e);
+    }
+  },
 };

@@ -11,7 +11,7 @@ const router = express.Router();
 const urlEncodedParser = bodyParser.urlencoded({ extended: false });
 const { authorization, tokenVerify } = AuthMw;
 const { isAdmin } = permissionMw;
-const { checkSessionReviewOnCreate } = dataExist;
+const { checkSessionReviewOnCreate, checkSessionReviewOnDelete } = dataExist;
 
 
 router.post('/sessions/:sessionId/review',
@@ -22,6 +22,14 @@ router.post('/sessions/:sessionId/review',
   validate,
   checkSessionReviewOnCreate,
   ReviewController.review_mentor);
+
+
+router.delete('/sessions/:sessionId/review',
+  authorization,
+  tokenVerify,
+  isAdmin,
+  checkSessionReviewOnDelete,
+  ReviewController.delete);
 
 
 export default router;
