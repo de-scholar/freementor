@@ -3,11 +3,11 @@
   "info": {
     "version": "1.0.0",
     "title": "Free Mentors",
-    "description": "Social platform for Free mentors",
+    "description": "Social platform for where more experienced people  support and encourage less experienced people",
     "contact": {}
   },
-  "host": "freementors-app.herokuapp.com",
-  "basePath": "/api/v1",
+  "host": "freementor-db.herokuapp.com/",
+  "basePath": "/api/v2",
   "securityDefinitions": {},
   "schemes": [
     "http",
@@ -37,18 +37,82 @@
         ],
         "parameters": [
           {
-            "name": "Authorization",
+            "name": "Content-Type",
             "in": "header",
-            "required": false,
-            "type": "string"
+            "required": true,
+            "default": "application/x-www-form-urlencoded",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "firstname",
+            "in": "formData",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "lastname",
+            "in": "formData",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "email",
+            "in": "formData",
+            "required": true,
+            "type": "string",
+            "description": "",
+            "format": "email"
+          },
+          {
+            "name": "bio",
+            "in": "formData",
+            "required": true,
+            "type": "string",
+            "description": "",
+            "format": "email"
+          },
+          {
+            "name": "expertise",
+            "in": "formData",
+            "required": true,
+            "type": "string",
+            "description": "",
+            "format": "email"
+          },
+          {
+            "name": "address",
+            "in": "formData",
+            "required": true,
+            "type": "string",
+            "description": "",
+            "format": "email"
+          },
+          {
+            "name": "occupation",
+            "in": "formData",
+            "required": true,
+            "type": "string",
+            "description": "",
+            "format": "email"
+          },
+          {
+            "name": "password",
+            "in": "formData",
+            "required": true,
+            "type": "string",
+            "format" :"password",
+            "description": ""
           }
         ],
         "responses": {
           "201": {
             "description": "successful operation"
           },
-          "400": {
-            "description": "An error occured"
+          "422": {
+            "description": "Validation error"
           }
         }
       }
@@ -73,6 +137,7 @@
             "name": "Content-Type",
             "in": "header",
             "required": true,
+            "default": "application/x-www-form-urlencoded",
             "type": "string",
             "description": ""
           },
@@ -95,13 +160,16 @@
           "200": {
             "description": "successful operation"
           },
-          "400": {
-            "description": "Invalid username/password supplied"
+          "422": {
+            "description": "Validation error"
+          },
+          "401": {
+            "description": "Wrong credentials"
           }
         }
       }
     },
-    "/admin/:userId": {
+    "/admin/{userId}": {
       "patch": {
         "description": "Admin Changes a normal user to an admin user ",
         "summary": "Set a normal user to an admin",
@@ -122,8 +190,8 @@
             "type": "string"
           },
           {
-            "name": "user_id",
-            "in": "formData",
+            "name": "userId",
+            "in": "path",
             "required": true,
             "type": "integer",
             "format": "int32",
@@ -144,12 +212,12 @@
             "description": "Auth token not supplied"
           },
           "500": {
-            "description": "Auth token expired"
+            "description": "Server error"
           }
         }
       }
     },
-    "/admin-to/:adminId": {
+    "/admin-to/{adminId}": {
       "patch": {
         "description": "Admin Changes another admin to normal user ",
         "summary": "Reset an admin to a normal user ",
@@ -170,8 +238,8 @@
             "type": "string"
           },
           {
-            "name": "admin_id",
-            "in": "formData",
+            "name": "adminId",
+            "in": "path",
             "required": true,
             "type": "integer",
             "format": "int32",
@@ -192,12 +260,12 @@
             "description": "Auth token not supplied"
           },
           "500": {
-            "description": "Auth token expired"
+            "description": "Server error"
           }
         }
       }
     },
-    "/user/:userId": {
+    "/user/{userId}": {
       "patch": {
         "description": "Admin Changes a normal user to mentor  ",
         "summary": "Change user to mentor",
@@ -218,8 +286,8 @@
             "type": "string"
           },
           {
-            "name": "user_id",
-            "in": "formData",
+            "name": "userId",
+            "in": "path",
             "required": true,
             "type": "integer",
             "format": "int32",
@@ -240,12 +308,12 @@
             "description": "Auth token not supplied"
           },
           "500": {
-            "description": "Auth token expired"
+            "description": "Server error"
           }
         }
       }
     },
-    "/mentor/:mentorId": {
+    "/mentor/{mentorId}": {
       "patch": {
         "description": "Admin Changes a mentor to normal user",
         "summary": "Change mentor to normal user",
@@ -266,8 +334,8 @@
             "type": "string"
           },
           {
-            "name": "mentor_id",
-            "in": "formData",
+            "name": "mentorId",
+            "in": "path",
             "required": true,
             "type": "integer",
             "format": "int32",
@@ -288,7 +356,7 @@
             "description": "Auth token not supplied"
           },
           "500": {
-            "description": "Auth token expired"
+            "description": "Server error"
           }
         }
       }
@@ -305,13 +373,6 @@
         ],
         "parameters": [
           {
-            "name": "Content-Type",
-            "in": "header",
-            "required": true,
-            "type": "string",
-            "description": ""
-          },
-          {
             "name": "token",
             "in": "header",
             "required": true,
@@ -332,12 +393,12 @@
             "description": "Auth token not supplied"
           },
           "500": {
-            "description": "Auth token expired"
+            "description": "Server error"
           }
         }
       }
     },
-    "/mentors/:mentorId": {
+    "/mentors/{mentorId}": {
       "get": {
         "description": "Getting the details of a specific mentor",
         "summary": "Specific mentor",
@@ -351,15 +412,15 @@
           "application/x-www-form-urlencoded"
         ],
         "parameters": [
-          {
+           {
             "name": "token",
             "in": "header",
             "required": true,
             "type": "string"
           },
           {
-            "name": "mentor_id",
-            "in": "formData",
+            "name": "mentorId",
+            "in": "path",
             "required": true,
             "type": "integer",
             "format": "int32",
@@ -380,7 +441,7 @@
             "description": "Auth token not supplied"
           },
           "500": {
-            "description": "Auth token expired"
+            "description": "Server error"
           }
         }
       }
@@ -404,7 +465,36 @@
             "in": "header",
             "required": true,
             "type": "string"
-          }
+          },
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": true,
+            "default": "application/x-www-form-urlencoded",
+            "type": "string",
+            "description": ""
+          },
+          {
+              "name": "mentor_id",
+              "in": "formData",
+              "required": true,
+              "type": "string",
+              "description": ""
+            },
+            {
+              "name": "questions",
+              "in": "formData",
+              "required": true,
+              "type": "string",
+              "description": ""
+            },
+            {
+              "name": "date",
+              "in": "formData",
+              "required": true,
+              "type": "string",
+              "description": ""
+            }
         ],
         "responses": {
           "200": {
@@ -420,12 +510,12 @@
             "description": "Auth token not supplied"
           },
           "500": {
-            "description": "Auth token expired"
+            "description": "Server error"
           }
         }
       }
     },
-    "/sessions/:sessionId/accept": {
+    "/sessions/{sessionId}/accept": {
       "patch": {
         "description": "The mentor accepts a mentorship session request",
         "summary": "Accept session",
@@ -446,8 +536,8 @@
             "type": "string"
           },
           {
-            "name": "session_id",
-            "in": "formData",
+            "name": "sessionId",
+            "in": "path",
             "required": true,
             "type": "integer",
             "format": "int32",
@@ -468,12 +558,12 @@
             "description": "Auth token not supplied"
           },
           "500": {
-            "description": "Auth token expired"
+            "description": "Server error"
           }
         }
       }
     },
-    "/sessions/:sessionId/reject": {
+    "/sessions/{sessionId}/reject": {
       "patch": {
         "description": "A mentor rejects a mentorship session request",
         "summary": "Reject session",
@@ -495,8 +585,8 @@
             "type": "string"
           },
           {
-            "name": "session_id",
-            "in": "formData",
+            "name": "sessionId",
+            "in": "path",
             "required": true,
             "type": "integer",
             "format": "int32",
@@ -517,7 +607,7 @@
             "description": "Auth token not supplied"
           },
           "500": {
-            "description": "Auth token expired"
+            "description": "Server error"
           }
         }
       }
@@ -555,12 +645,12 @@
             "description": "Auth token not supplied"
           },
           "500": {
-            "description": "Auth token expired"
+            "description": "Server error"
           }
         }
       }
     },
-    "/sessions/:sessionId/review/": {
+    "/sessions/{sessionId}/review/": {
       "post": {
         "description": "User(mentee) review a mentor for a mentorship session",
         "summary": "Create a review",
@@ -582,13 +672,35 @@
             "type": "string"
           },
           {
-            "name": "session_id",
-            "in": "formData",
+            "name": "Content-Type",
+            "in": "header",
+            "required": true,
+            "default": "application/x-www-form-urlencoded",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "sessionId",
+            "in": "path",
             "required": true,
             "type": "integer",
             "format": "int32",
             "description": ""
-          }
+          },
+            {
+              "name": "score",
+              "in": "formData",
+              "required": true,
+              "type": "string",
+              "description": ""
+            },
+            {
+              "name": "remark",
+              "in": "formData",
+              "required": true,
+              "type": "string",
+              "description": ""
+            }
         ],
         "responses": {
           "200": {
@@ -604,12 +716,12 @@
             "description": "Auth token not supplied"
           },
           "500": {
-            "description": "Auth token expired"
+            "description": "Server error"
           }
         }
       }
     },
-    "/sessions/:sessionId/review": {
+    "/sessions/{sessionId}/review": {
       "delete": {
         "description": "An admin can delete mentorship session review deemed inappropriate.",
         "summary": "Delete a review",
@@ -631,8 +743,8 @@
             "type": "string"
           },
           {
-            "name": "session_id",
-            "in": "formData",
+            "name": "sessionId",
+            "in": "path",
             "required": true,
             "type": "integer",
             "format": "int32",
@@ -653,7 +765,7 @@
             "description": "Auth token not supplied"
           },
           "500": {
-            "description": "Auth token expired"
+            "description": "Server error"
           }
         }
       }
