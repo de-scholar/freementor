@@ -80,7 +80,7 @@ The following tools will be needed to run this application successfully:
 
 ## Api Documentation
 
-Get started with FreeMentor Api endpoints documentation [here](https://freementors-app.herokuapp.com/api/api-docs).
+Get started with FreeMentor Api endpoints documentation [here](https://freementor-db.herokuapp.com/api/api-docs).
 
 ## Key Contributor
 
