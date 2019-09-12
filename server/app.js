@@ -4,7 +4,7 @@ import bodyParser from 'body-parser';
 import routers_V1 from './v1/routes';
 import routers_V2 from './v2/routes';
 import docs from '../swagger.json';
-import GeneralHelper from './v1/helpers/general';
+import GeneralHelper from './v2/helpers/general';
 
 
 const app = express();

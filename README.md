@@ -29,7 +29,7 @@ A social platform where more experienced people  support and encourage less expe
 
 ## API Endpoints Specifications
 
-- Api Roots : freementors-app.herokuapp.com/api/v1
+- Api Roots : freementors-app.herokuapp.com/api/v2
 
 | Endpoint | Request | Status | Description |
 | --- | --- | --- | --- |
@@ -63,7 +63,9 @@ Tools used for development of this API are;
 ## Getting Started
 Clone the Repo.
 -------------
-`git clone https://github.com/kakaprodo/freementor`
+`git clone https://github.com/kakaprodo/freementor.git`
+`cd freementor`
+`npm start`
 
 ## Prerequisites
 The following tools will be needed to run this application successfully:
@@ -73,7 +75,7 @@ The following tools will be needed to run this application successfully:
 ## Deployment
 
 - Github Pages : https://kakaprodo.github.io/freementor/UI/
-- Heroku Deployment : https://freementors-app.herokuapp.com/
+- Heroku Deployment : https://freementor-db.herokuapp.com/
 
 
 ## Api Documentation
