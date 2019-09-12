@@ -17,11 +17,11 @@ class AuthController {
   static async signUp(req, res, next) {
     const { body } = req;
 
-    body.password = hashPassword(req.body.password);
-    body.type = 'user';
+    const password = hashPassword(req.body.password);
+    const type = 'user';
 
     try {
-      const created_user = await User.create(body);
+      const created_user = await User.create({...body,password,type});
 
 
       const token = generateToken({
@@ -31,10 +31,7 @@ class AuthController {
         role: created_user.role,
       });
 
-      msg = 'User created successfully';
-      const data = { token };
-
-      return response(res, 201, msg, data);
+      return response(res, 201, 'User created successfully', { token });
     } catch (err) {
       return next(err);
     }

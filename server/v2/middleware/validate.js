@@ -7,7 +7,7 @@ const validate = (req, res, next)=> {
   if (!validationError.isEmpty()) {
     const errorMsg = validationError.mapped();
 
-    return res.status(400).json({
+    return res.status(422).json({
       status: 422,
       message: 'Invalid input value',
       error: errorMsg,

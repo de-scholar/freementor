@@ -16,8 +16,8 @@ class SessionController {
 
       let session = await Session.create({ ...body, mentee_id, mentor_id });
 
-      session.menteeEmail = email;
-      session = change_attribute(session, Session.attributes_to_change);
+      const menteeEmail = email;
+      session = change_attribute({...session, menteeEmail }, Session.attributes_to_change);
       return response(res, 200, 'Session created successfully', arrange_date(session));
     } catch (e) {
       return next(e);

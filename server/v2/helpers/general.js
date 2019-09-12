@@ -1,4 +1,3 @@
-
 import dotenv from 'dotenv';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
@@ -49,17 +48,26 @@ class General {
   }
 
 
-  static response(res, status, msg, data = {}, dataToRemove) {
-    if (status === 200 || status === 201) {
-      if (dataToRemove) { removeDataToHide(data, dataToRemove); }
-
+  static successResp(res, status, msg, data) {
+    if (data) {
       return res.status(status).json({
         status,
         message: msg,
         data,
       });
     }
+    return res.status(status).json({
+      status,
+      message: msg,
+    });
+  }
 
+
+  static response(res, status, msg, data, dataToRemove) {
+    if (status === 200 || status === 201) {
+      if (dataToRemove) { removeDataToHide(data, dataToRemove); }
+      return General.successResp(res, status, msg, data);
+    }
 
     return res.status(status).json({
       status,

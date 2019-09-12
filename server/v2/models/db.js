@@ -1,12 +1,10 @@
 import pg, { Pool } from 'pg';
 import config from '../config/config';
 
-let connection = config.dbConfig;
-const { NODE_ENV, DATABASE_URL } = process.env;
 
-if (NODE_ENV === 'production') {
-  connection = { connectionString: DATABASE_URL };
-}
+const { NODE_ENV, DATABASE_URL } = process.env;
+const production_url = { connectionString: DATABASE_URL };
+let connection = NODE_ENV === 'production'? production_url :config.dbConfig;
 
 const db = new Pool(connection);
 

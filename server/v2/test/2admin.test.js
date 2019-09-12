@@ -94,13 +94,13 @@ describe('AdminController /PATCH user to admin', ()=> {
   });
 
 
-  it('Should return a code status 400 if corresponding user of the  sent user id is not found', (done)=> {
+  it('Should return a code status 412 if corresponding user of the  sent user id is not found', (done)=> {
     request(server).patch('/api/v2/admin/10001')
 
       .set('Content-type', 'application/x-www-form-urlencoded')
       .set('token', user_admin1.token)
       .end((err, res)=> {
-        res.should.have.status(400);
+        res.should.have.status(412);
         res.body.error.should.be.a('string').eql('user with the sent id not found');
         done();
       });
@@ -188,13 +188,13 @@ describe('AdminController /PATCH admin to user', ()=> {
       });
   });
 
-  it('Should return a code status 400 if corresponding user of the  sent user id is not found', (done)=> {
+  it('Should return a code status 412 if corresponding user of the  sent user id is not found', (done)=> {
     request(server).patch('/api/v2/admin-to/10001')
 
       .set('Content-type', 'application/x-www-form-urlencoded')
       .set('token', user_admin1.token)
       .end((err, res)=> {
-        res.should.have.status(400);
+        res.should.have.status(412);
         res.body.error.should.be.a('string').eql('user with the sent id not found');
         done();
       });
@@ -321,13 +321,13 @@ describe('AdminController /PATCH user to mentor', ()=> {
   });
 
 
-  it('Should return status:400 if the id of the user to be changed was not found', (done)=> {
+  it('Should return status:412 if the id of the user to be changed was not found', (done)=> {
     request(server).patch('/api/v2/user/450')
 
       .set('Content-type', 'application/x-www-form-urlencoded')
       .set('token', user_admin1.token)
       .end((err, res)=> {
-        res.should.have.status(400);
+        res.should.have.status(412);
         res.body.error.should.be.a('string').eql('user with the sent id not found');
         done();
       });
@@ -400,13 +400,13 @@ describe('AdminController /PATCH mentor to user', ()=> {
   });
 
 
-  it('Should return status:400 if the id of the mentor to be changed was not found', (done)=> {
+  it('Should return status:412 if the id of the mentor to be changed was not found', (done)=> {
     request(server).patch('/api/v2/mentor/450')
 
       .set('Content-type', 'application/x-www-form-urlencoded')
       .set('token', user_admin1.token)
       .end((err, res)=> {
-        res.should.have.status(400);
+        res.should.have.status(412);
         res.body.error.should.be.a('string').eql('user with the sent id not found');
         done();
       });

@@ -66,14 +66,14 @@ describe('ReviewController /POST review', ()=> {
       });
   });
 
-  it('Should return a status code 400 when when input data are invalid', (done)=> {
+  it('Should return a status code 422 when when input data are invalid', (done)=> {
     request(server).post(`/api/v2/sessions/${created_session.id}/review`)
 
       .set('Content-type', 'application/x-www-form-urlencoded')
       .set('token', user_mentee.token)
       .send(reviews.wrong_score_info)
       .end((err, res)=> {
-        res.should.have.status(400);
+        res.should.have.status(422);
         res.body.should.have.property('message').eql('Invalid input value');
         res.body.error.should.be.an('object');
         done();
@@ -81,29 +81,28 @@ describe('ReviewController /POST review', ()=> {
   });
 
 
-  it('Should return code status 400 when mentee want to create more than one review', (done)=> {
+  it('Should return code status 409 when mentee want to create more than one review', (done)=> {
     request(server).post(`/api/v2/sessions/${created_session.id}/review`)
 
       .set('Content-type', 'application/x-www-form-urlencoded')
       .set('token', user_mentee.token)
       .send(reviews.score_info)
       .end((err, res)=> {
-        res.should.have.status(400);
-        res.should.have.status(400);
-        res.body.should.have.property('error').eql('Session has another review');
+        res.should.have.status(409);
+        res.body.should.have.property('error').eql('You have already reviewed this session');
         done();
       });
   });
 
 
-  it('Should return status code 400 when the corresponding session info of the sent sessionId was not found', (done)=> {
+  it('Should return status code 412 when the corresponding session info of the sent sessionId was not found', (done)=> {
     request(server).post('/api/v2/sessions/10000/review')
 
       .set('Content-type', 'application/x-www-form-urlencoded')
       .set('token', user_mentee.token)
       .send(reviews.score_info)
       .end((err, res)=> {
-        res.should.have.status(400);
+        res.should.have.status(412);
         res.body.should.have.property('error').eql('Session to review is not found');
 
         done();
@@ -177,12 +176,12 @@ describe('ReviewController /DELETE review', ()=> {
   });
 
 
-  it('Should return status code 400 when the mentorship session does not have a review', (done)=> {
+  it('Should return status code 412 when the mentorship session does not have a review', (done)=> {
     request(server).delete('/api/v2/sessions/100000/review')
 
       .set('token', user_admin.token)
       .end((err, res)=> {
-        res.should.have.status(400);
+        res.should.have.status(412);
         res.body.should.have.property('error').eql('Review of the session not found');
 
         done();

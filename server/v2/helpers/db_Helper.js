@@ -1,5 +1,7 @@
 import moment from 'moment';
 
+const { NODE_ENV } = process.env;
+
 class DbHelper {
   static prepareData(data) {
     const keys = Object.keys(data);
@@ -55,6 +57,7 @@ class DbHelper {
           const replaceWith = attributes[attrToReplace];
 
           item[replaceWith] = item[attrToReplace];
+          if (NODE_ENV !== 'test') { delete item[attrToReplace]; }
         }
         return attrToReplace;
       });
@@ -74,6 +77,7 @@ class DbHelper {
         const replaceWith = attributes[attrToReplace];
 
         data[replaceWith] = data[attrToReplace];
+        if (NODE_ENV !== 'test') { delete data[attrToReplace]; }
       }
       return attrToReplace;
     });
@@ -96,4 +100,3 @@ class DbHelper {
 }
 
 export default DbHelper;
-

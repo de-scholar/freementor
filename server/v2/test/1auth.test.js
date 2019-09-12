@@ -13,6 +13,7 @@ let {
   wrong_user_info,
   wrong_login_email,
   wrong_login_password,
+  user_check_password,
 } = data.users;
 
 
@@ -31,7 +32,7 @@ describe('AuthController', ()=> {
       });
   });
 
-  it(('Should return a status code 400 when user with email already exist'), (done)=> {
+  it(('Should return a status code 409 when user with email already exist'), (done)=> {
     request(server).post('/api/v2/auth/signup')
 
       .set('Content-type', 'application/x-www-form-urlencoded')
@@ -57,13 +58,52 @@ describe('AuthController', ()=> {
   });
 
 
-  it(('Should return an object with status 400 when a user signs up without required credentials'), (done)=> {
+  it(('Should return an object with status 422 when a user signs up without required credentials'), (done)=> {
     request(server).post('/api/v2/auth/signup')
 
       .set('Content-type', 'application/x-www-form-urlencoded')
       .send(wrong_user_info)
       .end((err, res)=> {
-        res.should.have.status(400);
+        res.should.have.status(422);
+        res.body.message.should.be.a('string').eql('Invalid input value');
+        res.body.error.should.be.an('object');
+        done();
+      });
+  });
+
+  it(('Should return a status 422 when a user signs up with password without a digit '), (done)=> {
+    request(server).post('/api/v2/auth/signup')
+
+      .set('Content-type', 'application/x-www-form-urlencoded')
+      .send(user_check_password.user_digit)
+      .end((err, res)=> {
+        res.should.have.status(422);
+        res.body.message.should.be.a('string').eql('Invalid input value');
+        res.body.error.should.be.an('object');
+        done();
+      });
+  });
+
+  it(('Should return a status 422 when a user signs up with password without an upper case letter '), (done)=> {
+    request(server).post('/api/v2/auth/signup')
+
+      .set('Content-type', 'application/x-www-form-urlencoded')
+      .send(user_check_password.user_upper)
+      .end((err, res)=> {
+        res.should.have.status(422);
+        res.body.message.should.be.a('string').eql('Invalid input value');
+        res.body.error.should.be.an('object');
+        done();
+      });
+  });
+
+  it(('Should return a status 422 when a user signs up with password without a special character '), (done)=> {
+    request(server).post('/api/v2/auth/signup')
+
+      .set('Content-type', 'application/x-www-form-urlencoded')
+      .send(user_check_password.user_special)
+      .end((err, res)=> {
+        res.should.have.status(422);
         res.body.message.should.be.a('string').eql('Invalid input value');
         res.body.error.should.be.an('object');
         done();
