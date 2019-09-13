@@ -6,7 +6,7 @@
     "description": "Social platform for where more experienced people  support and encourage less experienced people",
     "contact": {}
   },
-  "host": "freementor-db.herokuapp.com/",
+  "host": "freementor-db.herokuapp.com",
   "basePath": "/api/v2",
   "securityDefinitions": {},
   "schemes": [
